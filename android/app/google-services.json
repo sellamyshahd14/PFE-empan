@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "565082023487",
+    "project_id": "pfe-empan-tunisie",
+    "storage_bucket": "pfe-empan-tunisie.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565082023487:android:d06df83f2099f596563a8a",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjjngPxja_ybf9z-2jQbcoVwAJl-kKIlQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
