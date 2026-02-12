@@ -2,18 +2,108 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:record/record.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'dart:async';
 
+class StartEmpanPage extends StatefulWidget {
+  const StartEmpanPage({super.key});
+
+  @override
+  State<StartEmpanPage> createState() => _StartEmpanPageState();
+}
+
+class _StartEmpanPageState extends State<StartEmpanPage> {
+  final TextEditingController _nameController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              "Bienvenue",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueAccent,
+              ),
+            ),
+            const SizedBox(height: 40),
+            TextFormField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                labelText: "Nom du Patient",
+                labelStyle: GoogleFonts.poppins(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                prefixIcon: const Icon(Icons.person),
+              ),
+              style: GoogleFonts.poppins(),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () {
+                if (_nameController.text.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          EmpanDirect(patientName: _nameController.text),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Veuillez entrer un nom")),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: Text(
+                "Démarrer le test",
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class EmpanDirect extends StatefulWidget {
-  const EmpanDirect({super.key});
+  final String patientName;
+  const EmpanDirect({super.key, required this.patientName});
 
   @override
   State<EmpanDirect> createState() => _EmpanDirectState();
 }
 
-class _EmpanDirectState extends State<EmpanDirect> {
+class _EmpanDirectState extends State<EmpanDirect>
+    with TickerProviderStateMixin {
   late stt.SpeechToText _speech;
   late FlutterTts _flutterTts;
+  late final AudioRecorder _audioRecorder;
+  String? _audioPath;
   bool _isListening = false;
   bool _isPlaying = false;
   String _spokenText = "";
@@ -23,6 +113,12 @@ class _EmpanDirectState extends State<EmpanDirect> {
   final Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
   String _formattedTime = "00:00";
+  bool _showFeedback = false;
+  String? _lastIncorrectInput;
+
+  // Animation controller for the mic "breathing" effect
+  late AnimationController _micAnimController;
+  late Animation<double> _micAnimation;
 
   final List<String> _sequences = [
     "5 8 2",
@@ -46,11 +142,42 @@ class _EmpanDirectState extends State<EmpanDirect> {
     super.initState();
     _speech = stt.SpeechToText();
     _flutterTts = FlutterTts();
+    _audioRecorder = AudioRecorder();
     _initSpeech();
     _initTts();
+
+    _micAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    )..repeat(reverse: true);
+    _micAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
+      CurvedAnimation(parent: _micAnimController, curve: Curves.easeInOut),
+    );
   }
 
-  void _startTest() {
+  Future<void> _startTest() async {
+    // Start global recording
+    try {
+      if (await Permission.microphone.request().isGranted) {
+        final dir = await getTemporaryDirectory();
+        String fileName =
+            'empan_test_${widget.patientName}_${DateTime.now().millisecondsSinceEpoch}.m4a';
+        String path = '${dir.path}/$fileName';
+
+        // Ensure no previous recording is running
+        if (await _audioRecorder.isRecording()) {
+          await _audioRecorder.stop();
+        }
+
+        await _audioRecorder.start(const RecordConfig(), path: path);
+        print("Recording started to: $path");
+      } else {
+        print("ERROR: Microphone permission NOT granted");
+      }
+    } catch (e) {
+      print("Error starting recording: $e");
+    }
+
     setState(() {
       _isTestStarted = true;
       _stopwatch.start();
@@ -63,9 +190,22 @@ class _EmpanDirectState extends State<EmpanDirect> {
     _speakSequence();
   }
 
-  void _stopTest() {
+  Future<void> _stopTest() async {
     _stopwatch.stop();
     _timer?.cancel();
+
+    // Stop global recording
+    try {
+      final path = await _audioRecorder.stop();
+      if (path != null) {
+        setState(() {
+          _audioPath = path;
+        });
+        print("Recording saved to: $path");
+      }
+    } catch (e) {
+      print("Error stopping recording: $e");
+    }
   }
 
   String _formatTime(Duration duration) {
@@ -77,6 +217,22 @@ class _EmpanDirectState extends State<EmpanDirect> {
 
   void _initSpeech() async {
     await Permission.microphone.request();
+    try {
+      await _speech.initialize(
+        onStatus: (status) {
+          print('STT Status: $status');
+          if (status == 'notListening' || status == 'done') {
+            setState(() => _isListening = false);
+          }
+        },
+        onError: (errorNotification) {
+          print('STT Error: $errorNotification');
+          setState(() => _isListening = false);
+        },
+      );
+    } catch (e) {
+      print("STT Init Error: $e");
+    }
   }
 
   void _initTts() async {
@@ -97,7 +253,11 @@ class _EmpanDirectState extends State<EmpanDirect> {
 
   Future<void> _speakSequence() async {
     if (_isPlaying) return;
-    setState(() => _isPlaying = true);
+    setState(() {
+      _isPlaying = true;
+      _showFeedback = false; // Hide previous feedback
+      _spokenText = "";
+    });
 
     String sequence = _sequences[_currentIndex];
     List<String> numbers = sequence.split(' ');
@@ -141,7 +301,12 @@ class _EmpanDirectState extends State<EmpanDirect> {
 
   void _listen() async {
     if (!_isListening) {
-      bool available = await _speech.initialize();
+      bool available = _speech.isAvailable;
+      if (!available) {
+        // Try re-initializing if not available
+        available = await _speech.initialize();
+      }
+
       if (available) {
         setState(() => _isListening = true);
         _speech.listen(
@@ -152,6 +317,8 @@ class _EmpanDirectState extends State<EmpanDirect> {
             });
           },
         );
+      } else {
+        print("Speech recognition not available");
       }
     } else {
       setState(() => _isListening = false);
@@ -171,14 +338,19 @@ class _EmpanDirectState extends State<EmpanDirect> {
     if (isCorrect) {
       setState(() {
         _score += 0.5;
+        _showFeedback = false;
       });
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Correct! +0.5')));
-    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Incorrect. Entendu: $_spokenText')),
+        const SnackBar(
+          content: Text('Correct! +0.5'),
+          backgroundColor: Colors.green,
+        ),
       );
+    } else {
+      setState(() {
+        _showFeedback = true;
+        _lastIncorrectInput = _spokenText;
+      });
     }
 
     if (_currentIndex < _sequences.length - 1) {
@@ -188,6 +360,10 @@ class _EmpanDirectState extends State<EmpanDirect> {
         _isListening = false;
       });
       _speech.stop();
+      // Auto play next sequence? Maybe wait for user.
+      // User says "Suivant / Valider", so we should simply wait for them to click "Play" or we can auto-play.
+      // For now, let's keep manual play or maybe auto-play after a short delay if correct.
+      // But specs say "Suivant / Valider", so we move to next index.
     } else {
       _showFinalScore();
     }
@@ -198,30 +374,42 @@ class _EmpanDirectState extends State<EmpanDirect> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Test Terminé'),
+        title: Text(
+          'Test Terminé',
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Votre score final est : $_score / 7'),
-            const SizedBox(height: 10),
-            Text('Temps écoulé : $_formattedTime'),
+            Text(
+              'Patient: ${widget.patientName}',
+              style: GoogleFonts.poppins(),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Votre score final est : $_score / 7',
+              style: GoogleFonts.poppins(),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Temps écoulé : $_formattedTime',
+              style: GoogleFonts.poppins(),
+            ),
+            if (_audioPath != null)
+              Text(
+                'Audio sauvegardé: $_audioPath',
+                style: GoogleFonts.poppins(fontSize: 10, color: Colors.grey),
+              ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              setState(() {
-                _currentIndex = 0;
-                _score = 0;
-                _spokenText = "";
-                _isTestStarted = false;
-                _stopwatch.reset();
-                _formattedTime = "00:00";
-              });
+              Navigator.of(context).pop(); // Go back to Start Screen
             },
-            child: const Text('Menu Principal'),
+            child: Text('Menu Principal', style: GoogleFonts.poppins()),
           ),
         ],
       ),
@@ -230,132 +418,268 @@ class _EmpanDirectState extends State<EmpanDirect> {
 
   @override
   void dispose() {
+    _audioRecorder.dispose();
     _flutterTts.stop();
     _timer?.cancel();
+    _micAnimController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!_isTestStarted) {
+      // Auto-start mechanism
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!_isTestStarted) {
+          _startTest();
+        }
+      });
+    }
+
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F5F5), // Light grey for serenity
       appBar: AppBar(
-        title: const Text('Empan Direct'),
+        title: Text(
+          'Empan Direct',
+          style: GoogleFonts.poppins(color: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: [
-          if (_isTestStarted)
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: Center(
+              child: Text(
+                _formattedTime,
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey,
+                ),
+              ),
+            ),
+          ),
+        ],
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // 1. Progress Bar
             Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: Center(
-                child: Text(
-                  _formattedTime,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Séquence ${_currentIndex + 1}/${_sequences.length}",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: LinearProgressIndicator(
+                      value: (_currentIndex + 1) / _sequences.length,
+                      minHeight: 10,
+                      backgroundColor: Colors.grey[300],
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Colors.blueAccent,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const Spacer(),
+
+            // 2. Central Text
+            Text(
+              "Répétez la séquence",
+              style: GoogleFonts.poppins(
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF333333),
+              ),
+              textAlign: TextAlign.center,
+            ),
+
+            const SizedBox(height: 10),
+
+            // Show sequence numbers for debugging or help?
+            // Ideally we shouldn't show them if it's a auditory memory test,
+            // but previous code showed "Sequence X/Y".
+            // The prompt doesn't say "Show the numbers". It says "Répétez la séquence".
+            // I will ADD a button to Play the sequence.
+            const SizedBox(height: 30),
+
+            // Play Button (Custom addition to ensure usability)
+            ElevatedButton.icon(
+              onPressed: _isPlaying ? null : _speakSequence,
+              icon: Icon(_isPlaying ? Icons.volume_up : Icons.play_arrow),
+              label: Text(_isPlaying ? "Lecture..." : "Écouter"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.blueAccent,
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            // 3. Mic Button with Animation
+            GestureDetector(
+              onTap: _listen,
+              child: AnimatedBuilder(
+                animation: _micAnimation,
+                builder: (context, child) {
+                  return Container(
+                    width: 80 * (_isListening ? _micAnimation.value : 1.0),
+                    height: 80 * (_isListening ? _micAnimation.value : 1.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blueAccent.withOpacity(
+                        _isListening ? 0.2 : 0.0,
+                      ),
+                    ),
+                    child: child,
+                  );
+                },
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.blueAccent,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.blueAccent.withOpacity(0.4),
+                        blurRadius: 15,
+                        spreadRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    _isListening ? Icons.mic : Icons.mic_none,
+                    color: Colors.white,
+                    size: 40,
                   ),
                 ),
               ),
             ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: !_isTestStarted
-            ? Center(
-                child: ElevatedButton(
-                  onPressed: _startTest,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 40,
-                      vertical: 20,
-                    ),
-                    textStyle: const TextStyle(fontSize: 24),
-                  ),
-                  child: const Text('Démarrer le test'),
+            if (_isListening)
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Text(
+                  "Je vous écoute...",
+                  style: GoogleFonts.poppins(color: Colors.blueAccent),
                 ),
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              ),
+
+            const Spacer(),
+
+            // 4. Feedback Card
+            if (_showFeedback && _lastIncorrectInput != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.error_outline, color: Colors.orange),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              style: GoogleFonts.poppins(color: Colors.black87),
+                              children: [
+                                const TextSpan(
+                                  text: "Incorrect. ",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                const TextSpan(text: "Entendu: "),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Text(
+                          _lastIncorrectInput!, // Arabic text
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.blueGrey,
+                          ),
+                          textDirection: TextDirection.rtl,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+            // 5. Action Buttons
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Séquence ${_currentIndex + 1}/${_sequences.length}',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 50),
-
-                  ElevatedButton.icon(
-                    onPressed: _isPlaying ? null : _speakSequence,
-                    icon: Icon(_isPlaying ? Icons.volume_up : Icons.play_arrow),
-                    label: Text(
-                      _isPlaying
-                          ? 'Lecture en cours...'
-                          : 'Écouter la séquence',
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 15,
-                      ),
-                      textStyle: const TextStyle(fontSize: 18),
-                    ),
-                  ),
-
-                  const SizedBox(height: 50),
-                  Icon(
-                    _isListening ? Icons.mic : Icons.mic_none,
-                    size: 60,
-                    color: _isListening ? Colors.red : Colors.grey,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    _isListening
-                        ? 'Écoute en cours...'
-                        : 'Appuyez pour répondre',
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    _spokenText,
-                    style: const TextStyle(fontSize: 24, color: Colors.blue),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      FloatingActionButton(
-                        onPressed: _listen,
-                        backgroundColor: _isListening
-                            ? Colors.red
-                            : Colors.blue,
-                        child: const Icon(Icons.mic),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        onPressed: _validateAndNext,
-                        child: Text(
-                          _currentIndex == _sequences.length - 1
-                              ? 'Terminer'
-                              : 'Suivant / Valider',
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _validateAndNext,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[200],
+                        foregroundColor: Colors.black87,
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: _showFinalScore,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.redAccent,
-                          foregroundColor: Colors.white,
-                        ),
-                        child: const Text('Terminer le test'),
+                      child: Text(
+                        "Suivant / Valider",
+                        style: GoogleFonts.poppins(),
                       ),
-                    ],
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                  Text('Score actuel: $_score'),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _showFinalScore,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: Text(
+                        "Terminer le test",
+                        style: GoogleFonts.poppins(),
+                      ),
+                    ),
+                  ),
                 ],
               ),
+            ),
+          ],
+        ),
       ),
     );
   }
