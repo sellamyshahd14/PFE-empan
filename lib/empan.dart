@@ -9,15 +9,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 
 class StartEmpanPage extends StatefulWidget {
-  const StartEmpanPage({super.key});
+  final String patientId;
+  const StartEmpanPage({super.key, required this.patientId});
 
   @override
   State<StartEmpanPage> createState() => _StartEmpanPageState();
 }
 
 class _StartEmpanPageState extends State<StartEmpanPage> {
-  final TextEditingController _nameController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,46 +28,30 @@ class _StartEmpanPageState extends State<StartEmpanPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Bienvenue",
+              "مرحباً",
               textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.cairo(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: Colors.blueAccent,
+                color: Colors.teal,
               ),
             ),
             const SizedBox(height: 40),
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: "Nom du Patient",
-                labelStyle: GoogleFonts.poppins(),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                prefixIcon: const Icon(Icons.person),
-              ),
-              style: GoogleFonts.poppins(),
-            ),
+            const SizedBox(height: 40),
+            // Name field removed, using ID from previous screen
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
-                if (_nameController.text.isNotEmpty) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          EmpanDirect(patientName: _nameController.text),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Veuillez entrer un nom")),
-                  );
-                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        EmpanDirect(patientName: widget.patientId),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: Colors.teal,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 18),
                 shape: RoundedRectangleBorder(
@@ -76,8 +59,8 @@ class _StartEmpanPageState extends State<StartEmpanPage> {
                 ),
               ),
               child: Text(
-                "Démarrer le test",
-                style: GoogleFonts.poppins(
+                "ابدأ الاختبار",
+                style: GoogleFonts.cairo(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -103,15 +86,18 @@ class _EmpanDirectState extends State<EmpanDirect>
   late stt.SpeechToText _speech;
   late FlutterTts _flutterTts;
   late final AudioRecorder _audioRecorder;
+  // ignore: unused_field
   String? _audioPath;
   bool _isListening = false;
   bool _isPlaying = false;
   String _spokenText = "";
+  // ignore: unused_field
   double _score = 0.0;
   int _currentIndex = 0;
   bool _isTestStarted = false;
   final Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
+  // ignore: unused_field
   String _formattedTime = "00:00";
   bool _showFeedback = false;
   String? _lastIncorrectInput;
@@ -342,7 +328,7 @@ class _EmpanDirectState extends State<EmpanDirect>
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Correct! +0.5'),
+          content: Text('صحيح! +0.5'),
           backgroundColor: Colors.green,
         ),
       );
@@ -375,41 +361,20 @@ class _EmpanDirectState extends State<EmpanDirect>
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Test Terminé',
-          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+          'انتهى الاختبار',
+          style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Patient: ${widget.patientName}',
-              style: GoogleFonts.poppins(),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Votre score final est : $_score / 7',
-              style: GoogleFonts.poppins(),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Temps écoulé : $_formattedTime',
-              style: GoogleFonts.poppins(),
-            ),
-            if (_audioPath != null)
-              Text(
-                'Audio sauvegardé: $_audioPath',
-                style: GoogleFonts.poppins(fontSize: 10, color: Colors.grey),
-              ),
-          ],
+        content: Text(
+          "تم الاختبار بنجاح.\nشكراً لمشاركتك.",
+          style: GoogleFonts.cairo(),
         ),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop(); // Go back to Start Screen
+              // Return to Login Page (Root)
+              Navigator.of(context).popUntil((route) => route.isFirst);
             },
-            child: Text('Menu Principal', style: GoogleFonts.poppins()),
+            child: Text('Menu Principal', style: GoogleFonts.cairo()),
           ),
         ],
       ),
@@ -440,27 +405,13 @@ class _EmpanDirectState extends State<EmpanDirect>
       backgroundColor: const Color(0xFFF5F5F5), // Light grey for serenity
       appBar: AppBar(
         title: Text(
-          'Empan Direct',
-          style: GoogleFonts.poppins(color: Colors.black),
+          'اختبار إمبان المباشر',
+          style: GoogleFonts.cairo(color: Colors.black),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: Center(
-              child: Text(
-                _formattedTime,
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueGrey,
-                ),
-              ),
-            ),
-          ),
-        ],
+        actions: [],
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SafeArea(
@@ -473,8 +424,8 @@ class _EmpanDirectState extends State<EmpanDirect>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Séquence ${_currentIndex + 1}/${_sequences.length}",
-                    style: GoogleFonts.poppins(
+                    "التسلسل ${_currentIndex + 1}/${_sequences.length}",
+                    style: GoogleFonts.cairo(
                       fontSize: 14,
                       color: Colors.grey[600],
                     ),
@@ -487,7 +438,7 @@ class _EmpanDirectState extends State<EmpanDirect>
                       minHeight: 10,
                       backgroundColor: Colors.grey[300],
                       valueColor: const AlwaysStoppedAnimation<Color>(
-                        Colors.blueAccent,
+                        Colors.teal,
                       ),
                     ),
                   ),
@@ -499,8 +450,8 @@ class _EmpanDirectState extends State<EmpanDirect>
 
             // 2. Central Text
             Text(
-              "Répétez la séquence",
-              style: GoogleFonts.poppins(
+              "كرر التسلسل",
+              style: GoogleFonts.cairo(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF333333),
@@ -521,10 +472,10 @@ class _EmpanDirectState extends State<EmpanDirect>
             ElevatedButton.icon(
               onPressed: _isPlaying ? null : _speakSequence,
               icon: Icon(_isPlaying ? Icons.volume_up : Icons.play_arrow),
-              label: Text(_isPlaying ? "Lecture..." : "Écouter"),
+              label: Text(_isPlaying ? "تشغيل..." : "استمع"),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
-                foregroundColor: Colors.blueAccent,
+                foregroundColor: Colors.teal,
                 elevation: 2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -545,9 +496,7 @@ class _EmpanDirectState extends State<EmpanDirect>
                     height: 80 * (_isListening ? _micAnimation.value : 1.0),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.blueAccent.withOpacity(
-                        _isListening ? 0.2 : 0.0,
-                      ),
+                      color: Colors.teal.withOpacity(_isListening ? 0.2 : 0.0),
                     ),
                     child: child,
                   );
@@ -557,10 +506,10 @@ class _EmpanDirectState extends State<EmpanDirect>
                   height: 80,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.blueAccent,
+                    color: Colors.teal,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.blueAccent.withOpacity(0.4),
+                        color: Colors.teal.withOpacity(0.4),
                         blurRadius: 15,
                         spreadRadius: 5,
                       ),
@@ -578,8 +527,8 @@ class _EmpanDirectState extends State<EmpanDirect>
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Text(
-                  "Je vous écoute...",
-                  style: GoogleFonts.poppins(color: Colors.blueAccent),
+                  "أنا أستمع...",
+                  style: GoogleFonts.cairo(color: Colors.teal),
                 ),
               ),
 
@@ -606,20 +555,20 @@ class _EmpanDirectState extends State<EmpanDirect>
                         Expanded(
                           child: RichText(
                             text: TextSpan(
-                              style: GoogleFonts.poppins(color: Colors.black87),
+                              style: GoogleFonts.cairo(color: Colors.black87),
                               children: [
                                 const TextSpan(
-                                  text: "Incorrect. ",
+                                  text: "خطأ. ",
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                const TextSpan(text: "Entendu: "),
+                                const TextSpan(text: "سمعت: "),
                               ],
                             ),
                           ),
                         ),
                         Text(
                           _lastIncorrectInput!, // Arabic text
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.cairo(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Colors.blueGrey,
@@ -650,10 +599,7 @@ class _EmpanDirectState extends State<EmpanDirect>
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      child: Text(
-                        "Suivant / Valider",
-                        style: GoogleFonts.poppins(),
-                      ),
+                      child: Text("التالي / تأكيد", style: GoogleFonts.cairo()),
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -669,10 +615,7 @@ class _EmpanDirectState extends State<EmpanDirect>
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      child: Text(
-                        "Terminer le test",
-                        style: GoogleFonts.poppins(),
-                      ),
+                      child: Text("إنهاء الاختبار", style: GoogleFonts.cairo()),
                     ),
                   ),
                 ],

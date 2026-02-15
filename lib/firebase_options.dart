@@ -65,5 +65,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'pfe-empan-tunisie.firebasestorage.app',
     iosBundleId: 'com.example.flutterApplication1',
   );
-
 }
