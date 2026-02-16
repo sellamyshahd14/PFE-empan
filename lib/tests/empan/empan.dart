@@ -374,7 +374,7 @@ class _EmpanDirectState extends State<EmpanDirect>
               // Return to Login Page (Root)
               Navigator.of(context).popUntil((route) => route.isFirst);
             },
-            child: Text('Menu Principal', style: GoogleFonts.cairo()),
+            child: Text("القائمة الرئيسية", style: GoogleFonts.cairo()),
           ),
         ],
       ),

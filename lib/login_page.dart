@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'empan.dart';
+import 'patient_home_page.dart';
 import 'doctor_dashboard.dart';
 
 class LoginPage extends StatefulWidget {
@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                StartEmpanPage(patientId: _patientIdController.text),
+                PatientHomePage(patientId: _patientIdController.text),
           ),
         );
       } else {
