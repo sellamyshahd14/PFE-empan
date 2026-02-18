@@ -3,14 +3,21 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:record/record.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'localization.dart';
+import 'services/firestore_service.dart';
 
 import 'dart:async';
 
 class StartEmpanPage extends StatefulWidget {
-  final String patientId;
-  const StartEmpanPage({super.key, required this.patientId});
+  final String patientId; // This is the docId
+  final String patientName;
+
+  const StartEmpanPage({
+    super.key,
+    required this.patientId,
+    required this.patientName,
+  });
 
   @override
   State<StartEmpanPage> createState() => _StartEmpanPageState();
@@ -28,7 +35,7 @@ class _StartEmpanPageState extends State<StartEmpanPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "مرحباً",
+              AppLocalizations.of(context).welcome,
               textAlign: TextAlign.center,
               style: GoogleFonts.cairo(
                 fontSize: 32,
@@ -36,7 +43,16 @@ class _StartEmpanPageState extends State<StartEmpanPage> {
                 color: Colors.teal,
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 10),
+            Text(
+              widget.patientName,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.cairo(
+                fontSize: 28,
+                fontWeight: FontWeight.w600,
+                color: Colors.teal.shade700,
+              ),
+            ),
             const SizedBox(height: 40),
             // Name field removed, using ID from previous screen
             const SizedBox(height: 30),
@@ -59,7 +75,7 @@ class _StartEmpanPageState extends State<StartEmpanPage> {
                 ),
               ),
               child: Text(
-                "ابدأ الاختبار",
+                AppLocalizations.of(context).startTest,
                 style: GoogleFonts.cairo(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -143,6 +159,7 @@ class _EmpanDirectState extends State<EmpanDirect>
 
   Future<void> _startTest() async {
     // Start global recording
+    /*
     try {
       if (await Permission.microphone.request().isGranted) {
         final dir = await getTemporaryDirectory();
@@ -156,13 +173,14 @@ class _EmpanDirectState extends State<EmpanDirect>
         }
 
         await _audioRecorder.start(const RecordConfig(), path: path);
-        print("Recording started to: $path");
+        debugPrint("Recording started to: $path");
       } else {
-        print("ERROR: Microphone permission NOT granted");
+        debugPrint("ERROR: Microphone permission NOT granted");
       }
     } catch (e) {
-      print("Error starting recording: $e");
+      debugPrint("Error starting recording: $e");
     }
+    */
 
     setState(() {
       _isTestStarted = true;
@@ -181,17 +199,19 @@ class _EmpanDirectState extends State<EmpanDirect>
     _timer?.cancel();
 
     // Stop global recording
+    /*
     try {
       final path = await _audioRecorder.stop();
       if (path != null) {
         setState(() {
           _audioPath = path;
         });
-        print("Recording saved to: $path");
+        debugPrint("Recording saved to: $path");
       }
     } catch (e) {
-      print("Error stopping recording: $e");
+      debugPrint("Error stopping recording: $e");
     }
+    */
   }
 
   String _formatTime(Duration duration) {
@@ -203,33 +223,16 @@ class _EmpanDirectState extends State<EmpanDirect>
 
   void _initSpeech() async {
     await Permission.microphone.request();
-    try {
-      await _speech.initialize(
-        onStatus: (status) {
-          print('STT Status: $status');
-          if (status == 'notListening' || status == 'done') {
-            setState(() => _isListening = false);
-          }
-        },
-        onError: (errorNotification) {
-          print('STT Error: $errorNotification');
-          setState(() => _isListening = false);
-        },
-      );
-    } catch (e) {
-      print("STT Init Error: $e");
-    }
   }
 
   void _initTts() async {
     try {
-      // Simple and standard init
-      await _flutterTts.setLanguage("ar"); // Generic Arabic
+      await _flutterTts.setLanguage("ar");
       await _flutterTts.setSpeechRate(0.5);
       await _flutterTts.setVolume(1.0);
       await _flutterTts.setPitch(1.0);
     } catch (e) {
-      print("TTS Init Error: $e");
+      debugPrint("TTS Init Error: $e");
     }
 
     _flutterTts.setCompletionHandler(() {
@@ -287,12 +290,7 @@ class _EmpanDirectState extends State<EmpanDirect>
 
   void _listen() async {
     if (!_isListening) {
-      bool available = _speech.isAvailable;
-      if (!available) {
-        // Try re-initializing if not available
-        available = await _speech.initialize();
-      }
-
+      bool available = await _speech.initialize();
       if (available) {
         setState(() => _isListening = true);
         _speech.listen(
@@ -303,8 +301,6 @@ class _EmpanDirectState extends State<EmpanDirect>
             });
           },
         );
-      } else {
-        print("Speech recognition not available");
       }
     } else {
       setState(() => _isListening = false);
@@ -312,7 +308,9 @@ class _EmpanDirectState extends State<EmpanDirect>
     }
   }
 
-  void _validateAndNext() {
+  bool _isValidated = false;
+
+  void _validate() {
     String targetDigits = _sequences[_currentIndex].replaceAll(' ', '');
     String cleanSpoken = _spokenText.replaceAll(RegExp(r'[^0-9]'), '');
 
@@ -325,10 +323,11 @@ class _EmpanDirectState extends State<EmpanDirect>
       setState(() {
         _score += 0.5;
         _showFeedback = false;
+        _isValidated = true; // Mark as validated
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('صحيح! +0.5'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).correctFeedback),
           backgroundColor: Colors.green,
         ),
       );
@@ -336,7 +335,20 @@ class _EmpanDirectState extends State<EmpanDirect>
       setState(() {
         _showFeedback = true;
         _lastIncorrectInput = _spokenText;
+        _isValidated = true; // Even if wrong, it's validated
       });
+    }
+  }
+
+  void _next() {
+    if (!_isValidated) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context).validateFirstMsg),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
     }
 
     if (_currentIndex < _sequences.length - 1) {
@@ -344,29 +356,65 @@ class _EmpanDirectState extends State<EmpanDirect>
         _currentIndex++;
         _spokenText = "";
         _isListening = false;
+        _showFeedback = false;
+        _lastIncorrectInput = null;
+        _isValidated = false; // Reset for next sequence
       });
       _speech.stop();
-      // Auto play next sequence? Maybe wait for user.
-      // User says "Suivant / Valider", so we should simply wait for them to click "Play" or we can auto-play.
-      // For now, let's keep manual play or maybe auto-play after a short delay if correct.
-      // But specs say "Suivant / Valider", so we move to next index.
     } else {
       _showFinalScore();
     }
   }
 
-  void _showFinalScore() {
-    _stopTest();
+  final FirestoreService _firestoreService = FirestoreService();
+
+  void _showFinalScore() async {
+    _stopTest(); // Stop timer
+
+    // Save to Firestore
+    try {
+      await _firestoreService.saveTestResult(
+        patientId: widget.patientName, // This is the 'docId' passed from login
+        patientIdentifier:
+            "Unknown", // We could pass this if we had it, or look it up. Using placeholder for now to keep it simple.
+        score: _score,
+        totalDuration: _formattedTime,
+      );
+      debugPrint("Result Saved!");
+    } catch (e) {
+      debugPrint("Error Saving Result: $e");
+    }
+
+    if (!mounted) return;
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'انتهى الاختبار',
+          AppLocalizations.of(context).testFinishedTitle,
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
         ),
-        content: Text(
-          "تم الاختبار بنجاح.\nشكراً لمشاركتك.",
-          style: GoogleFonts.cairo(),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              AppLocalizations.of(context).testFinishedMsg,
+              style: GoogleFonts.cairo(),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Score: $_score",
+              style: GoogleFonts.cairo(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Colors.teal,
+              ),
+            ),
+            Text(
+              "Time: $_formattedTime",
+              style: GoogleFonts.cairo(fontSize: 14),
+            ),
+          ],
         ),
         actions: [
           TextButton(
@@ -374,7 +422,10 @@ class _EmpanDirectState extends State<EmpanDirect>
               // Return to Login Page (Root)
               Navigator.of(context).popUntil((route) => route.isFirst);
             },
-            child: Text('Menu Principal', style: GoogleFonts.cairo()),
+            child: Text(
+              AppLocalizations.of(context).mainMenu,
+              style: GoogleFonts.cairo(),
+            ),
           ),
         ],
       ),
@@ -392,20 +443,13 @@ class _EmpanDirectState extends State<EmpanDirect>
 
   @override
   Widget build(BuildContext context) {
-    if (!_isTestStarted) {
-      // Auto-start mechanism
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!_isTestStarted) {
-          _startTest();
-        }
-      });
-    }
+    // Auto-start removed as requested
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5), // Light grey for serenity
       appBar: AppBar(
         title: Text(
-          'اختبار إمبان المباشر',
+          AppLocalizations.of(context).testTitle,
           style: GoogleFonts.cairo(color: Colors.black),
         ),
         centerTitle: true,
@@ -424,7 +468,7 @@ class _EmpanDirectState extends State<EmpanDirect>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "التسلسل ${_currentIndex + 1}/${_sequences.length}",
+                    "${AppLocalizations.of(context).sequenceLabel} ${_currentIndex + 1}/${_sequences.length}",
                     style: GoogleFonts.cairo(
                       fontSize: 14,
                       color: Colors.grey[600],
@@ -450,7 +494,7 @@ class _EmpanDirectState extends State<EmpanDirect>
 
             // 2. Central Text
             Text(
-              "كرر التسلسل",
+              AppLocalizations.of(context).repeatSequence,
               style: GoogleFonts.cairo(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
@@ -461,18 +505,22 @@ class _EmpanDirectState extends State<EmpanDirect>
 
             const SizedBox(height: 10),
 
-            // Show sequence numbers for debugging or help?
-            // Ideally we shouldn't show them if it's a auditory memory test,
-            // but previous code showed "Sequence X/Y".
-            // The prompt doesn't say "Show the numbers". It says "Répétez la séquence".
-            // I will ADD a button to Play the sequence.
-            const SizedBox(height: 30),
-
-            // Play Button (Custom addition to ensure usability)
+            // Play Button
             ElevatedButton.icon(
-              onPressed: _isPlaying ? null : _speakSequence,
+              onPressed: _isPlaying
+                  ? null
+                  : () {
+                      if (!_isTestStarted) {
+                        _startTest(); // Start timer on first play
+                      }
+                      _speakSequence();
+                    },
               icon: Icon(_isPlaying ? Icons.volume_up : Icons.play_arrow),
-              label: Text(_isPlaying ? "تشغيل..." : "استمع"),
+              label: Text(
+                _isPlaying
+                    ? AppLocalizations.of(context).playBtn
+                    : AppLocalizations.of(context).listenBtn,
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.teal,
@@ -496,7 +544,9 @@ class _EmpanDirectState extends State<EmpanDirect>
                     height: 80 * (_isListening ? _micAnimation.value : 1.0),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.teal.withOpacity(_isListening ? 0.2 : 0.0),
+                      color: Colors.teal.withValues(
+                        alpha: _isListening ? 0.2 : 0.0,
+                      ),
                     ),
                     child: child,
                   );
@@ -509,7 +559,7 @@ class _EmpanDirectState extends State<EmpanDirect>
                     color: Colors.teal,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.teal.withOpacity(0.4),
+                        color: Colors.teal.withValues(alpha: 0.4),
                         blurRadius: 15,
                         spreadRadius: 5,
                       ),
@@ -527,10 +577,24 @@ class _EmpanDirectState extends State<EmpanDirect>
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Text(
-                  "أنا أستمع...",
+                  AppLocalizations.of(context).listening,
                   style: GoogleFonts.cairo(color: Colors.teal),
                 ),
               ),
+
+            // Visualization of Spoken Text
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Text(
+                _spokenText,
+                style: GoogleFonts.cairo(
+                  fontSize: 18,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
 
             const Spacer(),
 
@@ -557,11 +621,16 @@ class _EmpanDirectState extends State<EmpanDirect>
                             text: TextSpan(
                               style: GoogleFonts.cairo(color: Colors.black87),
                               children: [
-                                const TextSpan(
-                                  text: "خطأ. ",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                TextSpan(
+                                  text:
+                                      "${AppLocalizations.of(context).wrongFeedback} ",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                const TextSpan(text: "سمعت: "),
+                                TextSpan(
+                                  text: AppLocalizations.of(context).heard,
+                                ),
                               ],
                             ),
                           ),
@@ -584,26 +653,60 @@ class _EmpanDirectState extends State<EmpanDirect>
             // 5. Action Buttons
             Padding(
               padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _validateAndNext,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey[200],
-                        foregroundColor: Colors.black87,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Validate Button
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: _validate,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: Text(
+                            AppLocalizations.of(context).validateBtn,
+                            style: GoogleFonts.cairo(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
-                      child: Text("التالي / تأكيد", style: GoogleFonts.cairo()),
-                    ),
+                      const SizedBox(width: 20),
+                      // Next Button
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: _next,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: Text(
+                            AppLocalizations.of(context).nextBtn,
+                            style: GoogleFonts.cairo(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 20),
-                  Expanded(
+                  const SizedBox(height: 15),
+                  // Finish Button
+                  SizedBox(
+                    width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _showFinalScore,
                       style: ElevatedButton.styleFrom(
@@ -615,7 +718,10 @@ class _EmpanDirectState extends State<EmpanDirect>
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      child: Text("إنهاء الاختبار", style: GoogleFonts.cairo()),
+                      child: Text(
+                        AppLocalizations.of(context).finishTest,
+                        style: GoogleFonts.cairo(),
+                      ),
                     ),
                   ),
                 ],

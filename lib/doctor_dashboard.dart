@@ -1,36 +1,114 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'localization.dart';
+import 'services/firestore_service.dart';
+import 'services/auth_service.dart';
+import 'login_page.dart';
+import 'patient_details_screen.dart';
 
-// TODO: Import Firebase packages when ready
-// import 'package:cloud_firestore/cloud_firestore.dart';
-
-class DoctorDashboard extends StatelessWidget {
+class DoctorDashboard extends StatefulWidget {
   const DoctorDashboard({super.key});
 
-  // Mock Data as requested
-  final List<Map<String, dynamic>> fakeResults = const [
-    {
-      "name": "Patient A",
-      "id": "P001",
-      "score": 15,
-      "temps": "2:30",
-      "date": "12/02/2026",
-    },
-    {
-      "name": "Patient B",
-      "id": "P002",
-      "score": 12,
-      "temps": "3:15",
-      "date": "13/02/2026",
-    },
-  ];
+  @override
+  State<DoctorDashboard> createState() => _DoctorDashboardState();
+}
+
+class _DoctorDashboardState extends State<DoctorDashboard> {
+  final FirestoreService _firestoreService = FirestoreService();
+  final AuthService _authService = AuthService();
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _logout() async {
+    await _authService.signOut();
+    if (mounted) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false,
+      );
+    }
+  }
+
+  void _showAddPatientDialog() {
+    final nameController = TextEditingController();
+    final lastNameController = TextEditingController();
+    final idController = TextEditingController(); // Or auto-generate
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          "Add New Patient",
+          style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: "First Name"),
+            ),
+            TextField(
+              controller: lastNameController,
+              decoration: const InputDecoration(labelText: "Last Name"),
+            ),
+            TextField(
+              controller: idController,
+              decoration: const InputDecoration(
+                labelText: "Patient ID (Login ID)",
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (nameController.text.isNotEmpty &&
+                  idController.text.isNotEmpty) {
+                try {
+                  await _firestoreService.addPatient(
+                    firstName: nameController.text,
+                    lastName: lastNameController.text,
+                    patientIdentifier: idController.text,
+                    birthDate: DateTime.now(), // Default for now
+                  );
+                  if (mounted) Navigator.pop(context);
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(e.toString().replaceAll("Exception: ", "")),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              }
+            },
+            child: const Text("Add"),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "لوحة تحكم الطبيب",
+          loc.doctorDashboard,
           style: GoogleFonts.cairo(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -38,6 +116,17 @@ class DoctorDashboard extends StatelessWidget {
         ),
         backgroundColor: Colors.teal,
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: _logout,
+            icon: const Icon(Icons.logout, color: Colors.white),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showAddPatientDialog,
+        backgroundColor: Colors.teal,
+        child: const Icon(Icons.add, color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -45,69 +134,139 @@ class DoctorDashboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "النتائج الأخيرة",
+              "Your Patients",
               style: GoogleFonts.cairo(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                labelText: "Search by Patient ID",
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              onChanged: (value) {
+                setState(() {}); // Trigger rebuild to filter list
+              },
+            ),
             const SizedBox(height: 16),
-
-            // TODO: Replace with StreamBuilder<QuerySnapshot> using FirebaseFirestore.instance
             Expanded(
-              child: ListView.builder(
-                itemCount: fakeResults.length,
-                itemBuilder: (context, index) {
-                  final result = fakeResults[index];
-                  return Card(
-                    elevation: 2,
-                    margin: const EdgeInsets.only(bottom: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _firestoreService.getDoctorPatients(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        "Error: ${snapshot.error}",
+                        style: const TextStyle(color: Colors.red),
                       ),
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.teal.shade100,
-                        child: Text(
-                          result['id'].toString().substring(0, 1), // Initial
-                          style: GoogleFonts.cairo(color: Colors.teal),
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "No patients found. click + to add.",
+                        style: GoogleFonts.cairo(),
+                      ),
+                    );
+                  }
+
+                  final patients = snapshot.data!.docs.where((doc) {
+                    final data = doc.data() as Map<String, dynamic>;
+                    final pid = (data['patientIdentifier'] ?? '')
+                        .toString()
+                        .toLowerCase();
+                    final search = _searchController.text.toLowerCase();
+                    return pid.contains(search);
+                  }).toList();
+
+                  if (patients.isEmpty) {
+                    return Center(
+                      child: Text(
+                        _searchController.text.isEmpty
+                            ? "No patients found. Click + to add."
+                            : "No patients found matching '${_searchController.text}'",
+                        style: GoogleFonts.cairo(),
+                      ),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: patients.length,
+                    itemBuilder: (context, index) {
+                      final patient =
+                          patients[index].data() as Map<String, dynamic>;
+
+                      final pid = patient['patientIdentifier'] ?? 'No ID';
+                      final firstName = patient['firstName'] ?? '';
+                      final lastName = patient['lastName'] ?? '';
+                      final name = "$firstName $lastName";
+                      final docId = patients[index].id;
+
+                      return Card(
+                        elevation: 3,
+                        margin: const EdgeInsets.only(bottom: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                      ),
-                      title: Text(
-                        result['name'],
-                        style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 4),
-                          Text(
-                            "المعرف: ${result['id']}",
-                            style: GoogleFonts.cairo(fontSize: 12),
-                          ),
-                          Text(
-                            "النتيجة: ${result['score']}  |  الوقت: ${result['temps']}  |  التاريخ: ${result['date']}",
-                            style: GoogleFonts.cairo(
-                              fontSize: 12,
-                              color: Colors.grey[700],
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(16),
+                          leading: CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Colors.teal,
+                            child: Text(
+                              firstName.isNotEmpty
+                                  ? firstName.substring(0, 1).toUpperCase()
+                                  : "?",
+                              style: GoogleFonts.cairo(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(
-                          Icons.play_circle_fill,
-                          color: Colors.grey,
-                          size: 32,
+                          title: Text(
+                            name,
+                            style: GoogleFonts.cairo(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          subtitle: Text(
+                            "ID: $pid",
+                            style: GoogleFonts.cairo(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.teal,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PatientDetailsScreen(
+                                  patientName: name,
+                                  patientId: pid,
+                                  docId: docId,
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                        onPressed: null, // Audio button inactive as requested
-                        // TODO: Implement audio playback from Firebase Storage URL
-                      ),
-                    ),
+                      );
+                    },
                   );
                 },
               ),
