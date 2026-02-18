@@ -1,0 +1,9 @@
+Analyzing app_mobile_tmt...                                     
+
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\doctor_dashboard.dart:86:46 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\doctor_dashboard.dart:88:40 - use_build_context_synchronously
+   info - The private field _connectedNumbers could be 'final' - lib\tmt_a_page.dart:20:13 - prefer_final_fields
+   info - The private field _stopwatch could be 'final' - lib\tmt_a_page.dart:22:13 - prefer_final_fields
+   info - The private field _connectedItems could be 'final' - lib\tmt_b_page.dart:35:17 - prefer_final_fields
+   info - The private field _stopwatch could be 'final' - lib\tmt_b_page.dart:41:13 - prefer_final_fields
+

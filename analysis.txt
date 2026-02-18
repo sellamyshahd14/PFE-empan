@@ -1,0 +1,13 @@
+Analyzing app_mobile_tmt...                                     
+
+   info - The private field _connectedNumbers could be 'final' - lib\tmt_a_page.dart:20:13 - prefer_final_fields
+   info - The private field _stopwatch could be 'final' - lib\tmt_a_page.dart:22:13 - prefer_final_fields
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\tmt_a_page.dart:258:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\tmt_a_page.dart:262:47 - deprecated_member_use
+   info - The private field _connectedItems could be 'final' - lib\tmt_b_page.dart:35:17 - prefer_final_fields
+   info - The private field _stopwatch could be 'final' - lib\tmt_b_page.dart:41:13 - prefer_final_fields
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\tmt_b_page.dart:345:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\tmt_b_page.dart:349:47 - deprecated_member_use
+   info - Statements in an if should be enclosed in a block - lib\tmt_b_page.dart:412:9 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\tmt_b_page.dart:416:9 - curly_braces_in_flow_control_structures
+
