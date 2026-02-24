@@ -44,11 +44,14 @@ class _LoginPageState extends State<LoginPage> {
             final lastName = patientData['lastName'] ?? '';
             final fullName = "$firstName $lastName".trim();
 
+            debugPrint(
+                "LOGGING IN: Patient ID = ${patientData['docId']}, Identifier = ${patientData['patientIdentifier'] ?? pid}");
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => TestSelectionPage(
                   patientId: patientData['docId'],
+                  patientIdentifier: patientData['patientIdentifier'] ?? pid,
                   patientName: fullName,
                 ), // Pass DB ID and Name
               ),

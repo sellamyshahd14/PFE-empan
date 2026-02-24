@@ -84,6 +84,7 @@ class FirestoreService {
     required double score, // Can be -1 or 0 if not applicable for TMT
     required String totalDuration,
     String testType = 'TMT', // Default or specific 'TMT-A', 'TMT-B'
+    int errors = 0, // Number of wrong moves
   }) async {
     // We try to find the doctor associated with this patient to link the result
     // (Optional: could verify patient ownership here)
@@ -94,6 +95,7 @@ class FirestoreService {
       'score': score,
       'duration': totalDuration,
       'testType': testType,
+      'errors': errors,
       'timestamp': FieldValue.serverTimestamp(),
       'dateStr':
           "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",

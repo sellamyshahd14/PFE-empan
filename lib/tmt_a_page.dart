@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,8 +8,13 @@ import 'services/firestore_service.dart';
 
 class TmtAPage extends StatefulWidget {
   final String patientId;
+  final String patientIdentifier;
 
-  const TmtAPage({super.key, required this.patientId});
+  const TmtAPage({
+    super.key,
+    required this.patientId,
+    required this.patientIdentifier,
+  });
 
   @override
   State<TmtAPage> createState() => _TmtAPageState();
@@ -28,18 +32,43 @@ class _TmtAPageState extends State<TmtAPage> {
 
   // Feedback state
   bool _showError = false;
+  int _errorCount = 0;
 
-  // Canvas size for randomization
-  // Reduced to 40.0 to match TMT-B and prevent overlap
   final double _circleSize = 40.0;
+
+  // Standard TMT-A positions (normalized 0..1 coordinates for each number 1-25)
+  // Mapped from the official TMT-A reference layout
+  static const List<List<double>> _normalizedPositions = [
+    [0.55, 0.55], // 1  (début) — shifted left, away from 3→4 line
+    [0.44, 0.62], // 2  — shifted right+up, room for 10
+    [0.63, 0.72], // 3
+    [0.65, 0.31], // 4
+    [0.28, 0.35], // 5
+    [0.45, 0.45], // 6
+    [0.27, 0.55], // 7
+    [0.18, 0.74], // 8  — shifted right, away from 12→13 line
+    [0.20, 0.82], // 9  — adjusted to keep distance from 8 and 12
+    [0.32, 0.68], // 10 — shifted right, room for 8
+    [0.44, 0.87], // 11
+    [0.05, 0.87], // 12
+    [0.12, 0.44], // 13
+    [0.00, 0.60], // 14 — shifted left, away from 12→13 line
+    [0.05, 0.05], // 15
+    [0.14, 0.22], // 16
+    [0.38, 0.05], // 17
+    [0.30, 0.25], // 18
+    [0.65, 0.18], // 19 — shifted down, away from 20→21 line
+    [0.45, 0.12], // 20
+    [0.85, 0.05], // 21
+    [0.82, 0.31], // 22
+    [0.88, 0.87], // 23
+    [0.72, 0.50], // 24 — shifted left, away from 22→23 line
+    [0.72, 0.85], // 25 (fin)
+  ];
 
   @override
   void initState() {
     super.initState();
-    // Delay initialization of positions until we have layout info,
-    // but for simplicity we'll generate them in build or post-frame.
-    // However, generating in build is bad for randomness stability.
-    // We'll trust LayoutBuilder in build to generate them ONCE properly.
   }
 
   void _generatePositions(Size size) {
@@ -47,57 +76,16 @@ class _TmtAPageState extends State<TmtAPage> {
       return;
     }
 
-    final random = Random();
-    final double width = size.width;
-    final double height = size.height;
-    final double margin = 30.0; // Reduced margin to give more space
+    final double margin = 20.0;
+    final double usableWidth = size.width - 2 * margin - _circleSize;
+    final double usableHeight = size.height - 2 * margin - _circleSize;
 
-    List<Offset> positions = [];
-    int globalAttempts = 0;
-
-    // Retry the entire generation if we get stuck (up to 10 times)
-    while (positions.length < _totalCircles && globalAttempts < 10) {
-      positions.clear();
-      int placedCount = 0;
-      int itemAttempts = 0;
-
-      while (placedCount < _totalCircles && itemAttempts < 5000) {
-        double x =
-            margin + random.nextDouble() * (width - 2 * margin - _circleSize);
-        double y =
-            margin + random.nextDouble() * (height - 2 * margin - _circleSize);
-
-        Offset newPos = Offset(x, y);
-
-        bool tooClose = false;
-        for (Offset pos in positions) {
-          // Use slightly larger distance buffer (1.3x) for better spacing
-          if ((pos - newPos).distance < _circleSize * 1.3) {
-            tooClose = true;
-            break;
-          }
-        }
-
-        if (!tooClose) {
-          positions.add(newPos);
-          placedCount++;
-        }
-        itemAttempts++;
-      }
-      globalAttempts++;
-    }
-
-    // If we still failed (extremely unlikely on modern screens), fallback to grid or uncheck
-    if (positions.length < _totalCircles) {
-      // Emergency fallback: just fill remaining randomly (overlap possible but rare)
-      while (positions.length < _totalCircles) {
-        double x = margin + random.nextDouble() * (width - 2 * margin);
-        double y = margin + random.nextDouble() * (height - 2 * margin);
-        positions.add(Offset(x, y));
-      }
-    }
-
-    _circlePositions = positions;
+    _circlePositions = _normalizedPositions.map((coords) {
+      return Offset(
+        margin + coords[0] * usableWidth,
+        margin + coords[1] * usableHeight,
+      );
+    }).toList();
   }
 
   void _handleCircleTap(int number) {
@@ -174,6 +162,8 @@ class _TmtAPageState extends State<TmtAPage> {
     // Haptic feedback
     HapticFeedback.mediumImpact();
 
+    _errorCount++;
+
     // Visual feedback (Flash red)
     setState(() {
       _showError = true;
@@ -201,11 +191,11 @@ class _TmtAPageState extends State<TmtAPage> {
     try {
       await _firestoreService.saveTestResult(
         patientId: widget.patientId,
-        patientIdentifier:
-            "Unknown", // Passed ID is DocID, display ID unknown here
+        patientIdentifier: widget.patientIdentifier,
         score: 0,
         totalDuration: durationStr,
         testType: 'TMT-A',
+        errors: _errorCount,
       );
     } catch (e) {
       debugPrint("Error saving result: $e");
@@ -231,11 +221,7 @@ class _TmtAPageState extends State<TmtAPage> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: TextButton.icon(
               onPressed: () {
-                if (_isTestRunning) {
-                  _finishTest();
-                } else {
-                  Navigator.pop(context);
-                }
+                Navigator.pop(context);
               },
               icon: const Icon(Icons.stop_circle_outlined, color: Colors.red),
               label: Text(

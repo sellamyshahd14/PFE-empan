@@ -6,16 +6,19 @@ import 'tmt_b_page.dart';
 
 class TestSelectionPage extends StatelessWidget {
   final String patientId;
+  final String patientIdentifier;
   final String patientName;
 
   const TestSelectionPage({
     super.key,
     required this.patientId,
+    required this.patientIdentifier,
     this.patientName = '',
   });
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("TEST SELECTION: Identifier = $patientIdentifier");
     final loc = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -47,7 +50,10 @@ class TestSelectionPage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TmtAPage(patientId: patientId),
+                  builder: (context) => TmtAPage(
+                    patientId: patientId,
+                    patientIdentifier: patientIdentifier,
+                  ),
                 ),
               ),
             ),
@@ -59,7 +65,10 @@ class TestSelectionPage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TmtBPage(patientId: patientId),
+                  builder: (context) => TmtBPage(
+                    patientId: patientId,
+                    patientIdentifier: patientIdentifier,
+                  ),
                 ),
               ),
             ),

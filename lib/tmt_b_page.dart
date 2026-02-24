@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,8 +8,13 @@ import 'services/firestore_service.dart';
 
 class TmtBPage extends StatefulWidget {
   final String patientId;
+  final String patientIdentifier;
 
-  const TmtBPage({super.key, required this.patientId});
+  const TmtBPage({
+    super.key,
+    required this.patientId,
+    required this.patientIdentifier,
+  });
 
   @override
   State<TmtBPage> createState() => _TmtBPageState();
@@ -47,10 +51,68 @@ class _TmtBPageState extends State<TmtBPage> {
 
   // Feedback state
   bool _showError = false;
+  int _errorCount = 0;
 
-  // Canvas size for randomization
-  // Reduced size for TMT-B to fit 50 items
   final double _circleSize = 40.0;
+
+  // Fixed positions for TMT-B (normalized 0..1 coordinates)
+  // [number, isWhite (1=white, 0=blue/filled), x, y]
+  // Mapped from the official TMT-B reference layout
+  static const List<List<double>> _normalizedPositions = [
+    // White Circles (1-25) - Mapped from Image
+    [1, 1, 0.65, 0.62], // 1 (début)
+    [2, 1, 0.55, 0.73], // 2
+    [3, 1, 0.70, 0.80], // 3
+    [4, 1, 0.80, 0.48], // 4
+    [5, 1, 0.38, 0.42], // 5
+    [6, 1, 0.37, 0.52], // 6
+    [7, 1, 0.36, 0.61], // 7
+    [8, 1, 0.14, 0.87], // 8
+    [9, 1, 0.25, 0.88], // 9
+    [10, 1, 0.38, 0.90], // 10
+    [11, 1, 0.58, 0.91], // 11
+    [12, 1, 0.18, 0.98], // 12
+    [13, 1, 0.20, 0.51], // 13
+    [14, 1, 0.17, 0.37], // 14
+    [15, 1, 0.07, 0.11], // 15
+    [16, 1, 0.36, 0.12], // 16
+    [17, 1, 0.51, 0.10], // 17
+    [18, 1, 0.38, 0.28], // 18
+    [19, 1, 0.76, 0.19], // 19
+    [20, 1, 0.63, 0.28], // 20
+    [21, 1, 0.85, 0.10], // 21
+    [22, 1, 0.77, 0.36], // 22
+    [23, 1, 0.84, 0.96], // 23
+    [24, 1, 0.66, 0.73], // 24
+    [25, 1, 0.74, 0.92], // 25 (fin)
+
+    // Black/Blue Circles (1-25) - Mapped from Image
+    [1, 0, 0.65, 0.68], // 1-B (Inferred below 1W)
+    [2, 0, 0.43, 0.73], // 2-B
+    [3, 0, 0.83, 0.74], // 3-B
+    [4, 0, 0.71, 0.41], // 4-B
+    [5, 0, 0.31, 0.38], // 5-B
+    [6, 0, 0.55, 0.51], // 6-B
+    [7, 0, 0.24, 0.66], // 7-B
+    [8, 0, 0.21, 0.77], // 8-B
+    [9, 0, 0.25, 0.82], // 9-B (Inferred room)
+    [10, 0, 0.33, 0.76], // 10-B
+    [11, 0, 0.60, 0.84], // 11-B
+    [12, 0, 0.09, 0.96], // 12-B
+    [13, 0, 0.24, 0.58], // 13-B
+    [14, 0, 0.08, 0.65], // 14-B
+    [15, 0, 0.22, 0.07], // 15-B
+    [16, 0, 0.21, 0.28], // 16-B
+    [17, 0, 0.64, 0.06], // 17-B
+    [18, 0, 0.45, 0.32], // 18-B
+    [19, 0, 0.74, 0.29], // 19-B
+    [20, 0, 0.59, 0.18], // 20-B
+    [21, 0, 0.80, 0.06], // 21-B
+    [22, 0, 0.84, 0.40], // 22-B
+    [23, 0, 0.92, 0.96], // 23-B (Inferred corner)
+    [24, 0, 0.79, 0.61], // 24-B
+    [25, 0, 0.60, 0.98], // 25-B
+  ];
 
   @override
   void initState() {
@@ -62,68 +124,68 @@ class _TmtBPageState extends State<TmtBPage> {
       return;
     }
 
-    // Generate items: 1..25 White and 1..25 Blue
+    final double margin = 20.0;
+    final double usableWidth = size.width - 2 * margin - _circleSize;
+    final double usableHeight = size.height - 2 * margin - _circleSize;
+
+    // Safety padding: circles shouldn't be closer than this center-to-center
+    final double minAllowedDistance = _circleSize + 12.0;
+
     List<TmtItem> tempItems = [];
-    for (int i = 1; i <= _maxNumber; i++) {
-      tempItems.add(TmtItem(number: i, isWhite: true));
-      tempItems.add(TmtItem(number: i, isWhite: false));
+
+    // 1. Initialize with target positions from reference image
+    for (final pos in _normalizedPositions) {
+      final int number = pos[0].toInt();
+      final bool isWhite = pos[1] == 1.0;
+      final double x = margin + pos[2] * usableWidth;
+      final double y = margin + pos[3] * usableHeight;
+
+      tempItems.add(TmtItem(
+        number: number,
+        isWhite: isWhite,
+        position: Offset(x, y),
+      ));
     }
 
-    final random = Random();
-    final double width = size.width;
-    final double height = size.height;
-    final double margin = 30.0; // Reduced margin
+    // 2. Iterative Relaxation (Collision Resolution)
+    // We run multiple passes to push overlapping circles away from each other
+    // while trying to stay close to the original relative layout.
+    for (int iteration = 0; iteration < 50; iteration++) {
+      bool changed = false;
+      for (int i = 0; i < tempItems.length; i++) {
+        for (int j = i + 1; j < tempItems.length; j++) {
+          final itemA = tempItems[i];
+          final itemB = tempItems[j];
 
-    // Shuffle strictly for checking positions, but ultimately we need random POSITIONS
-    // We assign random positions to the list.
+          final dx = itemB.position.dx - itemA.position.dx;
+          final dy = itemB.position.dy - itemA.position.dy;
+          final double distance = Offset(dx, dy).distance;
 
-    List<Offset> positions = [];
+          if (distance < minAllowedDistance) {
+            changed = true;
+            // Avoid division by zero if they are at the exact same spot
+            final double actualDist = distance == 0 ? 0.1 : distance;
+            final double overlap = minAllowedDistance - actualDist;
 
-    // Position generation
-    for (int i = 0; i < tempItems.length; i++) {
-      Offset newPos = Offset.zero;
-      bool valid = false;
-      int itemAttempts = 0;
+            // Vector to push them apart
+            final double pushX = (dx / actualDist) * overlap * 0.5;
+            final double pushY = (dy / actualDist) * overlap * 0.5;
 
-      while (!valid && itemAttempts < 200) {
-        double x =
-            margin + random.nextDouble() * (width - 2 * margin - _circleSize);
-        double y =
-            margin + random.nextDouble() * (height - 2 * margin - _circleSize);
-        newPos = Offset(x, y);
-
-        bool overlaps = false;
-        for (Offset pos in positions) {
-          if ((pos - newPos).distance < _circleSize * 1.2) {
-            // Tighter checking
-            overlaps = true;
-            break;
+            // Move both in opposite directions
+            itemA.position = Offset(
+              (itemA.position.dx - pushX).clamp(margin, margin + usableWidth),
+              (itemA.position.dy - pushY).clamp(margin, margin + usableHeight),
+            );
+            itemB.position = Offset(
+              (itemB.position.dx + pushX).clamp(margin, margin + usableWidth),
+              (itemB.position.dy + pushY).clamp(margin, margin + usableHeight),
+            );
           }
         }
-
-        if (!overlaps) valid = true;
-        itemAttempts++;
       }
-
-      // If failed to find space, just place randomly (fallback)
-      if (!valid) {
-        double x =
-            margin + random.nextDouble() * (width - 2 * margin - _circleSize);
-        double y =
-            margin + random.nextDouble() * (height - 2 * margin - _circleSize);
-        newPos = Offset(x, y);
-      }
-
-      positions.add(newPos);
-      tempItems[i].position = newPos;
+      if (!changed) break; // Optimization: stop if no more collisions
     }
 
-    // Shuffle the array so drawing order (z-index) is random too?
-    // Actually we just want the display to act randomly.
-    // Let's shuffle the list so 1-W isn't always drawn first in the Stack (though z-index doesn't matter much here).
-    tempItems.shuffle();
-
-    // Directly assign
     _items = tempItems;
   }
 
@@ -214,6 +276,9 @@ class _TmtBPageState extends State<TmtBPage> {
 
   void _triggerError() {
     HapticFeedback.mediumImpact();
+
+    _errorCount++;
+
     setState(() {
       _showError = true;
     });
@@ -232,12 +297,14 @@ class _TmtBPageState extends State<TmtBPage> {
     final String durationStr = "$seconds s";
 
     try {
+      debugPrint("SAVING RESULT: Identifier = ${widget.patientIdentifier}");
       await _firestoreService.saveTestResult(
         patientId: widget.patientId,
-        patientIdentifier: "Unknown",
+        patientIdentifier: widget.patientIdentifier,
         score: 0,
         totalDuration: durationStr,
         testType: 'TMT-B',
+        errors: _errorCount,
       );
     } catch (e) {
       debugPrint("Error saving result: $e");
@@ -263,11 +330,7 @@ class _TmtBPageState extends State<TmtBPage> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: TextButton.icon(
               onPressed: () {
-                if (_isTestRunning) {
-                  _finishTest();
-                } else {
-                  Navigator.pop(context);
-                }
+                Navigator.pop(context);
               },
               icon: const Icon(Icons.stop_circle_outlined, color: Colors.red),
               label: Text(
@@ -284,7 +347,6 @@ class _TmtBPageState extends State<TmtBPage> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (_items.isEmpty) {
-            // Run ONE time generation
             _generatePositions(constraints.biggest);
           }
 
@@ -301,10 +363,6 @@ class _TmtBPageState extends State<TmtBPage> {
 
               // Circles Layer
               ..._items.map((item) {
-                // Colors definition
-                // White Circle: White bg, Teal text/border
-                // Blue Circle: Teal bg, White text
-
                 Color bgColor;
                 Color textColor;
                 Color borderColor = Colors.teal;
@@ -316,10 +374,6 @@ class _TmtBPageState extends State<TmtBPage> {
                   bgColor = Colors.teal;
                   textColor = Colors.white;
                 }
-
-                // If connected, maybe slightly dim or keep as is?
-                // Requirement: Alternating colors. We keep original colors but maybe add visual check?
-                // TMT usually just draws the line. The node itself stays same.
 
                 // Special Labels
                 bool isStart = (item.number == 1 && item.isWhite);
@@ -354,7 +408,7 @@ class _TmtBPageState extends State<TmtBPage> {
                           child: Text(
                             "${item.number}",
                             style: GoogleFonts.outfit(
-                              fontSize: 16, // Smaller font for smaller circle
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: textColor,
                             ),
@@ -427,27 +481,6 @@ class LinePainterB extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     for (int i = 0; i < connectedItems.length - 1; i++) {
-      // Adjust for column shift (text label above)
-      // The top-left of the Positioned is item.position.
-      // If "Start" label is present, drawing might be offset visually if we don't account for it,
-      // but the item.position reflects the Positioned widget's top-left.
-      // Inside the Positioned, we have a Column.
-      // If label is present, the circle is pushed down.
-      // This makes line drawing tricky if we don't know the exact offset.
-
-      // SIMPLIFICATION: We will ignore the label offset for the line calculation for now
-      // OR we simply assume the click area (and visual center) is the circle center.
-      // To do this cleanly, position should be the CIRCLE's top-left, and label painted outside or Positioned separately.
-      // BUT, current implementation puts them in a column.
-
-      // Let's adjust:
-      // Center = item.pos + circleSize/2.
-      // Visual adjustment needed if Column has text.
-
-      // Safer approach: Calculate Text Height?
-      // Start Label: "بداية" ~ 18px height?
-      // Let's guess ~18.0 if start/end.
-
       double yOffset1 = 0;
       if (connectedItems[i].number == 1 && connectedItems[i].isWhite) {
         yOffset1 = 18;
@@ -457,8 +490,6 @@ class LinePainterB extends CustomPainter {
       if (connectedItems[i + 1].number == 1 && connectedItems[i + 1].isWhite) {
         yOffset2 = 18;
       }
-
-      // Note: "End" text is BELOW, so it doesn't push the circle down. "Start" is ABOVE.
 
       final startPos = connectedItems[i].position +
           Offset(circleSize / 2, circleSize / 2 + yOffset1);

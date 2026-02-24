@@ -167,6 +167,18 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                     return type == 'TMT-A' || type == 'TMT-B';
                   }).toList();
 
+                  // Sort by timestamp descending (latest first)
+                  results.sort((a, b) {
+                    final dataA = a.data() as Map<String, dynamic>;
+                    final dataB = b.data() as Map<String, dynamic>;
+                    final tsA = dataA['timestamp'] as Timestamp?;
+                    final tsB = dataB['timestamp'] as Timestamp?;
+                    if (tsA == null && tsB == null) return 0;
+                    if (tsA == null) return 1;
+                    if (tsB == null) return -1;
+                    return tsB.compareTo(tsA);
+                  });
+
                   if (results.isEmpty) {
                     return Center(
                       child: Column(
@@ -189,88 +201,109 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                     );
                   }
 
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minWidth: MediaQuery.of(context).size.width - 32,
-                      ),
-                      child: DataTable(
-                        headingRowColor: WidgetStateProperty.all(
-                          Colors.teal.shade50,
-                        ),
-                        columns: [
-                          DataColumn(
-                            label: Text(
-                              "Date",
-                              style: GoogleFonts.cairo(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              "Test Name",
-                              style: GoogleFonts.cairo(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              "Time Spent",
-                              style: GoogleFonts.cairo(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                        rows: results.map((res) {
-                          final data = res.data() as Map<String, dynamic>;
-                          final testType = data['testType'] ?? 'TMT';
-                          final duration = data['duration'] ?? 'N/A';
+                  return ListView.builder(
+                    itemCount: results.length,
+                    itemBuilder: (context, index) {
+                      final data =
+                          results[index].data() as Map<String, dynamic>;
+                      final testType = data['testType'] ?? 'TMT';
+                      final duration = data['duration'] ?? 'N/A';
+                      final errors = data['errors'] ?? 0;
+                      final dateStr = data['dateStr'] ?? 'Unknown';
 
-                          return DataRow(
-                            cells: [
-                              DataCell(
-                                Text(
-                                  data['dateStr'] ?? 'Unknown',
-                                  style: GoogleFonts.cairo(),
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: Row(
+                            children: [
+                              // Test type badge
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: testType == 'TMT-B'
+                                      ? Colors.indigo.shade50
+                                      : Colors.blue.shade50,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: testType == 'TMT-B'
+                                        ? Colors.indigo.shade200
+                                        : Colors.blue.shade200,
+                                  ),
+                                ),
+                                child: Text(
+                                  testType,
+                                  style: GoogleFonts.cairo(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
                                 ),
                               ),
-                              DataCell(
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue.shade50,
-                                    borderRadius: BorderRadius.circular(12),
-                                    border:
-                                        Border.all(color: Colors.blue.shade200),
-                                  ),
-                                  child: Text(
-                                    testType,
+                              const SizedBox(width: 14),
+                              // Date + Duration
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      dateStr,
+                                      style: GoogleFonts.cairo(
+                                        fontSize: 13,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Row(
+                                      children: [
+                                        const Icon(Icons.timer_outlined,
+                                            size: 16, color: Colors.teal),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          duration,
+                                          style: GoogleFonts.cairo(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Errors count
+                              Column(
+                                children: [
+                                  Text(
+                                    "Errors",
                                     style: GoogleFonts.cairo(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black87,
+                                      fontSize: 11,
+                                      color: Colors.grey[500],
                                     ),
                                   ),
-                                ),
-                              ),
-                              DataCell(
-                                Text(
-                                  duration,
-                                  style: GoogleFonts.cairo(
-                                      fontWeight: FontWeight.bold),
-                                ),
+                                  Text(
+                                    "$errors",
+                                    style: GoogleFonts.cairo(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: errors > 0
+                                          ? Colors.red
+                                          : Colors.green,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
-                          );
-                        }).toList(),
-                      ),
-                    ),
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               ),
