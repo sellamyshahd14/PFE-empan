@@ -245,7 +245,7 @@ class _TestHADSState extends State<TestHADS> {
     final selectedAnswerScore = _answers[_currentIndex];
 
     // Optional: Determine category title
-    final category = currentQuestion['type'] == 'A' ? 'Anxiété' : 'Dépression';
+    // final category = currentQuestion['type'] == 'A' ? 'Anxiété' : 'Dépression';
 
     return Scaffold(
       appBar: AppBar(title: const Text('Echelle HADS'), centerTitle: true),
