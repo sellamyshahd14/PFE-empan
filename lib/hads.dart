@@ -229,6 +229,8 @@ class _TestHADSState extends State<TestHADS> {
     }
   }
 
+  bool _showIntro = true;
+
   @override
   Widget build(BuildContext context) {
     if (_isSaving) {
@@ -236,6 +238,11 @@ class _TestHADSState extends State<TestHADS> {
     }
 
     final loc = AppLocalizations.of(context);
+
+    if (_showIntro) {
+      return _buildIntroPage(loc);
+    }
+
     final currentQuestion = _questions[_currentIndex];
     final isLastQuestion = _currentIndex == _questions.length - 1;
     final selectedAnswerScore = _answers[_currentIndex];
@@ -294,6 +301,16 @@ class _TestHADSState extends State<TestHADS> {
                   ],
                 ),
                 const SizedBox(height: 40),
+                Text(
+                  loc.hadsInstruction,
+                  style: GoogleFonts.cairo(
+                    fontSize: 14,
+                    color: Colors.grey[700],
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
                 Text(
                   loc.translate(currentQuestion['key']),
                   style: GoogleFonts.cairo(
@@ -395,6 +412,80 @@ class _TestHADSState extends State<TestHADS> {
                     ),
                     child: Text(
                       isLastQuestion ? loc.finishTest : loc.nextBtn,
+                      style: GoogleFonts.cairo(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIntroPage(AppLocalizations loc) {
+    final isRtl = loc.locale.languageCode == 'ar';
+
+    return Directionality(
+      textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF5F5F5),
+        appBar: AppBar(
+          title: Text(
+            loc.testTitle,
+            style: GoogleFonts.cairo(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.black),
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 30.0,
+              vertical: 20.0,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  loc.hadsIntroText,
+                  style: GoogleFonts.cairo(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.teal[900],
+                    height: 1.5,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 60),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _showIntro = false;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.teal,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 4,
+                    ),
+                    child: Text(
+                      loc.translate('start_test'),
                       style: GoogleFonts.cairo(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
