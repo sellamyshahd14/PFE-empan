@@ -51,7 +51,7 @@ class AppLocalizations {
       'validate_first_msg': 'يرجى تأكيد الإجابة أولاً',
       'tmt_a_title': 'اختبار TMT-A',
       'tmt_b_title': 'اختبار TMT-B',
-      'empan_test': 'اختبار إمبان',
+      'empan_test': 'اختبار إمبان المباشر',
       'choose_test': 'اختر الاختبار',
       'bravo': 'أحسنت!',
       'test_success': 'لقد أتممت الاختبار بنجاح.',
@@ -61,6 +61,99 @@ class AppLocalizations {
           'اضغط على الأرقام بالترتيب من 1 إلى 25.\nاضغط على 1 للبدء.',
       'tmt_b_instr':
           'اربط الأرقام بالترتيب مع التناوب بين الألوان.\n1 (أبيض) -> 2 (أزرق) -> 3 (أبيض) -> 4 (أزرق)...',
+      'empan_inverse_test': 'اختبار إمبان العكسي',
+      'dsm48_title': 'اختبار DSM-48',
+      'dsm48_menu_encodage': 'مرحلة الحفظ (الترميز)',
+      'dsm48_menu_set1': 'المجموعة 1',
+      'dsm48_menu_set2': 'المجموعة 2',
+      'dsm48_menu_set3': 'المجموعة 3',
+      'dsm48_encodage_instr': 'ركز على الـ 48 صورة واحفظها.',
+      'dsm48_finish_encodage': 'إنهاء الحفظ',
+      'dsm48_image_counter': 'صورة {} / 48',
+      'dsm48_set_instr': 'اختر الصورة التي حفظتها سابقاً',
+      'dsm48_score': 'النتيجة: {}/48',
+      // HADS
+      'hads_test_title': 'اختبار HADS',
+      'depression': 'الاكتئاب',
+      'anxiety': 'القلق',
+      'state_normal': 'طبيعي',
+      'state_moderate': 'معتدل',
+      'state_mild': 'متوسط',
+      'state_severe': 'شديد',
+      'hads_q1': 'نحس روحي على أعصابي و متوتر',
+      'hads_q1_a3': 'دائما',
+      'hads_q1_a2': 'أغلب الأوقات',
+      'hads_q1_a1': 'مرّات',
+      'hads_q1_a0': 'لا أبدا',
+      'hads_q2': 'نستمتع بنفس الحوايج متاع قبل',
+      'hads_q2_a0': 'نعم كيف العادة',
+      'hads_q2_a1': 'لا موش ياسر',
+      'hads_q2_a2': 'شوية شوية',
+      'hads_q2_a3': 'تقريبا بالكلّ',
+      'hads_q3': 'نحس بالخوف كأنه حاجة مرعبة باش تصير',
+      'hads_q3_a3': 'نعم بالضبط',
+      'hads_q3_a2': 'نعم أما ما ثماش خطر كبير',
+      'hads_q3_a1': 'شوية، أما موش متقلق من الحكاية',
+      'hads_q3_a0': 'لا أبدا',
+      'hads_q4': 'نضحك بسهولة ونشوف الناحية الإيجابية من الأشياء',
+      'hads_q4_a0': 'نعم كيف العادة',
+      'hads_q4_a1': 'موش كيف العادة',
+      'hads_q4_a2': 'أقل ياسر من العادة',
+      'hads_q4_a3': 'لا أبدا',
+      'hads_q5': 'نخمم ونشغل روحي',
+      'hads_q5_a3': 'دائما',
+      'hads_q5_a2': 'أغلب الأوقات',
+      'hads_q5_a1': 'مرات',
+      'hads_q5_a0': 'نادرا',
+      'hads_q6': 'نحس روحي مفرهد ومزاجي رائق',
+      'hads_q6_a0': 'لا أبدا',
+      'hads_q6_a1': 'نادرا',
+      'hads_q6_a2': 'أغلب الأوقات',
+      'hads_q6_a3': 'دائما',
+      'hads_q7': 'نجم نقعد مرتاح ما نعمل شيء و نحس روحي مسترخي',
+      'hads_q7_a0': 'نعم، مهما كانت الظروف',
+      'hads_q7_a1': 'نعم في أغلب الأوقات',
+      'hads_q7_a2': 'نادرا',
+      'hads_q7_a3': 'لا أبدا',
+      'hads_q8': 'نحس إني نمارس نشاطي بنسق بطيء على العادة',
+      'hads_q8_a3': 'تقريبا دائما',
+      'hads_q8_a2': 'أغلب الأوقات',
+      'hads_q8_a1': 'مرّات',
+      'hads_q8_a0': 'لا أبدا',
+      'hads_q9': 'نحس بالخوف و معدتي معقودة',
+      'hads_q9_a0': 'لا أبدا',
+      'hads_q9_a1': 'مرّات',
+      'hads_q9_a2': 'ياسر',
+      'hads_q9_a3': 'دائما',
+      'hads_q10': 'ما عدتش نهتم بمظهري الخارجي',
+      'hads_q10_a3': 'لا أبدا',
+      'hads_q10_a2': 'موش كيف ما يلزم',
+      'hads_q10_a1': 'ممكن ساعات ما عدتش نهتم به',
+      'hads_q10_a0': 'نهتم كالعادة',
+      'hads_q11': 'نحس روحي ما نجمش نركح في بلاصة',
+      'hads_q11_a3': 'نعم بالضبط',
+      'hads_q11_a2': 'شوية',
+      'hads_q11_a1': 'شوية بالكل',
+      'hads_q11_a0': 'لا أبدا',
+      'hads_q12': 'نشيخ بالمسبق كيف نعرف روحي باش نعمل بعض الأشياء',
+      'hads_q12_a0': 'كيف العادة',
+      'hads_q12_a1': 'أقل شوية من العادة',
+      'hads_q12_a2': 'أقل ياسر من العادة',
+      'hads_q12_a3': 'لا أبدا',
+      'hads_q13': 'نحس بحالات رعب مفاجئ',
+      'hads_q13_a3': 'دائما',
+      'hads_q13_a2': 'ياسر مرّات',
+      'hads_q13_a1': 'موش ياسر ياسر',
+      'hads_q13_a0': 'لا أبدا',
+      'hads_q14':
+          'نجم نستمتع بقراءة كتاب باهي أو بالاستماع لبرنامج باهي في التلفزة و الراديو',
+      'hads_q14_a0': 'دائما',
+      'hads_q14_a1': 'مرات',
+      'hads_q14_a2': 'نادرا',
+      'hads_q14_a3': 'نادر جدا',
+      'hads_instruction': 'من فضلك قم باختيار الإجابة المناسبة بالضغط عليها',
+      'hads_intro_text':
+          'يرجى الإجابة وفقًا لحالتك النفسية خلال الأسبوعين الماضيين، وإذا كان العرض المذكور موجودًا معظم الوقت.',
     },
     'fr': {
       'login_title': 'Test de Performance Cognitive',
@@ -101,7 +194,7 @@ class AppLocalizations {
       'validate_first_msg': 'Veuillez valider la réponse d\'abord',
       'tmt_a_title': 'Test TMT-A',
       'tmt_b_title': 'Test TMT-B',
-      'empan_test': 'Test d\'Empan',
+      'empan_test': 'Test d\'Empan Direct',
       'choose_test': 'Choisissez le test',
       'bravo': 'Bravo !',
       'test_success': 'Vous avez terminé le test avec succès.',
@@ -111,6 +204,104 @@ class AppLocalizations {
           'Appuyez sur les nombres dans l\'ordre de 1 à 25.\nAppuyez sur 1 pour commencer.',
       'tmt_b_instr':
           'Reliez les nombres dans l\'ordre en alternant les couleurs.\n1 (Blanc) -> 2 (Bleu) -> 3 (Blanc) -> 4 (Bleu)...',
+      'empan_inverse_test': 'Test d\'Empan Inverse',
+      'dsm48_title': 'Test DSM-48',
+      'dsm48_menu_encodage': 'Phase d\'encodage',
+      'dsm48_menu_set1': 'Set 1',
+      'dsm48_menu_set2': 'Set 2',
+      'dsm48_menu_set3': 'Set 3',
+      'dsm48_encodage_instr':
+          'Concentrez-vous sur les 48 images et mémorisez-les.',
+      'dsm48_finish_encodage': 'Terminer la mémorisation',
+      'dsm48_image_counter': 'Image {} / 48',
+      'dsm48_set_instr': 'Choisissez l\'image que vous avez mémorisée',
+      'dsm48_score': 'Score : {}/48',
+      // HADS
+      'hads_test_title': 'Test HADS',
+      'depression': 'Dépression',
+      'anxiety': 'Anxiété',
+      'state_normal': 'Normal',
+      'state_moderate': 'Modéré',
+      'state_mild': 'Moyen',
+      'state_severe': 'Sévère',
+      'hads_q1': 'Je me sens tendu ou énervé',
+      'hads_q1_a3': 'La plupart du temps',
+      'hads_q1_a2': 'Souvent',
+      'hads_q1_a1': 'De temps en temps',
+      'hads_q1_a0': 'Jamais',
+      'hads_q2': 'Je prends plaisir aux mêmes choses qu\'autrefois',
+      'hads_q2_a0': 'Oui, tout autant',
+      'hads_q2_a1': 'Pas autant',
+      'hads_q2_a2': 'Un peu seulement',
+      'hads_q2_a3': 'Presque plus',
+      'hads_q3':
+          'J\'ai une sensation de peur comme si quelque chose d\'horrible allait m\'arriver',
+      'hads_q3_a3': 'Oui, très nettement',
+      'hads_q3_a2': 'Oui, mais ce n\'est pas trop grave',
+      'hads_q3_a1': 'Un peu, mais cela ne m\'inquiète pas',
+      'hads_q3_a0': 'Pas du tout',
+      'hads_q4': 'Je ris facilement et vois le bon côté des choses',
+      'hads_q4_a0': 'Autant que par le passé',
+      'hads_q4_a1': 'Plus autant qu\'avant',
+      'hads_q4_a2': 'Vraiment moins qu\'avant',
+      'hads_q4_a3': 'Plus du tout',
+      'hads_q5': 'Je me fais du souci',
+      'hads_q5_a3': 'Très souvent',
+      'hads_q5_a2': 'Assez souvent',
+      'hads_q5_a1': 'Occasionnellement',
+      'hads_q5_a0': 'Très occasionnellement',
+      'hads_q6': 'Je suis de bonne humeur',
+      'hads_q6_a3': 'Jamais',
+      'hads_q6_a2': 'Rarement',
+      'hads_q6_a1': 'Assez souvent',
+      'hads_q6_a0': 'La plupart du temps',
+      'hads_q7':
+          'Je peux rester tranquillement assis à ne rien faire et me sentir décontracté',
+      'hads_q7_a0': 'Oui, quoi qu\'il arrive',
+      'hads_q7_a1': 'Oui, en général',
+      'hads_q7_a2': 'Rarement',
+      'hads_q7_a3': 'Parfois',
+      'hads_q8': 'J\'ai l\'impression de fonctionner au ralenti',
+      'hads_q8_a3': 'Presque toujours',
+      'hads_q8_a2': 'Très souvent',
+      'hads_q8_a1': 'Parfois',
+      'hads_q8_a0': 'Jamais',
+      'hads_q9': 'J\'éprouve des sensations de peur et j\'ai l\'estomac noué',
+      'hads_q9_a0': 'Jamais',
+      'hads_q9_a1': 'Parfois',
+      'hads_q9_a2': 'Assez souvent',
+      'hads_q9_a3': 'Très souvent',
+      'hads_q10': 'Je ne m\'intéresse plus à mon apparence',
+      'hads_q10_a3': 'Plus du tout',
+      'hads_q10_a2':
+          'Je n\'y accorde pas autant d\'attention que je le devrais',
+      'hads_q10_a1': 'Il se peut que je n\'y fasse plus autant attention',
+      'hads_q10_a0': 'J\'y prête autant d\'attention que par le passé',
+      'hads_q11': 'J\'ai la bougeotte et n\'arrive pas à tenir en place',
+      'hads_q11_a3': 'Oui, c\'est tout à fait le cas',
+      'hads_q11_a2': 'Un peu',
+      'hads_q11_a1': 'Pas tellement',
+      'hads_q11_a0': 'Pas du tout',
+      'hads_q12': 'Je me réjouis d\'avance à l\'idée de faire certaines choses',
+      'hads_q12_a0': 'Autant qu\'avant',
+      'hads_q12_a1': 'Un peu moins qu\'avant',
+      'hads_q12_a2': 'Bien moins qu\'avant',
+      'hads_q12_a3': 'Presque jamais',
+      'hads_q13': 'J\'éprouve des sensations soudaines de panique',
+      'hads_q13_a3': 'Vraiment très souvent',
+      'hads_q13_a2': 'Assez souvent',
+      'hads_q13_a1': 'Pas très souvent',
+      'hads_q13_a0': 'Jamais',
+      'hads_q14':
+          'Je peux prendre plaisir à un bon livre ou à une bonne émission radio ou de télévision',
+      'hads_q14_a0': 'Souvent',
+      'hads_q14_a1': 'Parfois',
+      'hads_q14_a2': 'Rarement',
+      'hads_q14_a3': 'Très rarement',
+      'hads_instruction':
+          'Veuillez choisir la réponse appropriée en cliquant dessus',
+      'hads_intro_text':
+          'Veuillez répondre en fonction de votre état psychologique au cours des deux dernières semaines, et si le symptôme mentionné était présent la plupart du temps.',
     },
   };
 
@@ -208,6 +399,51 @@ class AppLocalizations {
       _localizedValues[locale.languageCode]!['tmt_a_instr']!;
   String get tmtBInstr =>
       _localizedValues[locale.languageCode]!['tmt_b_instr']!;
+  String get empanInverseTest =>
+      _localizedValues[locale.languageCode]!['empan_inverse_test']!;
+  String get dsm48Title =>
+      _localizedValues[locale.languageCode]!['dsm48_title']!;
+  String get dsm48MenuEncodage =>
+      _localizedValues[locale.languageCode]!['dsm48_menu_encodage']!;
+  String get dsm48MenuSet1 =>
+      _localizedValues[locale.languageCode]!['dsm48_menu_set1']!;
+  String get dsm48MenuSet2 =>
+      _localizedValues[locale.languageCode]!['dsm48_menu_set2']!;
+  String get dsm48MenuSet3 =>
+      _localizedValues[locale.languageCode]!['dsm48_menu_set3']!;
+  String get dsm48EncodageInstr =>
+      _localizedValues[locale.languageCode]!['dsm48_encodage_instr']!;
+  String get dsm48FinishEncodage =>
+      _localizedValues[locale.languageCode]!['dsm48_finish_encodage']!;
+  String get dsm48ImageCounter =>
+      _localizedValues[locale.languageCode]!['dsm48_image_counter']!;
+  String get dsm48SetInstr =>
+      _localizedValues[locale.languageCode]!['dsm48_set_instr']!;
+  String get dsm48Score =>
+      _localizedValues[locale.languageCode]!['dsm48_score']!;
+
+  // HADS Additions
+  String get hadsTestTitle =>
+      _localizedValues[locale.languageCode]!['hads_test_title']!;
+  String get depression =>
+      _localizedValues[locale.languageCode]!['depression']!;
+  String get anxiety => _localizedValues[locale.languageCode]!['anxiety']!;
+  String get stateNormal =>
+      _localizedValues[locale.languageCode]!['state_normal']!;
+  String get stateModerate =>
+      _localizedValues[locale.languageCode]!['state_moderate']!;
+  String get stateMild => _localizedValues[locale.languageCode]!['state_mild']!;
+  String get stateSevere =>
+      _localizedValues[locale.languageCode]!['state_severe']!;
+  String get hadsIntroText =>
+      _localizedValues[locale.languageCode]!['hads_intro_text']!;
+  String get hadsInstruction =>
+      _localizedValues[locale.languageCode]!['hads_instruction']!;
+
+  // Generic translate method for HADS dynamic questions
+  String translate(String key) {
+    return _localizedValues[locale.languageCode]![key] ?? key;
+  }
 }
 
 class _AppLocalizationsDelegate

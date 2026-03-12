@@ -245,6 +245,11 @@ class PatientDetailsScreen extends StatelessWidget {
                                       testType == "TMT-B") {
                                     criteria1 = "Time: $duration";
                                     criteria2 = "Errors: $errors";
+                                  } else if (testType == "HADS") {
+                                    final scoreA = data['scoreA'] ?? 0.0;
+                                    final scoreD = data['scoreD'] ?? 0.0;
+                                    criteria1 = "Anxiety: ${scoreA.toInt()}";
+                                    criteria2 = "Depression: ${scoreD.toInt()}";
                                   } else {
                                     criteria1 = "Score: $score pts";
                                     criteria2 = "Time: $duration";

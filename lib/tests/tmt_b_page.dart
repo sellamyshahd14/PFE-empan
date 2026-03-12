@@ -349,125 +349,127 @@ class _TmtBPageState extends State<TmtBPage> {
           ),
         ],
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          if (_items.isEmpty) {
-            _generatePositions(constraints.biggest);
-          }
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            if (_items.isEmpty) {
+              _generatePositions(constraints.biggest);
+            }
 
-          return Stack(
-            children: [
-              // Lines Layer
-              CustomPaint(
-                size: Size.infinite,
-                painter: LinePainterB(
-                  connectedItems: _connectedItems,
-                  circleSize: _circleSize,
-                ),
-              ),
-
-              // Circles Layer
-              ..._items.map((item) {
-                Color bgColor;
-                Color textColor;
-                Color borderColor = Colors.teal;
-
-                if (item.isWhite) {
-                  bgColor = Colors.white;
-                  textColor = Colors.teal;
-                } else {
-                  bgColor = Colors.teal;
-                  textColor = Colors.white;
-                }
-
-                // Special Labels
-                bool isStart = (item.number == 1 && item.isWhite);
-                bool isEnd =
-                    (item.number == 25 &&
-                    item.isWhite); // Changed back to White
-
-                return Positioned(
-                  left: item.position.dx,
-                  top: item.position.dy,
-                  child: GestureDetector(
-                    onTap: () => _handleCircleTap(item),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (isStart)
-                          Text(
-                            loc.startNode,
-                            style: GoogleFonts.cairo(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
-                            ),
-                          ),
-
-                        Container(
-                          width: _circleSize,
-                          height: _circleSize,
-                          decoration: BoxDecoration(
-                            color: bgColor,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: borderColor, width: 2),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "${item.number}",
-                            style: GoogleFonts.outfit(
-                              fontSize: 16, // Smaller font for smaller circle
-                              fontWeight: FontWeight.bold,
-                              color: textColor,
-                            ),
-                          ),
-                        ),
-
-                        if (isEnd)
-                          Text(
-                            loc.endNode,
-                            style: GoogleFonts.cairo(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red,
-                            ),
-                          ),
-                      ],
-                    ),
+            return Stack(
+              children: [
+                // Lines Layer
+                CustomPaint(
+                  size: Size.infinite,
+                  painter: LinePainterB(
+                    connectedItems: _connectedItems,
+                    circleSize: _circleSize,
                   ),
-                );
-              }),
+                ),
 
-              if (!_isTestRunning && !_isTestCompleted)
-                Positioned(
-                  bottom: 50,
-                  left: 20,
-                  right: 20,
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                        ),
-                      ],
+                // Circles Layer
+                ..._items.map((item) {
+                  Color bgColor;
+                  Color textColor;
+                  Color borderColor = Colors.teal;
+
+                  if (item.isWhite) {
+                    bgColor = Colors.white;
+                    textColor = Colors.teal;
+                  } else {
+                    bgColor = Colors.teal;
+                    textColor = Colors.white;
+                  }
+
+                  // Special Labels
+                  bool isStart = (item.number == 1 && item.isWhite);
+                  bool isEnd =
+                      (item.number == 25 &&
+                      item.isWhite); // Changed back to White
+
+                  return Positioned(
+                    left: item.position.dx,
+                    top: item.position.dy,
+                    child: GestureDetector(
+                      onTap: () => _handleCircleTap(item),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (isStart)
+                            Text(
+                              loc.startNode,
+                              style: GoogleFonts.cairo(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green,
+                              ),
+                            ),
+
+                          Container(
+                            width: _circleSize,
+                            height: _circleSize,
+                            decoration: BoxDecoration(
+                              color: bgColor,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: borderColor, width: 2),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "${item.number}",
+                              style: GoogleFonts.outfit(
+                                fontSize: 16, // Smaller font for smaller circle
+                                fontWeight: FontWeight.bold,
+                                color: textColor,
+                              ),
+                            ),
+                          ),
+
+                          if (isEnd)
+                            Text(
+                              loc.endNode,
+                              style: GoogleFonts.cairo(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                    child: Text(
-                      loc.tmtBInstr,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.cairo(
-                        fontSize: 16,
-                        color: Colors.black87,
+                  );
+                }),
+
+                if (!_isTestRunning && !_isTestCompleted)
+                  Positioned(
+                    bottom: 50,
+                    left: 20,
+                    right: 20,
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        loc.tmtBInstr,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.cairo(
+                          fontSize: 16,
+                          color: Colors.black87,
+                        ),
                       ),
                     ),
                   ),
-                ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }

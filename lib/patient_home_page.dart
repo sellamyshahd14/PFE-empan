@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'localization.dart';
-import 'empan.dart';
+import 'tests/empan_direct.dart';
+import 'tests/empan_inverse.dart';
 import 'tests/tmt_a_page.dart';
 import 'tests/tmt_b_page.dart';
+import 'tests/hads.dart';
+import 'tests/dsm48_menu.dart';
 
 class PatientHomePage extends StatelessWidget {
   final String patientId;
@@ -26,7 +29,7 @@ class PatientHomePage extends StatelessWidget {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +52,32 @@ class PatientHomePage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => StartEmpanPage(patientId: patientId),
+                  builder: (context) => EmpanDirect(patientName: patientId),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildTestButton(
+              context,
+              loc.empanInverseTest,
+              Icons.sync_alt, // Represents inversed action
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      EmpanInverseDirect(patientName: patientId),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildTestButton(
+              context,
+              loc.hadsTestTitle,
+              Icons.psychology,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TestHADS(patientId: patientId),
                 ),
               ),
             ),
@@ -74,6 +102,18 @@ class PatientHomePage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => TmtBPage(patientId: patientId),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildTestButton(
+              context,
+              loc.dsm48Title,
+              Icons.grid_view,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Dsm48MenuPage(patientId: patientId),
                 ),
               ),
             ),

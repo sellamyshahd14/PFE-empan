@@ -28,3 +28,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/dsm48/encodage/
+    - assets/images/dsm48/set1/
+    - assets/images/dsm48/set2/
+    - assets/images/dsm48/set3/

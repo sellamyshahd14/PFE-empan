@@ -246,108 +246,110 @@ class _TmtAPageState extends State<TmtAPage> {
           ),
         ],
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          if (_circlePositions.isEmpty) {
-            _generatePositions(constraints.biggest);
-          }
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            if (_circlePositions.isEmpty) {
+              _generatePositions(constraints.biggest);
+            }
 
-          return Stack(
-            children: [
-              // Lines Layer
-              CustomPaint(
-                size: Size.infinite,
-                painter: LinePainter(
-                  positions: _circlePositions,
-                  connectedNumbers: _connectedNumbers,
-                ),
-              ),
-
-              // Circles Layer
-              ...List.generate(_circlePositions.length, (index) {
-                final int number = index + 1;
-                final bool isConnected = number < _nextExpectedNumber;
-                return Positioned(
-                  left: _circlePositions[index].dx,
-                  top: _circlePositions[index].dy,
-                  child: GestureDetector(
-                    onTap: () => _handleCircleTap(number),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (number == 1)
-                          Text(
-                            loc.startNode,
-                            style: GoogleFonts.cairo(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
-                            ),
-                          ),
-                        Container(
-                          width: _circleSize,
-                          height: _circleSize,
-                          decoration: BoxDecoration(
-                            color: isConnected ? Colors.teal : Colors.white,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.teal, width: 2),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "$number",
-                            style: GoogleFonts.outfit(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: isConnected ? Colors.white : Colors.teal,
-                            ),
-                          ),
-                        ),
-                        if (number == _totalCircles)
-                          Text(
-                            loc.endNode,
-                            style: GoogleFonts.cairo(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red,
-                            ),
-                          ),
-                      ],
-                    ),
+            return Stack(
+              children: [
+                // Lines Layer
+                CustomPaint(
+                  size: Size.infinite,
+                  painter: LinePainter(
+                    positions: _circlePositions,
+                    connectedNumbers: _connectedNumbers,
                   ),
-                );
-              }),
+                ),
 
-              // Instructions Overlay (if not started)
-              if (!_isTestRunning && !_isTestCompleted)
-                Positioned(
-                  bottom: 50,
-                  left: 20,
-                  right: 20,
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                        ),
-                      ],
+                // Circles Layer
+                ...List.generate(_circlePositions.length, (index) {
+                  final int number = index + 1;
+                  final bool isConnected = number < _nextExpectedNumber;
+                  return Positioned(
+                    left: _circlePositions[index].dx,
+                    top: _circlePositions[index].dy,
+                    child: GestureDetector(
+                      onTap: () => _handleCircleTap(number),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (number == 1)
+                            Text(
+                              loc.startNode,
+                              style: GoogleFonts.cairo(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green,
+                              ),
+                            ),
+                          Container(
+                            width: _circleSize,
+                            height: _circleSize,
+                            decoration: BoxDecoration(
+                              color: isConnected ? Colors.teal : Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.teal, width: 2),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "$number",
+                              style: GoogleFonts.outfit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: isConnected ? Colors.white : Colors.teal,
+                              ),
+                            ),
+                          ),
+                          if (number == _totalCircles)
+                            Text(
+                              loc.endNode,
+                              style: GoogleFonts.cairo(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                    child: Text(
-                      loc.tmtAInstr,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.cairo(
-                        fontSize: 16,
-                        color: Colors.black87,
+                  );
+                }),
+
+                // Instructions Overlay (if not started)
+                if (!_isTestRunning && !_isTestCompleted)
+                  Positioned(
+                    bottom: 50,
+                    left: 20,
+                    right: 20,
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        loc.tmtAInstr,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.cairo(
+                          fontSize: 16,
+                          color: Colors.black87,
+                        ),
                       ),
                     ),
                   ),
-                ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }

@@ -81,25 +81,36 @@ class FirestoreService {
   Future<void> saveTestResult({
     required String patientId, // The DB ID of the patient
     required String patientIdentifier,
-    required double score,
-    required String totalDuration,
+    double? score,
+    double? scoreA, // HADS Anxiety
+    double? scoreD, // HADS Depression
+    String totalDuration = "N/A",
     String testType = 'Empan', // Default for retro-compatibility
     int errors = 0,
+    String? testName, // To match HADS module signature if needed
   }) async {
+    // If testName is passed, it overrides testType
+    String finalTestType = testName ?? testType;
+
     // We try to find the doctor associated with this patient to link the result
     // (Optional: could verify patient ownership here)
 
-    await _db.collection('results').add({
+    final Map<String, dynamic> data = {
       'patientId': patientId,
       'patientIdentifier': patientIdentifier,
-      'score': score,
       'duration': totalDuration,
-      'testType': testType,
+      'testType': finalTestType,
       'errors': errors,
       'timestamp': FieldValue.serverTimestamp(),
       'dateStr':
           "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-    });
+    };
+
+    if (score != null) data['score'] = score;
+    if (scoreA != null) data['scoreA'] = scoreA;
+    if (scoreD != null) data['scoreD'] = scoreD;
+
+    await _db.collection('results').add(data);
   }
 
   // Get Results for a specific Patient

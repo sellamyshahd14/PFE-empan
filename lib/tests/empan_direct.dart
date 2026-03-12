@@ -4,75 +4,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:record/record.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'localization.dart';
-import 'services/firestore_service.dart';
+import '../localization.dart';
+import '../services/firestore_service.dart';
 
 import 'dart:async';
-
-class StartEmpanPage extends StatefulWidget {
-  final String patientId;
-  const StartEmpanPage({super.key, required this.patientId});
-
-  @override
-  State<StartEmpanPage> createState() => _StartEmpanPageState();
-}
-
-class _StartEmpanPageState extends State<StartEmpanPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              AppLocalizations.of(context).welcome,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.cairo(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.teal,
-              ),
-            ),
-            const SizedBox(height: 40),
-            const SizedBox(height: 40),
-            // Name field removed, using ID from previous screen
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        EmpanDirect(patientName: widget.patientId),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 18),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              child: Text(
-                AppLocalizations.of(context).startTest,
-                style: GoogleFonts.cairo(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class EmpanDirect extends StatefulWidget {
   final String patientName;
@@ -359,11 +294,11 @@ class _EmpanDirectState extends State<EmpanDirect>
     // Save to Firestore
     try {
       await _firestoreService.saveTestResult(
-        patientId: widget.patientName, // This is the 'docId' passed from login
-        patientIdentifier:
-            "Unknown", // We could pass this if we had it, or look it up. Using placeholder for now to keep it simple.
+        patientId: widget.patientName,
+        patientIdentifier: "Unknown",
         score: _score,
         totalDuration: _formattedTime,
+        testType: 'Empan Direct', // Explicitly setting the test type
       );
       debugPrint("Result Saved!");
     } catch (e) {
