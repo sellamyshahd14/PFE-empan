@@ -1,0 +1,916 @@
+﻿[ +244 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[   +8 ms] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[   +1 ms] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[        ] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[ +216 ms] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
+[        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[   +6 ms] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[ +117 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[        ] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
+[        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[   +2 ms] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[  +13 ms] Skipping pub get: version match.
+[  +93 ms] Found plugin speech_to_text at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\speech_to_text-7.3.0\
+[   +8 ms] Found plugin speech_to_text_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\speech_to_text_windows-1.0.0+beta.8\
+[  +11 ms] Found plugin record at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record-6.2.0\
+[   +7 ms] Found plugin record_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_windows-1.0.7\
+[   +3 ms] Found plugin record_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_web-1.3.0\
+[   +2 ms] Found plugin record_macos at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_macos-1.2.1\
+[   +2 ms] Found plugin record_linux at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_linux-1.3.0\
+[   +2 ms] Found plugin record_ios at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_ios-1.2.0\
+[   +2 ms] Found plugin record_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_android-1.5.1\
+[   +4 ms] Found plugin permission_handler at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler-12.0.1\
+[   +2 ms] Found plugin permission_handler_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_windows-0.2.1\
+[   +4 ms] Found plugin permission_handler_html at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_html-0.1.3+5\
+[   +2 ms] Found plugin permission_handler_apple at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_apple-9.4.7\
+[   +2 ms] Found plugin permission_handler_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_android-13.0.1\
+[   +2 ms] Found plugin path_provider at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider-2.1.5\
+[   +7 ms] Found plugin path_provider_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_windows-2.3.0\
+[   +7 ms] Found plugin path_provider_linux at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_linux-2.2.1\
+[   +5 ms] Found plugin path_provider_foundation at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_foundation-2.5.1\
+[   +3 ms] Found plugin path_provider_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_android-2.2.22\
+[  +10 ms] Found plugin flutter_tts at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_tts-4.2.5\
+[   +9 ms] Found plugin firebase_core at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-4.4.0\
+[   +3 ms] Found plugin firebase_core_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core_web-3.4.0\
+[   +5 ms] Found plugin firebase_auth at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-6.1.4\
+[   +2 ms] Found plugin firebase_auth_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth_web-6.1.2\
+[   +5 ms] Found plugin cloud_firestore at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-6.1.2\
+[   +1 ms] Found plugin cloud_firestore_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore_web-5.1.2\
+[  +56 ms] Found plugin speech_to_text at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\speech_to_text-7.3.0\
+[   +2 ms] Found plugin speech_to_text_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\speech_to_text_windows-1.0.0+beta.8\
+[   +5 ms] Found plugin record at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record-6.2.0\
+[   +4 ms] Found plugin record_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_windows-1.0.7\
+[   +2 ms] Found plugin record_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_web-1.3.0\
+[   +1 ms] Found plugin record_macos at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_macos-1.2.1\
+[   +1 ms] Found plugin record_linux at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_linux-1.3.0\
+[   +1 ms] Found plugin record_ios at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_ios-1.2.0\
+[   +1 ms] Found plugin record_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_android-1.5.1\
+[   +1 ms] Found plugin permission_handler at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler-12.0.1\
+[   +1 ms] Found plugin permission_handler_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_windows-0.2.1\
+[   +2 ms] Found plugin permission_handler_html at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_html-0.1.3+5\
+[   +1 ms] Found plugin permission_handler_apple at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_apple-9.4.7\
+[   +1 ms] Found plugin permission_handler_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_android-13.0.1\
+[   +2 ms] Found plugin path_provider at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider-2.1.5\
+[   +1 ms] Found plugin path_provider_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_windows-2.3.0\
+[   +4 ms] Found plugin path_provider_linux at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_linux-2.2.1\
+[   +2 ms] Found plugin path_provider_foundation at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_foundation-2.5.1\
+[   +1 ms] Found plugin path_provider_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_android-2.2.22\
+[   +4 ms] Found plugin flutter_tts at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_tts-4.2.5\
+[   +3 ms] Found plugin firebase_core at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-4.4.0\
+[   +1 ms] Found plugin firebase_core_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core_web-3.4.0\
+[   +3 ms] Found plugin firebase_auth at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-6.1.4\
+[   +1 ms] Found plugin firebase_auth_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth_web-6.1.2\
+[   +4 ms] Found plugin cloud_firestore at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-6.1.2\
+[   +2 ms] Found plugin cloud_firestore_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore_web-5.1.2\
+[  +16 ms] Skipping generating web_plugin_registrant.dart because it is up-to-date.
+[  +36 ms] Found plugin speech_to_text at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\speech_to_text-7.3.0\
+[   +2 ms] Found plugin speech_to_text_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\speech_to_text_windows-1.0.0+beta.8\
+[   +5 ms] Found plugin record at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record-6.2.0\
+[   +6 ms] Found plugin record_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_windows-1.0.7\
+[   +2 ms] Found plugin record_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_web-1.3.0\
+[   +1 ms] Found plugin record_macos at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_macos-1.2.1\
+[   +1 ms] Found plugin record_linux at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_linux-1.3.0\
+[   +1 ms] Found plugin record_ios at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_ios-1.2.0\
+[   +1 ms] Found plugin record_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_android-1.5.1\
+[   +1 ms] Found plugin permission_handler at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler-12.0.1\
+[   +2 ms] Found plugin permission_handler_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_windows-0.2.1\
+[   +3 ms] Found plugin permission_handler_html at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_html-0.1.3+5\
+[   +1 ms] Found plugin permission_handler_apple at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_apple-9.4.7\
+[   +1 ms] Found plugin permission_handler_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_android-13.0.1\
+[   +1 ms] Found plugin path_provider at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider-2.1.5\
+[   +1 ms] Found plugin path_provider_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_windows-2.3.0\
+[   +4 ms] Found plugin path_provider_linux at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_linux-2.2.1\
+[   +2 ms] Found plugin path_provider_foundation at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_foundation-2.5.1\
+[   +1 ms] Found plugin path_provider_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_android-2.2.22\
+[   +5 ms] Found plugin flutter_tts at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_tts-4.2.5\
+[   +3 ms] Found plugin firebase_core at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-4.4.0\
+[   +1 ms] Found plugin firebase_core_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core_web-3.4.0\
+[   +2 ms] Found plugin firebase_auth at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-6.1.4\
+[   +1 ms] Found plugin firebase_auth_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth_web-6.1.2\
+[   +4 ms] Found plugin cloud_firestore at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-6.1.2\
+[   +1 ms] Found plugin cloud_firestore_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore_web-5.1.2\
+[  +18 ms] Generating C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\android\app\src\main\java\io\flutter\plugins\GeneratedPluginRegistrant.java
+[   +2 ms] Skipping generating GeneratedPluginRegistrant.java because it is up-to-date.
+[   +5 ms] Skipping generating generated_plugin_registrant.h because it is up-to-date.
+[   +1 ms] Skipping generating generated_plugin_registrant.cc because it is up-to-date.
+[   +1 ms] Skipping generating generated_plugins.cmake because it is up-to-date.
+[   +2 ms] Skipping generating generated_plugin_registrant.h because it is up-to-date.
+[   +1 ms] Skipping generating generated_plugin_registrant.cc because it is up-to-date.
+[   +1 ms] Skipping generating generated_plugins.cmake because it is up-to-date.
+[   +2 ms] Skipping generating GeneratedPluginRegistrant.h because it is up-to-date.
+[   +1 ms] Skipping generating GeneratedPluginRegistrant.m because it is up-to-date.
+[   +1 ms] Skipping generating GeneratedPluginRegistrant.swift because it is up-to-date.
+[ +194 ms] executing: C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe -format json -products * -utf8 -latest -version 16 -requires Microsoft.VisualStudio.Workload.NativeDesktop Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.VC.CMake.Project
+[ +210 ms] Exit code 0 from: C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe -format json -products * -utf8 -latest -version 16 -requires Microsoft.VisualStudio.Workload.NativeDesktop Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.VC.CMake.Project
+[        ] [
+             {
+               "instanceId": "e75075c9",
+               "installDate": "2026-03-14T00:38:20Z",
+               "installationName": "VisualStudio/18.4.0+11605.240",
+               "installationPath": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community",
+               "installationVersion": "18.4.11605.240",
+               "productId": "Microsoft.VisualStudio.Product.Community",
+               "productPath": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\devenv.exe",
+               "state": 4294967295,
+               "isComplete": true,
+               "isLaunchable": true,
+               "isPrerelease": false,
+               "isRebootRequired": false,
+               "displayName": "Visual Studio Community 2026",
+               "description": "Tout ce dont vous avez besoin pour cr├®er des applications modernes ÔÇô gratuites pour vous, con├ºues pour avoir un impact.",
+               "channelId": "VisualStudio.18.Release",
+               "channelUri": "https://aka.ms/vs/18/stable/channel",
+               "enginePath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\resources\\app\\ServiceHub\\Services\\Microsoft.VisualStudio.Setup.Service",
+               "expirationDate": "2026-06-03T17:00:00+00:00",
+               "installedChannelId": "VisualStudio.18.Release",
+               "installedChannelUri": "https://aka.ms/vs/18/stable/channel",
+               "releaseNotes": "https://docs.microsoft.com/en-us/visualstudio/releases/18/release-notes-v18.4#18.4.0",
+               "resolvedInstallationPath": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community",
+               "retirementDate": "2026-09-01T17:00:00+00:00",
+               "thirdPartyNotices": "https://go.microsoft.com/fwlink/?LinkId=661480",
+               "updateDate": "2026-03-14T00:38:20.8379985Z",
+               "catalog": {
+                 "buildBranch": "stable",
+                 "buildVersion": "18.4.11605.240",
+                 "featureReleaseMonth": "03",
+                 "featureReleaseYear": "2026",
+                 "id": "VisualStudio/18.4.0+11605.240",
+                 "includeBuildVersionInDisplayVersion": "False",
+                 "localBuild": "build-lab",
+                 "manifestName": "VisualStudio",
+                 "manifestType": "installer",
+                 "productDisplayVersion": "18.4.0",
+                 "productLine": "Dev18",
+                 "productLineVersion": "18",
+                 "productMilestone": "RTW",
+                 "productMilestoneIsPreRelease": "False",
+                 "productName": "Visual Studio",
+                 "productPatchVersion": "0",
+                 "productPreReleaseMilestoneSuffix": "3.0",
+                 "productRelease": "RTW",
+                 "productSemanticVersion": "18.4.0+11605.240",
+                 "requiredEngineVersion": "4.4.38.63497"
+               },
+               "properties": {
+                 "appLocalWPF": "false",
+                 "campaignId": "2500:de9d1d699d4a47f2b5e574e15f3e6157",
+                 "channelManifestId": "VisualStudio.18.Release/18.4.0+11605.240",
+                 "includeRecommended": "1",
+                 "nickname": "",
+                 "setupEngineFilePath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\Installer\\setup.exe"
+               }
+             }
+           ]
+[   +7 ms] Building Windows application...
+[  +12 ms] executing: C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe -S C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows -B C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64 -G Visual Studio 18 2026 -A x64 -DFLUTTER_TARGET_PLATFORM=windows-x64
+[ +172 ms] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.19045.
+[ +100 ms] -- Using cached Firebase SDK zip file
+flutter : [ +350 ms] 
+cmake -E tar: error: 
+ZIP decompression 
+failed (-5)
+Au caractère Ligne:1 : 
+1
++ flutter build 
+windows -v > 
+build_log_v2.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ([ +350 ms] cm   
+ ak...ion failed (-    
+5):String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+[  +29 ms] CMake 
+Deprecation Warning at 
+C:/dev_mobile/PFE-v5-st
+able - dev/Merged Tests
+/build/windows/x64/extr
+acted/firebase_cpp_sdk_
+windows/CMakeLists.txt:
+17 (cmake_minimum_requi
+red):
+[        ]   
+Compatibility with 
+CMake < 3.10 will be 
+removed from a future 
+version of
+[        ]   CMake.
+[        ]   Update 
+the VERSION argument 
+<min> value.  Or, use 
+the <min>...<max> 
+syntax
+[        ]   to tell 
+CMake that the project 
+requires at least 
+<min> but has been 
+updated
+[        ]   to work 
+with policies 
+introduced by <max> or 
+earlier.
+[  +93 ms] -- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+[+2070 ms] Feeds used:
+[        ]   C:\Users\DELL\.nuget\packages\
+[        ]   https://api.nuget.org/v3/index.json
+[+1267 ms] Attempting to gather dependency information for package 'Microsoft.Windows.CppWinRT.2.0.210503.1' with respect to project 'C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\packages', targeting 'Any,Version=v0.0'
+[+1355 ms] Gathering dependency information took 1,34 sec
+[  +10 ms] Attempting to resolve dependencies for package 'Microsoft.Windows.CppWinRT.2.0.210503.1' with DependencyBehavior 'Lowest'
+[  +57 ms] Resolving dependency information took 0 ms
+[        ] Resolving actions to install package 'Microsoft.Windows.CppWinRT.2.0.210503.1'
+[   +2 ms] Resolved actions to install package 'Microsoft.Windows.CppWinRT.2.0.210503.1'
+[  +28 ms] Retrieving package 'Microsoft.Windows.CppWinRT 2.0.210503.1' from 'C:\Users\DELL\.nuget\packages\'.
+[  +52 ms] Adding package 'Microsoft.Windows.CppWinRT.2.0.210503.1' to folder 'C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\packages'
+[ +870 ms] Added package 'Microsoft.Windows.CppWinRT.2.0.210503.1' to folder 'C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\packages'
+[   +1 ms] Successfully installed 'Microsoft.Windows.CppWinRT 2.0.210503.1' to C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\packages
+[   +3 ms] Executing nuget actions took 935 ms
+[ +799 ms] Feeds used:
+[        ]   C:\Users\DELL\.nuget\packages\
+[        ]   https://api.nuget.org/v3/index.json
+[ +171 ms] Attempting to gather dependency information for package 'Microsoft.Windows.CppWinRT.2.0.210806.1' with respect to project 'C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\packages', targeting 'Any,Version=v0.0'
+[ +202 ms] Gathering dependency information took 189 ms
+[   +8 ms] Attempting to resolve dependencies for package 'Microsoft.Windows.CppWinRT.2.0.210806.1' with DependencyBehavior 'Lowest'
+[  +46 ms] Resolving dependency information took 0 ms
+[        ] Resolving actions to install package 'Microsoft.Windows.CppWinRT.2.0.210806.1'
+[   +1 ms] Resolved actions to install package 'Microsoft.Windows.CppWinRT.2.0.210806.1'
+[  +25 ms] Retrieving package 'Microsoft.Windows.CppWinRT 2.0.210806.1' from 'C:\Users\DELL\.nuget\packages\'.
+[  +36 ms] Adding package 'Microsoft.Windows.CppWinRT.2.0.210806.1' to folder 'C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\packages'
+[ +309 ms] Added package 'Microsoft.Windows.CppWinRT.2.0.210806.1' to folder 'C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\packages'
+[   +2 ms] Successfully installed 'Microsoft.Windows.CppWinRT 2.0.210806.1' to C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\packages
+[   +3 ms] Executing nuget actions took 360 ms
+[+2115 ms] -- Configuring done (10.0s)
+[ +958 ms] -- Generating done (1.0s)
+[   +4 ms] -- Build files have been written to: C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64
+[  +67 ms] executing: C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe --build C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64 --config Release --target INSTALL --verbose
+[ +443 ms] Change Dir: 'C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64'
+[        ] Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" INSTALL.vcxproj /p:Configuration=Release /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+[ +797 ms] Version MSBuild 18.4.0+6e61e96ac pour .NET Framework
+[ +587 ms] La g├®n├®ration a d├®marr├® 23/03/2026 13:58:37.
+[+2121 ms] Projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\INSTALL.vcxproj" sur le n┼ôud 1 (cibles par d├®faut).
+[        ] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\INSTALL.vcxproj" (1) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\ZERO_CHECK.vcxproj" (2) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] PrepareForBuild:
+[        ]   Cr├®ation du r├®pertoire "x64\Release\ZERO_CHECK\".
+[  +93 ms]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\".
+[  +99 ms] InitializeBuildStatus:
+[   +1 ms]   Cr├®ation de "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[        ]   Mise ├á jour de l'horodatage "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\unsuccessfulbuild".
+[ +490 ms] CustomBuild:
+[        ]   1>Checking Build System
+[ +723 ms] FinalizeBuildStatus:
+[        ]   Suppression du fichier "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\unsuccessfulbuild".
+[        ]   Mise ├á jour de l'horodatage "x64\Release\ZERO_CHECK\ZERO_CHECK.tlog\ZERO_CHECK.lastbuildstate".
+[  +10 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\ZERO_CHECK.vcxproj" termin├®e (cibles par d├®faut).
+[ +182 ms] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\INSTALL.vcxproj" (1) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\ALL_BUILD.vcxproj" (3) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\ALL_BUILD.vcxproj" (3) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\cloud_firestore\cloud_firestore_plugin.vcxproj" (4) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\cloud_firestore\cloud_firestore_plugin.vcxproj" (4) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\flutter_assemble.vcxproj" (5) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] PrepareForBuild:
+[        ]   Cr├®ation du r├®pertoire "x64\Release\flutter_assemble\".
+[   +4 ms]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "x64\Release\flutter_assemble\flutter_assemble.tlog\".
+[   +4 ms] InitializeBuildStatus:
+[        ]   Cr├®ation de "x64\Release\flutter_assemble\flutter_assemble.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[        ]   Mise ├á jour de l'horodatage "x64\Release\flutter_assemble\flutter_assemble.tlog\unsuccessfulbuild".
+[   +2 ms] ComputeCustomBuildOutput:
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\".
+[   +6 ms] CustomBuild:
+[        ]   "La build de 'C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\CMakeFiles\3b239395573d49748d2974bf7c70ebf8\flutter_assemble.rule' d├®pend de 'C:\DEV_MOBILE\PFE-V5-STABLE - DEV\MERGED TESTS\WINDOWS\FLUTTER\EPHEMERAL\FLUTTER_WINDOWS.DLL', qui est produit par la build de 'C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\CMakeFiles\38d7135815185bd4cbd533720aae093e\flutter_windows.dll.rule'. Impossible de g├®n├®rer les ├®l├®ments en parall├¿le."
+[  +96 ms]   Generating C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/flutter_windows.dll, C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/flutter_export.h, C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/flutter_windows.h, C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/flutter_messenger.h, C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/flutter_plugin_registrar.h, C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/flutter_texture_registrar.h, C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/cpp_client_wrapper/core_implementations.cc, C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/cpp_client_wrapper/standard_codec.cc, C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/cpp_client_wrapper/plugin_registrar.cc, C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/cpp_client_wrapper/flutter_engine.cc, C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/cpp_client_wrapper/flutter_view_controller.cc, _phony_
+[+3334 ms]   [ +131 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[        ]   [   +7 ms] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ]   [   +1 ms] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ]   [   +1 ms] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[   +3 ms]   [  +21 ms] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[   +3 ms]   [   +3 ms] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[  +96 ms]   [  +96 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[   +3 ms]   [   +4 ms] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ]   [        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[ +102 ms]   [ +102 ms] Initializing file store
+[  +59 ms]   [  +59 ms] Skipping target: gen_localizations
+[   +6 ms]   [   +6 ms] gen_dart_plugin_registrant: Starting due to {InvalidatedReasonKind.inputChanged: The following inputs have updated contents: C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\.dart_tool\package_config.json}
+[   +4 ms]   [   +4 ms] dart_build: Starting due to {}
+[   +2 ms]   [   +2 ms] unpack_windows: Starting due to {}
+[+1531 ms]   [+1530 ms] unpack_windows: Complete
+[+5145 ms]   [+5145 ms] Found plugin speech_to_text at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\speech_to_text-7.3.0\
+[  +10 ms]   [  +11 ms] Found plugin speech_to_text_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\speech_to_text_windows-1.0.0+beta.8\
+[  +17 ms]   [  +17 ms] Found plugin record at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record-6.2.0\
+[  +11 ms]   [  +10 ms] Found plugin record_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_windows-1.0.7\
+[   +5 ms]   [   +5 ms] Found plugin record_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_web-1.3.0\
+[   +6 ms]   [   +5 ms] Found plugin record_macos at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_macos-1.2.1\
+[   +3 ms]   [   +4 ms] Found plugin record_linux at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_linux-1.3.0\
+[   +2 ms]   [   +2 ms] Found plugin record_ios at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_ios-1.2.0\
+[   +2 ms]   [   +2 ms] Found plugin record_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\record_android-1.5.1\
+[   +2 ms]   [   +2 ms] Found plugin permission_handler at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler-12.0.1\
+[   +2 ms]   [   +2 ms] Found plugin permission_handler_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_windows-0.2.1\
+[   +5 ms]   [   +5 ms] No packages with native assets. Skipping native assets compilation.
+[  +12 ms]   [  +11 ms] dart_build: Complete
+[   +9 ms]   [   +9 ms] install_code_assets: Starting due to {}
+[   +3 ms]   [   +4 ms] Writing native assets json to file:///C:/dev_mobile/PFE-v5-stable%20-%20dev/Merged%20Tests/.dart_tool/flutter_build/631fddede7ed3e80f96719648a4a4ffb/native_assets.json.
+[   +4 ms]   [   +3 ms] Found plugin permission_handler_html at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_html-0.1.3+5\
+[  +34 ms]   [  +34 ms] Writing C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\.dart_tool\flutter_build\631fddede7ed3e80f96719648a4a4ffb\native_assets.json done.
+[   +3 ms]   [   +3 ms] Found plugin permission_handler_apple at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_apple-9.4.7\
+[        ]   [        ] install_code_assets: Complete
+[   +5 ms]   [   +5 ms] Found plugin permission_handler_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_android-13.0.1\
+[   +2 ms]   [   +2 ms] Found plugin path_provider at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider-2.1.5\
+[   +3 ms]   [   +2 ms] Found plugin path_provider_windows at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_windows-2.3.0\
+[   +5 ms]   [   +5 ms] Found plugin path_provider_linux at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_linux-2.2.1\
+[   +4 ms]   [   +4 ms] Found plugin path_provider_foundation at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_foundation-2.5.1\
+[   +2 ms]   [   +2 ms] Found plugin path_provider_android at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_android-2.2.22\
+[   +7 ms]   [   +7 ms] Found plugin flutter_tts at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_tts-4.2.5\
+[   +4 ms]   [   +4 ms] Found plugin firebase_core at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core-4.4.0\
+[   +2 ms]   [   +2 ms] Found plugin firebase_core_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_core_web-3.4.0\
+[   +7 ms]   [   +6 ms] Found plugin firebase_auth at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth-6.1.4\
+[   +2 ms]   [   +2 ms] Found plugin firebase_auth_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\firebase_auth_web-6.1.2\
+[   +4 ms]   [   +5 ms] Found plugin cloud_firestore at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore-6.1.2\
+[   +1 ms]   [   +1 ms] Found plugin cloud_firestore_web at C:\Users\DELL\AppData\Local\Pub\Cache\hosted\pub.dev\cloud_firestore_web-5.1.2\
+[  +37 ms]   [  +36 ms] gen_dart_plugin_registrant: Complete
+[   +4 ms]   [   +4 ms] kernel_snapshot_program: Starting due to {}
+[  +18 ms]   [  +18 ms] C:\Users\DELL\Develop\flutter\bin\cache\dart-sdk\bin\dartaotruntime.exe C:\Users\DELL\Develop\flutter\bin\cache\dart-sdk\bin\snapshots\frontend_server_aot.dart.snapshot --sdk-root C:\Users\DELL\Develop\flutter\bin\cache\artifacts\engine\common\flutter_patched_sdk_product/ --target=flutter --no-print-incremental-dependencies -DFLUTTER_VERSION=3.35.5 -DFLUTTER_CHANNEL=stable -DFLUTTER_GIT_URL=https://github.com/flutter/flutter.git -DFLUTTER_FRAMEWORK_REVISION=ac4e799d23 -DFLUTTER_ENGINE_REVISION=d3d45dcf25 -DFLUTTER_DART_VERSION=3.9.2 -Ddart.vm.profile=false -Ddart.vm.product=true --delete-tostring-package-uri=dart:ui --delete-tostring-package-uri=package:flutter --aot --tfa --target-os windows --packages C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\.dart_tool\package_config.json --output-dill C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\.dart_tool\flutter_build\631fddede7ed3e80f96719648a4a4ffb\app.dill --depfile C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\.dart_tool\flutter_build\631fddede7ed3e80f96719648a4a4ffb\kernel_snapshot_program.d --source file:///C:/dev_mobile/PFE-v5-stable%20-%20dev/Merged%20Tests/.dart_tool/flutter_build/dart_plugin_registrant.dart --source package:flutter/src/dart_plugin_registrant.dart -Dflutter.dart_plugin_registrant=file:///C:/dev_mobile/PFE-v5-stable%20-%20dev/Merged%20Tests/.dart_tool/flutter_build/dart_plugin_registrant.dart --verbosity=error package:flutter_application_1/main.dart
+[+18437 ms]   [+18437 ms] kernel_snapshot_program: Complete
+[+1789 ms]   [+1790 ms] aot_elf_release: Starting due to {InvalidatedReasonKind.inputChanged: The following inputs have updated contents: C:\Users\DELL\Develop\flutter\packages\flutter_tools\lib\src\build_system\targets\common.dart,C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\.dart_tool\flutter_build\631fddede7ed3e80f96719648a4a4ffb\app.dill,C:\Users\DELL\Develop\flutter\bin\cache\engine.stamp,C:\Users\DELL\Develop\flutter\bin\cache\engine.stamp,C:\Users\DELL\Develop\flutter\bin\cache\engine.stamp, InvalidatedReasonKind.outputSetAddition: The following outputs were added to the output set: C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\.dart_tool\flutter_build\631fddede7ed3e80f96719648a4a4ffb\app.so}
+[   +5 ms]   [   +5 ms] targetingApplePlatform = false
+[        ]   [        ] extractAppleDebugSymbols = true
+[        ]   [        ] Will strip AOT snapshot during build.
+[   +2 ms]   [   +2 ms] executing: C:\Users\DELL\Develop\flutter\bin\cache\artifacts\engine\windows-x64-release\gen_snapshot --deterministic --snapshot_kind=app-aot-elf --elf=C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\.dart_tool\flutter_build\631fddede7ed3e80f96719648a4a4ffb\app.so --strip C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\.dart_tool\flutter_build\631fddede7ed3e80f96719648a4a4ffb\app.dill
+[+12764 ms]   [+12764 ms] aot_elf_release: Complete
+[  +41 ms]   [  +41 ms] windows_aot_bundle: Starting due to {InvalidatedReasonKind.inputChanged: The following inputs have updated contents: C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\.dart_tool\flutter_build\631fddede7ed3e80f96719648a4a4ffb\app.so, InvalidatedReasonKind.outputSetAddition: The following outputs were added to the output set: C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\app.so}
+[   +7 ms]   [   +7 ms] windows_aot_bundle: Complete
+[  +40 ms]   [  +40 ms] release_bundle_windows-x64_assets: Starting due to {}
+[ +505 ms]   [ +505 ms] Manifest contained wildcard assets. Inserting missing file into build graph to force rerun. for more information see #56466.
+[ +392 ms]   [ +391 ms] shaderc command: [C:\Users\DELL\Develop\flutter\bin\cache\artifacts\engine\windows-x64\impellerc.exe, --sksl, --runtime-stage-gles, --runtime-stage-gles3, --runtime-stage-vulkan, --iplr, --sl=C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\flutter_assets\shaders/ink_sparkle.frag, --spirv=C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\flutter_assets\shaders/ink_sparkle.frag.spirv, --input=C:\Users\DELL\Develop\flutter\packages\flutter\lib\src\material\shaders\ink_sparkle.frag, --input-type=frag, --include=C:\Users\DELL\Develop\flutter\packages\flutter\lib\src\material\shaders, --include=C:\Users\DELL\Develop\flutter\bin\cache\artifacts\engine\windows-x64\shader_lib]
+[+2828 ms]   [+2825 ms] release_bundle_windows-x64_assets: Complete
+[+1473 ms]   [+1477 ms] Persisting file store
+[  +21 ms]   [  +21 ms] Done persisting file store
+[  +48 ms]   [  +47 ms] build succeeded.
+[  +22 ms]   [  +18 ms] "flutter assemble" took 45├ö├ç┬╗592ms.
+[ +445 ms]   [ +449 ms] Running 1 shutdown hook
+[        ]   [        ] Shutdown hooks complete
+[ +264 ms]   [ +263 ms] exiting with code 0
+[  +85 ms]   Building Custom Rule C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/CMakeLists.txt
+[  +79 ms] FinalizeBuildStatus:
+[        ]   Suppression du fichier "x64\Release\flutter_assemble\flutter_assemble.tlog\unsuccessfulbuild".
+[        ]   Mise ├á jour de l'horodatage "x64\Release\flutter_assemble\flutter_assemble.tlog\flutter_assemble.lastbuildstate".
+[   +1 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\flutter_assemble.vcxproj" termin├®e (cibles par d├®faut).
+[  +60 ms] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\cloud_firestore\cloud_firestore_plugin.vcxproj" (4) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_core\firebase_core_plugin.vcxproj" (6) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_core\firebase_core_plugin.vcxproj" (6) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\flutter_wrapper_plugin.vcxproj" (7) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] PrepareForBuild:
+[        ]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\Release\".
+[        ]   Cr├®ation du r├®pertoire "flutter_wrapper_plugin.dir\Release\flutter_.A00EACE3.tlog\".
+[   +4 ms] InitializeBuildStatus:
+[        ]   Cr├®ation de "flutter_wrapper_plugin.dir\Release\flutter_.A00EACE3.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[        ]   Mise ├á jour de l'horodatage "flutter_wrapper_plugin.dir\Release\flutter_.A00EACE3.tlog\unsuccessfulbuild".
+[  +89 ms] CustomBuild:
+[        ]   Building Custom Rule C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/CMakeLists.txt
+[ +177 ms] ClCompile:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\CL.exe /c /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral" /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /EHsc /MD /GR /std:c++17 /Fo"flutter_wrapper_plugin.dir\Release\\" /Fd"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\Release\flutter_wrapper_plugin.pdb" /external:W4 /TP /wd4100 /errorReport:queue "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\core_implementations.cc" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\standard_codec.cc" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\plugin_registrar.cc"
+[ +148 ms]   core_implementations.cc
+[+1841 ms]   standard_codec.cc
+[+1448 ms]   plugin_registrar.cc
+[ +748 ms]   G├®n├®ration de code en cours...
+[+2052 ms] Lib:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\Lib.exe /OUT:"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\Release\flutter_wrapper_plugin.lib" /NOLOGO /MACHINE:X64  /machine:x64 flutter_wrapper_plugin.dir\Release\core_implementations.obj
+[        ]   flutter_wrapper_plugin.dir\Release\standard_codec.obj
+[        ]   flutter_wrapper_plugin.dir\Release\plugin_registrar.obj
+[ +162 ms]   flutter_wrapper_plugin.vcxproj -> C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\Release\flutter_wrapper_plugin.lib
+[  +29 ms] FinalizeBuildStatus:
+[        ]   Suppression du fichier "flutter_wrapper_plugin.dir\Release\flutter_.A00EACE3.tlog\unsuccessfulbuild".
+[        ]   Mise ├á jour de l'horodatage "flutter_wrapper_plugin.dir\Release\flutter_.A00EACE3.tlog\flutter_wrapper_plugin.lastbuildstate".
+[   +1 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\flutter_wrapper_plugin.vcxproj" termin├®e (cibles par d├®faut).
+[   +9 ms] PrepareForBuild:
+[        ]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_core\Release\".
+[        ]   Cr├®ation du r├®pertoire "firebase_core_plugin.dir\Release\firebase.F2244A81.tlog\".
+[   +6 ms] InitializeBuildStatus:
+[        ]   Cr├®ation de "firebase_core_plugin.dir\Release\firebase.F2244A81.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[        ]   Mise ├á jour de l'horodatage "firebase_core_plugin.dir\Release\firebase.F2244A81.tlog\unsuccessfulbuild".
+[  +57 ms] CustomBuild:
+[        ]   Building Custom Rule C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/.plugin_symlinks/firebase_core/windows/CMakeLists.txt
+[  +63 ms] ClCompile:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\CL.exe /c /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\generated" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\include" /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D FLUTTER_PLUGIN_IMPL /D INTERNAL_EXPERIMENTAL=1 /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /EHsc /MD /GR /std:c++17 /Fo"firebase_core_plugin.dir\Release\\" /Fd"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_core\Release\firebase_core_plugin.pdb" /external:W0 /TP /wd4100 /errorReport:queue  /external:I "C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/extracted/firebase_cpp_sdk_windows/include" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\firebase_core_plugin_c_api.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\firebase_core_plugin.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\messages.g.cpp"
+[  +54 ms]   firebase_core_plugin_c_api.cpp
+[+2053 ms]   firebase_core_plugin.cpp
+[+2257 ms]   messages.g.cpp
+[+1408 ms]   G├®n├®ration de code en cours...
+[+2365 ms] Lib:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\Lib.exe /OUT:"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_core\Release\firebase_core_plugin.lib" /NOLOGO /MACHINE:X64  /machine:x64 firebase_core_plugin.dir\Release\firebase_core_plugin_c_api.obj
+[        ]   firebase_core_plugin.dir\Release\firebase_core_plugin.obj
+[        ]   firebase_core_plugin.dir\Release\messages.g.obj
+[ +151 ms]   firebase_core_plugin.vcxproj -> C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_core\Release\firebase_core_plugin.lib
+[  +20 ms] FinalizeBuildStatus:
+[        ]   Suppression du fichier "firebase_core_plugin.dir\Release\firebase.F2244A81.tlog\unsuccessfulbuild".
+[        ]   Mise ├á jour de l'horodatage "firebase_core_plugin.dir\Release\firebase.F2244A81.tlog\firebase_core_plugin.lastbuildstate".
+[   +1 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_core\firebase_core_plugin.vcxproj" termin├®e (cibles par d├®faut).
+[   +9 ms] PrepareForBuild:
+[        ]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\cloud_firestore\Release\".
+[        ]   Cr├®ation du r├®pertoire "cloud_firestore_plugin.dir\Release\cloud_fi.7B6EEC4D.tlog\".
+[   +3 ms] InitializeBuildStatus:
+[        ]   Cr├®ation de "cloud_firestore_plugin.dir\Release\cloud_fi.7B6EEC4D.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[        ]   Mise ├á jour de l'horodatage "cloud_firestore_plugin.dir\Release\cloud_fi.7B6EEC4D.tlog\unsuccessfulbuild".
+[  +55 ms] CustomBuild:
+[        ]   Building Custom Rule C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/.plugin_symlinks/cloud_firestore/windows/CMakeLists.txt
+[  +67 ms] ClCompile:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\CL.exe /c /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\generated" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\include" /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D FLUTTER_PLUGIN_IMPL /D INTERNAL_EXPERIMENTAL=1 /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /EHsc /MD /GR /std:c++17 /Fo"cloud_firestore_plugin.dir\Release\\" /Fd"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\cloud_firestore\Release\cloud_firestore_plugin.pdb" /external:W0 /TP /wd4100 /errorReport:queue  /external:I "C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/extracted/firebase_cpp_sdk_windows/include" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\cloud_firestore\windows\cloud_firestore_plugin_c_api.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\cloud_firestore\windows\cloud_firestore_plugin.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\cloud_firestore\windows\messages.g.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\cloud_firestore\windows\firestore_codec.cpp"
+[  +68 ms]   cloud_firestore_plugin_c_api.cpp
+[+1869 ms]   cloud_firestore_plugin.cpp
+[+3255 ms]   messages.g.cpp
+[+1825 ms]   firestore_codec.cpp
+[+1898 ms]   G├®n├®ration de code en cours...
+[+7501 ms] Lib:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\Lib.exe /OUT:"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\cloud_firestore\Release\cloud_firestore_plugin.lib" /NOLOGO /MACHINE:X64  /machine:x64 cloud_firestore_plugin.dir\Release\cloud_firestore_plugin_c_api.obj
+[        ]   cloud_firestore_plugin.dir\Release\cloud_firestore_plugin.obj
+[        ]   cloud_firestore_plugin.dir\Release\messages.g.obj
+[        ]   cloud_firestore_plugin.dir\Release\firestore_codec.obj
+[ +203 ms]   cloud_firestore_plugin.vcxproj -> C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\cloud_firestore\Release\cloud_firestore_plugin.lib
+[  +13 ms] FinalizeBuildStatus:
+[        ]   Suppression du fichier "cloud_firestore_plugin.dir\Release\cloud_fi.7B6EEC4D.tlog\unsuccessfulbuild".
+[        ]   Mise ├á jour de l'horodatage "cloud_firestore_plugin.dir\Release\cloud_fi.7B6EEC4D.tlog\cloud_firestore_plugin.lastbuildstate".
+[   +1 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\cloud_firestore\cloud_firestore_plugin.vcxproj" termin├®e (cibles par d├®faut).
+[  +33 ms] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\ALL_BUILD.vcxproj" (3) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_auth\firebase_auth_plugin.vcxproj" (8) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] PrepareForBuild:
+[        ]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_auth\Release\".
+[        ]   Cr├®ation du r├®pertoire "firebase_auth_plugin.dir\Release\firebase.D8894A55.tlog\".
+[   +3 ms] InitializeBuildStatus:
+[        ]   Cr├®ation de "firebase_auth_plugin.dir\Release\firebase.D8894A55.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[        ]   Mise ├á jour de l'horodatage "firebase_auth_plugin.dir\Release\firebase.D8894A55.tlog\unsuccessfulbuild".
+[  +56 ms] CustomBuild:
+[        ]   Building Custom Rule C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/.plugin_symlinks/firebase_auth/windows/CMakeLists.txt
+[  +60 ms] ClCompile:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\CL.exe /c /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\generated" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\include" /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D FLUTTER_PLUGIN_IMPL /D INTERNAL_EXPERIMENTAL=1 /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /EHsc /MD /GR /std:c++17 /Fo"firebase_auth_plugin.dir\Release\\" /Fd"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_auth\Release\firebase_auth_plugin.pdb" /external:W0 /TP /wd4100 /errorReport:queue  /external:I "C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/extracted/firebase_cpp_sdk_windows/include" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\firebase_auth_plugin_c_api.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\firebase_auth_plugin.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\messages.g.cpp"
+[  +72 ms]   firebase_auth_plugin_c_api.cpp
+[+1723 ms]   firebase_auth_plugin.cpp
+[+2818 ms]   messages.g.cpp
+[+2401 ms]   G├®n├®ration de code en cours...
+[+8921 ms] Lib:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\Lib.exe /OUT:"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_auth\Release\firebase_auth_plugin.lib" /NOLOGO /MACHINE:X64  /machine:x64 firebase_auth_plugin.dir\Release\firebase_auth_plugin_c_api.obj
+[        ]   firebase_auth_plugin.dir\Release\firebase_auth_plugin.obj
+[        ]   firebase_auth_plugin.dir\Release\messages.g.obj
+[ +185 ms]   firebase_auth_plugin.vcxproj -> C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_auth\Release\firebase_auth_plugin.lib
+[  +14 ms] FinalizeBuildStatus:
+[        ]   Suppression du fichier "firebase_auth_plugin.dir\Release\firebase.D8894A55.tlog\unsuccessfulbuild".
+[        ]   Mise ├á jour de l'horodatage "firebase_auth_plugin.dir\Release\firebase.D8894A55.tlog\firebase_auth_plugin.lastbuildstate".
+[   +2 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\firebase_auth\firebase_auth_plugin.vcxproj" termin├®e (cibles par d├®faut).
+[  +63 ms] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\ALL_BUILD.vcxproj" (3) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\flutter_application_1.vcxproj" (9) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\flutter_application_1.vcxproj" (9) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\flutter_tts\flutter_tts_plugin.vcxproj" (10) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] GetCppWinRTProjectWinMDReferences:
+[        ]   CppWinRTStaticProjectWinMDReferences: 
+[        ]   CppWinRTDynamicProjectWinMDReferences: 
+[        ] GetResolvedWinMD:
+[        ]   GetResolvedWinMD: 
+[   +5 ms] PrepareForBuild:
+[        ]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\flutter_tts\Release\".
+[        ]   Cr├®ation du r├®pertoire "flutter_tts_plugin.dir\Release\flutter_.41C90AFD.tlog\".
+[   +1 ms]   Cr├®ation du r├®pertoire "flutter_tts_plugin.dir\Release\Generated Files\".
+[ +224 ms] InitializeBuildStatus:
+[   +1 ms]   Cr├®ation de "flutter_tts_plugin.dir\Release\flutter_.41C90AFD.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[   +1 ms]   Mise ├á jour de l'horodatage "flutter_tts_plugin.dir\Release\flutter_.41C90AFD.tlog\unsuccessfulbuild".
+[  +74 ms] CustomBuild:
+[        ]   Building Custom Rule C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/.plugin_symlinks/flutter_tts/windows/CMakeLists.txt
+[  +83 ms] GetCppWinRTPlatformWinMDReferences:
+[   +2 ms]   CppWinRTPlatformWinMDReferences: C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.Actions.ActionsContract\8.0.0.0\Windows.AI.Actions.ActionsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.Agents.AgentsContract\2.0.0.0\Windows.AI.Agents.AgentsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.MachineLearning.MachineLearningContract\5.0.0.0\Windows.AI.MachineLearning.MachineLearningContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract\2.0.0.0\Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ActivatedEventsContract\1.0.0.0\Windows.ApplicationModel.Activation.ActivatedEventsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ActivationCameraSettingsContract\1.0.0.0\Windows.ApplicationModel.Activation.ActivationCameraSettingsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ContactActivatedEventsContract\1.0.0.0\Windows.ApplicationModel.Activation.ContactActivatedEventsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.WebUISearchActivatedEventsContract\1.0.0.0\Windows.ApplicationModel.Activation.WebUISearchActivatedEventsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Background.BackgroundAlarmApplicationContract\1.0.0.0\Windows.ApplicationModel.Background.BackgroundAlarmApplicationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.Background.CallsBackgroundContract\4.0.0.0\Windows.ApplicationModel.Calls.Background.CallsBackgroundContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.CallsPhoneContract\7.0.0.0\Windows.ApplicationModel.Calls.CallsPhoneContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.CallsVoipContract\5.0.0.0\Windows.ApplicationModel.Calls.CallsVoipContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.LockScreenCallContract\1.0.0.0\Windows.ApplicationModel.Calls.LockScreenCallContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract\2.0.0.0\Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.FullTrustAppContract\2.0.0.0\Windows.ApplicationModel.FullTrustAppContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.InkWorkspace.PreviewInkWorkspaceContract\1.0.0.0\Windows.ApplicationModel.Preview.InkWorkspace.PreviewInkWorkspaceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.Notes.PreviewNotesContract\2.0.0.0\Windows.ApplicationModel.Preview.Notes.PreviewNotesContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.StartupAppsPreviewContract\1.0.0.0\Windows.ApplicationModel.Preview.StartupAppsPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Resources.Management.ResourceIndexerContract\2.0.0.0\Windows.ApplicationModel.Resources.Management.ResourceIndexerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Search.Core.SearchCoreContract\1.0.0.0\Windows.ApplicationModel.Search.Core.SearchCoreContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Search.SearchContract\1.0.0.0\Windows.ApplicationModel.Search.SearchContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.SocialInfo.SocialInfoContract\2.0.0.0\Windows.ApplicationModel.SocialInfo.SocialInfoContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.StartupTaskContract\3.0.0.0\Windows.ApplicationModel.StartupTaskContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Wallet.WalletContract\2.0.0.0\Windows.ApplicationModel.Wallet.WalletContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Custom.CustomDeviceContract\1.0.0.0\Windows.Devices.Custom.CustomDeviceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.DevicesLowLevelContract\3.0.0.0\Windows.Devices.DevicesLowLevelContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Portable.PortableDeviceContract\1.0.0.0\Windows.Devices.Portable.PortableDeviceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Power.PowerGridApiContract\1.0.0.0\Windows.Devices.Power.PowerGridApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Printers.Extensions.ExtensionsContract\2.0.0.0\Windows.Devices.Printers.Extensions.ExtensionsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Printers.PrintersContract\1.0.0.0\Windows.Devices.Printers.PrintersContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Scanners.ScannerDeviceContract\1.0.0.0\Windows.Devices.Scanners.ScannerDeviceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.SmartCards.SmartCardBackgroundTriggerContract\3.0.0.0\Windows.Devices.SmartCards.SmartCardBackgroundTriggerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.SmartCards.SmartCardEmulatorContract\6.0.0.0\Windows.Devices.SmartCards.SmartCardEmulatorContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Sms.LegacySmsApiContract\1.0.0.0\Windows.Devices.Sms.LegacySmsApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Foundation.FoundationContract\4.0.0.0\Windows.Foundation.FoundationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Foundation.UniversalApiContract\19.0.0.0\Windows.Foundation.UniversalApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.Input.GamingInputPreviewContract\2.0.0.0\Windows.Gaming.Input.GamingInputPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.Preview.GamesEnumerationContract\2.0.0.0\Windows.Gaming.Preview.GamesEnumerationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.UI.GameChatOverlayContract\1.0.0.0\Windows.Gaming.UI.GameChatOverlayContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.UI.GamingUIProviderContract\1.0.0.0\Windows.Gaming.UI.GamingUIProviderContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.XboxLive.StorageApiContract\1.0.0.0\Windows.Gaming.XboxLive.StorageApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Globalization.GlobalizationJapanesePhoneticAnalyzerContract\1.0.0.0\Windows.Globalization.GlobalizationJapanesePhoneticAnalyzerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Graphics.Printing3D.Printing3DContract\4.0.0.0\Windows.Graphics.Printing3D.Printing3DContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Deployment.Preview.DeploymentPreviewContract\1.0.0.0\Windows.Management.Deployment.Preview.DeploymentPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Deployment.SharedPackageContainerContract\1.0.0.0\Windows.Management.Deployment.SharedPackageContainerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Update.WindowsUpdateContract\2.1.0.0\Windows.Management.Update.WindowsUpdateContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Workplace.WorkplaceSettingsContract\1.0.0.0\Windows.Management.Workplace.WorkplaceSettingsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.AppBroadcasting.AppBroadcastingContract\1.0.0.0\Windows.Media.AppBroadcasting.AppBroadcastingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.AppRecording.AppRecordingContract\1.0.0.0\Windows.Media.AppRecording.AppRecordingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppBroadcastContract\2.0.0.0\Windows.Media.Capture.AppBroadcastContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppCaptureContract\4.0.0.0\Windows.Media.Capture.AppCaptureContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppCaptureMetadataContract\1.0.0.0\Windows.Media.Capture.AppCaptureMetadataContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.CameraCaptureUIContract\1.0.0.0\Windows.Media.Capture.CameraCaptureUIContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.GameBarContract\1.0.0.0\Windows.Media.Capture.GameBarContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Devices.CallControlContract\1.0.0.0\Windows.Media.Devices.CallControlContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.MediaControlContract\1.0.0.0\Windows.Media.MediaControlContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Playlists.PlaylistsContract\1.0.0.0\Windows.Media.Playlists.PlaylistsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Protection.ProtectionRenewalContract\1.0.0.0\Windows.Media.Protection.ProtectionRenewalContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.Connectivity.WwanContract\3.0.0.0\Windows.Networking.Connectivity.WwanContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.NetworkOperators.LegacyNetworkOperatorsContract\1.0.0.0\Windows.Networking.NetworkOperators.LegacyNetworkOperatorsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.Sockets.ControlChannelTriggerContract\3.0.0.0\Windows.Networking.Sockets.ControlChannelTriggerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.XboxLive.XboxLiveSecureSocketsContract\1.0.0.0\Windows.Networking.XboxLive.XboxLiveSecureSocketsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Perception.Automation.Core.PerceptionAutomationCoreContract\1.0.0.0\Windows.Perception.Automation.Core.PerceptionAutomationCoreContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.EnterpriseData.EnterpriseDataContract\5.0.0.0\Windows.Security.EnterpriseData.EnterpriseDataContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.ExchangeActiveSyncProvisioning.EasContract\1.0.0.0\Windows.Security.ExchangeActiveSyncProvisioning.EasContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.Isolation.Isolatedwindowsenvironmentcontract\5.0.0.0\Windows.Security.Isolation.Isolatedwindowsenvironmentcontract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Maps.GuidanceContract\3.0.0.0\Windows.Services.Maps.GuidanceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Maps.LocalSearchContract\4.0.0.0\Windows.Services.Maps.LocalSearchContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Store.StoreContract\4.0.0.0\Windows.Services.Store.StoreContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.TargetedContent.TargetedContentContract\1.0.0.0\Windows.Services.TargetedContent.TargetedContentContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Storage.Provider.CloudFilesContract\7.0.0.0\Windows.Storage.Provider.CloudFilesContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Power.Thermal.PowerThermalApiContract\1.0.0.0\Windows.System.Power.Thermal.PowerThermalApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\windows.system.profile.platformautomaticappsignincontract\1.0.0.0\windows.system.profile.platformautomaticappsignincontract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileHardwareTokenContract\1.0.0.0\Windows.System.Profile.ProfileHardwareTokenContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileRetailInfoContract\1.0.0.0\Windows.System.Profile.ProfileRetailInfoContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileSharedModeContract\2.0.0.0\Windows.System.Profile.ProfileSharedModeContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.SystemManufacturers.SystemManufacturersContract\3.0.0.0\Windows.System.Profile.SystemManufacturers.SystemManufacturersContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.SystemManagementContract\7.0.0.0\Windows.System.SystemManagementContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.UserProfile.UserProfileContract\2.0.0.0\Windows.System.UserProfile.UserProfileContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.UserProfile.UserProfileLockScreenContract\1.0.0.0\Windows.System.UserProfile.UserProfileLockScreenContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.ApplicationSettings.ApplicationsSettingsContract\1.0.0.0\Windows.UI.ApplicationSettings.ApplicationsSettingsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Core.AnimationMetrics.AnimationMetricsContract\1.0.0.0\Windows.UI.Core.AnimationMetrics.AnimationMetricsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Core.CoreWindowDialogsContract\1.0.0.0\Windows.UI.Core.CoreWindowDialogsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Input.Preview.Text.PreviewTextContract\1.0.0.0\Windows.UI.Input.Preview.Text.PreviewTextContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.CompanionWindows.CompanionWindowsContract\1.0.0.0\Windows.UI.Shell.CompanionWindows.CompanionWindowsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.SecurityAppManagerContract\1.0.0.0\Windows.UI.Shell.SecurityAppManagerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.Tasks.AppTaskContract\2.0.0.0\Windows.UI.Shell.Tasks.AppTaskContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.WindowTabManagerContract\1.0.0.0\Windows.UI.Shell.WindowTabManagerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.UIAutomation.UIAutomationContract\2.0.0.0\Windows.UI.UIAutomation.UIAutomationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.ViewManagement.ViewManagementViewScalingContract\1.0.0.0\Windows.UI.ViewManagement.ViewManagementViewScalingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Xaml.Core.Direct.XamlDirectContract\5.0.0.0\Windows.UI.Xaml.Core.Direct.XamlDirectContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Xaml.Hosting.HostingContract\5.0.0.0\Windows.UI.Xaml.Hosting.HostingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Web.Http.Diagnostics.HttpDiagnosticsContract\2.0.0.0\Windows.Web.Http.Diagnostics.HttpDiagnosticsContract.winmd
+[   +2 ms] GetCppWinRTDirectWinMDReferences:
+[        ]   CppWinRTDirectWinMDReferences: 
+[   +3 ms] CppWinRTSetMidlReferences:
+[   +1 ms]   CppWinRTMidlReferences: C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.Actions.ActionsContract\8.0.0.0\Windows.AI.Actions.ActionsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.Agents.AgentsContract\2.0.0.0\Windows.AI.Agents.AgentsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.MachineLearning.MachineLearningContract\5.0.0.0\Windows.AI.MachineLearning.MachineLearningContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract\2.0.0.0\Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ActivatedEventsContract\1.0.0.0\Windows.ApplicationModel.Activation.ActivatedEventsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ActivationCameraSettingsContract\1.0.0.0\Windows.ApplicationModel.Activation.ActivationCameraSettingsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ContactActivatedEventsContract\1.0.0.0\Windows.ApplicationModel.Activation.ContactActivatedEventsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.WebUISearchActivatedEventsContract\1.0.0.0\Windows.ApplicationModel.Activation.WebUISearchActivatedEventsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Background.BackgroundAlarmApplicationContract\1.0.0.0\Windows.ApplicationModel.Background.BackgroundAlarmApplicationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.Background.CallsBackgroundContract\4.0.0.0\Windows.ApplicationModel.Calls.Background.CallsBackgroundContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.CallsPhoneContract\7.0.0.0\Windows.ApplicationModel.Calls.CallsPhoneContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.CallsVoipContract\5.0.0.0\Windows.ApplicationModel.Calls.CallsVoipContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.LockScreenCallContract\1.0.0.0\Windows.ApplicationModel.Calls.LockScreenCallContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract\2.0.0.0\Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.FullTrustAppContract\2.0.0.0\Windows.ApplicationModel.FullTrustAppContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.InkWorkspace.PreviewInkWorkspaceContract\1.0.0.0\Windows.ApplicationModel.Preview.InkWorkspace.PreviewInkWorkspaceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.Notes.PreviewNotesContract\2.0.0.0\Windows.ApplicationModel.Preview.Notes.PreviewNotesContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.StartupAppsPreviewContract\1.0.0.0\Windows.ApplicationModel.Preview.StartupAppsPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Resources.Management.ResourceIndexerContract\2.0.0.0\Windows.ApplicationModel.Resources.Management.ResourceIndexerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Search.Core.SearchCoreContract\1.0.0.0\Windows.ApplicationModel.Search.Core.SearchCoreContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Search.SearchContract\1.0.0.0\Windows.ApplicationModel.Search.SearchContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.SocialInfo.SocialInfoContract\2.0.0.0\Windows.ApplicationModel.SocialInfo.SocialInfoContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.StartupTaskContract\3.0.0.0\Windows.ApplicationModel.StartupTaskContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Wallet.WalletContract\2.0.0.0\Windows.ApplicationModel.Wallet.WalletContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Custom.CustomDeviceContract\1.0.0.0\Windows.Devices.Custom.CustomDeviceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.DevicesLowLevelContract\3.0.0.0\Windows.Devices.DevicesLowLevelContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Portable.PortableDeviceContract\1.0.0.0\Windows.Devices.Portable.PortableDeviceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Power.PowerGridApiContract\1.0.0.0\Windows.Devices.Power.PowerGridApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Printers.Extensions.ExtensionsContract\2.0.0.0\Windows.Devices.Printers.Extensions.ExtensionsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Printers.PrintersContract\1.0.0.0\Windows.Devices.Printers.PrintersContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Scanners.ScannerDeviceContract\1.0.0.0\Windows.Devices.Scanners.ScannerDeviceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.SmartCards.SmartCardBackgroundTriggerContract\3.0.0.0\Windows.Devices.SmartCards.SmartCardBackgroundTriggerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.SmartCards.SmartCardEmulatorContract\6.0.0.0\Windows.Devices.SmartCards.SmartCardEmulatorContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Sms.LegacySmsApiContract\1.0.0.0\Windows.Devices.Sms.LegacySmsApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Foundation.FoundationContract\4.0.0.0\Windows.Foundation.FoundationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Foundation.UniversalApiContract\19.0.0.0\Windows.Foundation.UniversalApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.Input.GamingInputPreviewContract\2.0.0.0\Windows.Gaming.Input.GamingInputPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.Preview.GamesEnumerationContract\2.0.0.0\Windows.Gaming.Preview.GamesEnumerationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.UI.GameChatOverlayContract\1.0.0.0\Windows.Gaming.UI.GameChatOverlayContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.UI.GamingUIProviderContract\1.0.0.0\Windows.Gaming.UI.GamingUIProviderContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.XboxLive.StorageApiContract\1.0.0.0\Windows.Gaming.XboxLive.StorageApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Globalization.GlobalizationJapanesePhoneticAnalyzerContract\1.0.0.0\Windows.Globalization.GlobalizationJapanesePhoneticAnalyzerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Graphics.Printing3D.Printing3DContract\4.0.0.0\Windows.Graphics.Printing3D.Printing3DContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Deployment.Preview.DeploymentPreviewContract\1.0.0.0\Windows.Management.Deployment.Preview.DeploymentPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Deployment.SharedPackageContainerContract\1.0.0.0\Windows.Management.Deployment.SharedPackageContainerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Update.WindowsUpdateContract\2.1.0.0\Windows.Management.Update.WindowsUpdateContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Workplace.WorkplaceSettingsContract\1.0.0.0\Windows.Management.Workplace.WorkplaceSettingsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.AppBroadcasting.AppBroadcastingContract\1.0.0.0\Windows.Media.AppBroadcasting.AppBroadcastingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.AppRecording.AppRecordingContract\1.0.0.0\Windows.Media.AppRecording.AppRecordingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppBroadcastContract\2.0.0.0\Windows.Media.Capture.AppBroadcastContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppCaptureContract\4.0.0.0\Windows.Media.Capture.AppCaptureContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppCaptureMetadataContract\1.0.0.0\Windows.Media.Capture.AppCaptureMetadataContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.CameraCaptureUIContract\1.0.0.0\Windows.Media.Capture.CameraCaptureUIContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.GameBarContract\1.0.0.0\Windows.Media.Capture.GameBarContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Devices.CallControlContract\1.0.0.0\Windows.Media.Devices.CallControlContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.MediaControlContract\1.0.0.0\Windows.Media.MediaControlContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Playlists.PlaylistsContract\1.0.0.0\Windows.Media.Playlists.PlaylistsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Protection.ProtectionRenewalContract\1.0.0.0\Windows.Media.Protection.ProtectionRenewalContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.Connectivity.WwanContract\3.0.0.0\Windows.Networking.Connectivity.WwanContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.NetworkOperators.LegacyNetworkOperatorsContract\1.0.0.0\Windows.Networking.NetworkOperators.LegacyNetworkOperatorsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.Sockets.ControlChannelTriggerContract\3.0.0.0\Windows.Networking.Sockets.ControlChannelTriggerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.XboxLive.XboxLiveSecureSocketsContract\1.0.0.0\Windows.Networking.XboxLive.XboxLiveSecureSocketsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Perception.Automation.Core.PerceptionAutomationCoreContract\1.0.0.0\Windows.Perception.Automation.Core.PerceptionAutomationCoreContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.EnterpriseData.EnterpriseDataContract\5.0.0.0\Windows.Security.EnterpriseData.EnterpriseDataContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.ExchangeActiveSyncProvisioning.EasContract\1.0.0.0\Windows.Security.ExchangeActiveSyncProvisioning.EasContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.Isolation.Isolatedwindowsenvironmentcontract\5.0.0.0\Windows.Security.Isolation.Isolatedwindowsenvironmentcontract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Maps.GuidanceContract\3.0.0.0\Windows.Services.Maps.GuidanceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Maps.LocalSearchContract\4.0.0.0\Windows.Services.Maps.LocalSearchContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Store.StoreContract\4.0.0.0\Windows.Services.Store.StoreContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.TargetedContent.TargetedContentContract\1.0.0.0\Windows.Services.TargetedContent.TargetedContentContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Storage.Provider.CloudFilesContract\7.0.0.0\Windows.Storage.Provider.CloudFilesContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Power.Thermal.PowerThermalApiContract\1.0.0.0\Windows.System.Power.Thermal.PowerThermalApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\windows.system.profile.platformautomaticappsignincontract\1.0.0.0\windows.system.profile.platformautomaticappsignincontract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileHardwareTokenContract\1.0.0.0\Windows.System.Profile.ProfileHardwareTokenContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileRetailInfoContract\1.0.0.0\Windows.System.Profile.ProfileRetailInfoContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileSharedModeContract\2.0.0.0\Windows.System.Profile.ProfileSharedModeContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.SystemManufacturers.SystemManufacturersContract\3.0.0.0\Windows.System.Profile.SystemManufacturers.SystemManufacturersContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.SystemManagementContract\7.0.0.0\Windows.System.SystemManagementContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.UserProfile.UserProfileContract\2.0.0.0\Windows.System.UserProfile.UserProfileContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.UserProfile.UserProfileLockScreenContract\1.0.0.0\Windows.System.UserProfile.UserProfileLockScreenContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.ApplicationSettings.ApplicationsSettingsContract\1.0.0.0\Windows.UI.ApplicationSettings.ApplicationsSettingsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Core.AnimationMetrics.AnimationMetricsContract\1.0.0.0\Windows.UI.Core.AnimationMetrics.AnimationMetricsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Core.CoreWindowDialogsContract\1.0.0.0\Windows.UI.Core.CoreWindowDialogsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Input.Preview.Text.PreviewTextContract\1.0.0.0\Windows.UI.Input.Preview.Text.PreviewTextContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.CompanionWindows.CompanionWindowsContract\1.0.0.0\Windows.UI.Shell.CompanionWindows.CompanionWindowsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.SecurityAppManagerContract\1.0.0.0\Windows.UI.Shell.SecurityAppManagerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.Tasks.AppTaskContract\2.0.0.0\Windows.UI.Shell.Tasks.AppTaskContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.WindowTabManagerContract\1.0.0.0\Windows.UI.Shell.WindowTabManagerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.UIAutomation.UIAutomationContract\2.0.0.0\Windows.UI.UIAutomation.UIAutomationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.ViewManagement.ViewManagementViewScalingContract\1.0.0.0\Windows.UI.ViewManagement.ViewManagementViewScalingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Xaml.Core.Direct.XamlDirectContract\5.0.0.0\Windows.UI.Xaml.Core.Direct.XamlDirectContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Xaml.Hosting.HostingContract\5.0.0.0\Windows.UI.Xaml.Hosting.HostingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Web.Http.Diagnostics.HttpDiagnosticsContract\2.0.0.0\Windows.Web.Http.Diagnostics.HttpDiagnosticsContract.winmd
+[   +1 ms] GetCppWinRTMdMergeInputs:
+[        ]   CppWinRTMdMergeInputs: 
+[        ]   CppWinRTMdMergeMetadataDirectories: C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.Actions.ActionsContract\8.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.Agents.AgentsContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.MachineLearning.MachineLearningContract\5.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ActivatedEventsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ActivationCameraSettingsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ContactActivatedEventsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.WebUISearchActivatedEventsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Background.BackgroundAlarmApplicationContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.Background.CallsBackgroundContract\4.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.CallsPhoneContract\7.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.CallsVoipContract\5.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.LockScreenCallContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.FullTrustAppContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.InkWorkspace.PreviewInkWorkspaceContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.Notes.PreviewNotesContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.StartupAppsPreviewContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Resources.Management.ResourceIndexerContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Search.Core.SearchCoreContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Search.SearchContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.SocialInfo.SocialInfoContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.StartupTaskContract\3.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Wallet.WalletContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Custom.CustomDeviceContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.DevicesLowLevelContract\3.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Portable.PortableDeviceContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Power.PowerGridApiContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Printers.Extensions.ExtensionsContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Printers.PrintersContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Scanners.ScannerDeviceContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.SmartCards.SmartCardBackgroundTriggerContract\3.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.SmartCards.SmartCardEmulatorContract\6.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Sms.LegacySmsApiContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Foundation.FoundationContract\4.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Foundation.UniversalApiContract\19.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.Input.GamingInputPreviewContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.Preview.GamesEnumerationContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.UI.GameChatOverlayContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.UI.GamingUIProviderContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.XboxLive.StorageApiContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Globalization.GlobalizationJapanesePhoneticAnalyzerContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Graphics.Printing3D.Printing3DContract\4.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Deployment.Preview.DeploymentPreviewContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Deployment.SharedPackageContainerContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Update.WindowsUpdateContract\2.1.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Workplace.WorkplaceSettingsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.AppBroadcasting.AppBroadcastingContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.AppRecording.AppRecordingContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppBroadcastContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppCaptureContract\4.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppCaptureMetadataContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.CameraCaptureUIContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.GameBarContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Devices.CallControlContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.MediaControlContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Playlists.PlaylistsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Protection.ProtectionRenewalContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.Connectivity.WwanContract\3.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.NetworkOperators.LegacyNetworkOperatorsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.Sockets.ControlChannelTriggerContract\3.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.XboxLive.XboxLiveSecureSocketsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Perception.Automation.Core.PerceptionAutomationCoreContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.EnterpriseData.EnterpriseDataContract\5.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.ExchangeActiveSyncProvisioning.EasContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.Isolation.Isolatedwindowsenvironmentcontract\5.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Maps.GuidanceContract\3.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Maps.LocalSearchContract\4.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Store.StoreContract\4.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.TargetedContent.TargetedContentContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Storage.Provider.CloudFilesContract\7.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Power.Thermal.PowerThermalApiContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\windows.system.profile.platformautomaticappsignincontract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileHardwareTokenContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileRetailInfoContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileSharedModeContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.SystemManufacturers.SystemManufacturersContract\3.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.SystemManagementContract\7.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.UserProfile.UserProfileContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.UserProfile.UserProfileLockScreenContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.ApplicationSettings.ApplicationsSettingsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Core.AnimationMetrics.AnimationMetricsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Core.CoreWindowDialogsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Input.Preview.Text.PreviewTextContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.CompanionWindows.CompanionWindowsContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.SecurityAppManagerContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.Tasks.AppTaskContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.WindowTabManagerContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.UIAutomation.UIAutomationContract\2.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.ViewManagement.ViewManagementViewScalingContract\1.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Xaml.Core.Direct.XamlDirectContract\5.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Xaml.Hosting.HostingContract\5.0.0.0\;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Web.Http.Diagnostics.HttpDiagnosticsContract\2.0.0.0\
+[  +12 ms] CppWinRTMergeProjectWinMDInputs:
+[        ]   Cr├®ation du r├®pertoire "flutter_tts_plugin.dir\Release\Unmerged\".
+[        ]   Cr├®ation du r├®pertoire "flutter_tts_plugin.dir\Release\Merged\".
+[   +1 ms]   CppWinRTMdMerge output: 
+[   +7 ms] GetCppWinRTPlatformWinMDInputs:
+[        ]   CppWinRTPlatformWinMDInputs: C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.Actions.ActionsContract\8.0.0.0\Windows.AI.Actions.ActionsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.Agents.AgentsContract\2.0.0.0\Windows.AI.Agents.AgentsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.MachineLearning.MachineLearningContract\5.0.0.0\Windows.AI.MachineLearning.MachineLearningContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract\2.0.0.0\Windows.AI.MachineLearning.Preview.MachineLearningPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ActivatedEventsContract\1.0.0.0\Windows.ApplicationModel.Activation.ActivatedEventsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ActivationCameraSettingsContract\1.0.0.0\Windows.ApplicationModel.Activation.ActivationCameraSettingsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.ContactActivatedEventsContract\1.0.0.0\Windows.ApplicationModel.Activation.ContactActivatedEventsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Activation.WebUISearchActivatedEventsContract\1.0.0.0\Windows.ApplicationModel.Activation.WebUISearchActivatedEventsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Background.BackgroundAlarmApplicationContract\1.0.0.0\Windows.ApplicationModel.Background.BackgroundAlarmApplicationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.Background.CallsBackgroundContract\4.0.0.0\Windows.ApplicationModel.Calls.Background.CallsBackgroundContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.CallsPhoneContract\7.0.0.0\Windows.ApplicationModel.Calls.CallsPhoneContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.CallsVoipContract\5.0.0.0\Windows.ApplicationModel.Calls.CallsVoipContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Calls.LockScreenCallContract\1.0.0.0\Windows.ApplicationModel.Calls.LockScreenCallContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract\2.0.0.0\Windows.ApplicationModel.CommunicationBlocking.CommunicationBlockingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.FullTrustAppContract\2.0.0.0\Windows.ApplicationModel.FullTrustAppContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.InkWorkspace.PreviewInkWorkspaceContract\1.0.0.0\Windows.ApplicationModel.Preview.InkWorkspace.PreviewInkWorkspaceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.Notes.PreviewNotesContract\2.0.0.0\Windows.ApplicationModel.Preview.Notes.PreviewNotesContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Preview.StartupAppsPreviewContract\1.0.0.0\Windows.ApplicationModel.Preview.StartupAppsPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Resources.Management.ResourceIndexerContract\2.0.0.0\Windows.ApplicationModel.Resources.Management.ResourceIndexerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Search.Core.SearchCoreContract\1.0.0.0\Windows.ApplicationModel.Search.Core.SearchCoreContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Search.SearchContract\1.0.0.0\Windows.ApplicationModel.Search.SearchContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.SocialInfo.SocialInfoContract\2.0.0.0\Windows.ApplicationModel.SocialInfo.SocialInfoContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.StartupTaskContract\3.0.0.0\Windows.ApplicationModel.StartupTaskContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.ApplicationModel.Wallet.WalletContract\2.0.0.0\Windows.ApplicationModel.Wallet.WalletContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Custom.CustomDeviceContract\1.0.0.0\Windows.Devices.Custom.CustomDeviceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.DevicesLowLevelContract\3.0.0.0\Windows.Devices.DevicesLowLevelContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Portable.PortableDeviceContract\1.0.0.0\Windows.Devices.Portable.PortableDeviceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Power.PowerGridApiContract\1.0.0.0\Windows.Devices.Power.PowerGridApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Printers.Extensions.ExtensionsContract\2.0.0.0\Windows.Devices.Printers.Extensions.ExtensionsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Printers.PrintersContract\1.0.0.0\Windows.Devices.Printers.PrintersContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Scanners.ScannerDeviceContract\1.0.0.0\Windows.Devices.Scanners.ScannerDeviceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.SmartCards.SmartCardBackgroundTriggerContract\3.0.0.0\Windows.Devices.SmartCards.SmartCardBackgroundTriggerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.SmartCards.SmartCardEmulatorContract\6.0.0.0\Windows.Devices.SmartCards.SmartCardEmulatorContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Devices.Sms.LegacySmsApiContract\1.0.0.0\Windows.Devices.Sms.LegacySmsApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Foundation.FoundationContract\4.0.0.0\Windows.Foundation.FoundationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Foundation.UniversalApiContract\19.0.0.0\Windows.Foundation.UniversalApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.Input.GamingInputPreviewContract\2.0.0.0\Windows.Gaming.Input.GamingInputPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.Preview.GamesEnumerationContract\2.0.0.0\Windows.Gaming.Preview.GamesEnumerationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.UI.GameChatOverlayContract\1.0.0.0\Windows.Gaming.UI.GameChatOverlayContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.UI.GamingUIProviderContract\1.0.0.0\Windows.Gaming.UI.GamingUIProviderContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Gaming.XboxLive.StorageApiContract\1.0.0.0\Windows.Gaming.XboxLive.StorageApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Globalization.GlobalizationJapanesePhoneticAnalyzerContract\1.0.0.0\Windows.Globalization.GlobalizationJapanesePhoneticAnalyzerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Graphics.Printing3D.Printing3DContract\4.0.0.0\Windows.Graphics.Printing3D.Printing3DContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Deployment.Preview.DeploymentPreviewContract\1.0.0.0\Windows.Management.Deployment.Preview.DeploymentPreviewContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Deployment.SharedPackageContainerContract\1.0.0.0\Windows.Management.Deployment.SharedPackageContainerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Update.WindowsUpdateContract\2.1.0.0\Windows.Management.Update.WindowsUpdateContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Management.Workplace.WorkplaceSettingsContract\1.0.0.0\Windows.Management.Workplace.WorkplaceSettingsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.AppBroadcasting.AppBroadcastingContract\1.0.0.0\Windows.Media.AppBroadcasting.AppBroadcastingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.AppRecording.AppRecordingContract\1.0.0.0\Windows.Media.AppRecording.AppRecordingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppBroadcastContract\2.0.0.0\Windows.Media.Capture.AppBroadcastContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppCaptureContract\4.0.0.0\Windows.Media.Capture.AppCaptureContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.AppCaptureMetadataContract\1.0.0.0\Windows.Media.Capture.AppCaptureMetadataContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.CameraCaptureUIContract\1.0.0.0\Windows.Media.Capture.CameraCaptureUIContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Capture.GameBarContract\1.0.0.0\Windows.Media.Capture.GameBarContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Devices.CallControlContract\1.0.0.0\Windows.Media.Devices.CallControlContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.MediaControlContract\1.0.0.0\Windows.Media.MediaControlContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Playlists.PlaylistsContract\1.0.0.0\Windows.Media.Playlists.PlaylistsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Media.Protection.ProtectionRenewalContract\1.0.0.0\Windows.Media.Protection.ProtectionRenewalContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.Connectivity.WwanContract\3.0.0.0\Windows.Networking.Connectivity.WwanContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.NetworkOperators.LegacyNetworkOperatorsContract\1.0.0.0\Windows.Networking.NetworkOperators.LegacyNetworkOperatorsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.Sockets.ControlChannelTriggerContract\3.0.0.0\Windows.Networking.Sockets.ControlChannelTriggerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Networking.XboxLive.XboxLiveSecureSocketsContract\1.0.0.0\Windows.Networking.XboxLive.XboxLiveSecureSocketsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Perception.Automation.Core.PerceptionAutomationCoreContract\1.0.0.0\Windows.Perception.Automation.Core.PerceptionAutomationCoreContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.EnterpriseData.EnterpriseDataContract\5.0.0.0\Windows.Security.EnterpriseData.EnterpriseDataContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.ExchangeActiveSyncProvisioning.EasContract\1.0.0.0\Windows.Security.ExchangeActiveSyncProvisioning.EasContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Security.Isolation.Isolatedwindowsenvironmentcontract\5.0.0.0\Windows.Security.Isolation.Isolatedwindowsenvironmentcontract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Maps.GuidanceContract\3.0.0.0\Windows.Services.Maps.GuidanceContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Maps.LocalSearchContract\4.0.0.0\Windows.Services.Maps.LocalSearchContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.Store.StoreContract\4.0.0.0\Windows.Services.Store.StoreContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Services.TargetedContent.TargetedContentContract\1.0.0.0\Windows.Services.TargetedContent.TargetedContentContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Storage.Provider.CloudFilesContract\7.0.0.0\Windows.Storage.Provider.CloudFilesContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Power.Thermal.PowerThermalApiContract\1.0.0.0\Windows.System.Power.Thermal.PowerThermalApiContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\windows.system.profile.platformautomaticappsignincontract\1.0.0.0\windows.system.profile.platformautomaticappsignincontract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileHardwareTokenContract\1.0.0.0\Windows.System.Profile.ProfileHardwareTokenContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileRetailInfoContract\1.0.0.0\Windows.System.Profile.ProfileRetailInfoContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.ProfileSharedModeContract\2.0.0.0\Windows.System.Profile.ProfileSharedModeContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.Profile.SystemManufacturers.SystemManufacturersContract\3.0.0.0\Windows.System.Profile.SystemManufacturers.SystemManufacturersContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.SystemManagementContract\7.0.0.0\Windows.System.SystemManagementContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.UserProfile.UserProfileContract\2.0.0.0\Windows.System.UserProfile.UserProfileContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.System.UserProfile.UserProfileLockScreenContract\1.0.0.0\Windows.System.UserProfile.UserProfileLockScreenContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.ApplicationSettings.ApplicationsSettingsContract\1.0.0.0\Windows.UI.ApplicationSettings.ApplicationsSettingsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Core.AnimationMetrics.AnimationMetricsContract\1.0.0.0\Windows.UI.Core.AnimationMetrics.AnimationMetricsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Core.CoreWindowDialogsContract\1.0.0.0\Windows.UI.Core.CoreWindowDialogsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Input.Preview.Text.PreviewTextContract\1.0.0.0\Windows.UI.Input.Preview.Text.PreviewTextContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.CompanionWindows.CompanionWindowsContract\1.0.0.0\Windows.UI.Shell.CompanionWindows.CompanionWindowsContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.SecurityAppManagerContract\1.0.0.0\Windows.UI.Shell.SecurityAppManagerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.Tasks.AppTaskContract\2.0.0.0\Windows.UI.Shell.Tasks.AppTaskContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Shell.WindowTabManagerContract\1.0.0.0\Windows.UI.Shell.WindowTabManagerContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.UIAutomation.UIAutomationContract\2.0.0.0\Windows.UI.UIAutomation.UIAutomationContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.ViewManagement.ViewManagementViewScalingContract\1.0.0.0\Windows.UI.ViewManagement.ViewManagementViewScalingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Xaml.Core.Direct.XamlDirectContract\5.0.0.0\Windows.UI.Xaml.Core.Direct.XamlDirectContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.UI.Xaml.Hosting.HostingContract\5.0.0.0\Windows.UI.Xaml.Hosting.HostingContract.winmd;C:\Program Files (x86)\Windows Kits\10\References\10.0.26100.0\Windows.Web.Http.Diagnostics.HttpDiagnosticsContract\2.0.0.0\Windows.Web.Http.Diagnostics.HttpDiagnosticsContract.winmd
+[   +8 ms] CppWinRTMakePlatformProjection:
+[        ]   "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\packages\Microsoft.Windows.CppWinRT\build\native\..\..\bin\"cppwinrt @"flutter_tts_plugin.dir\Release\flutter_tts_plugin.vcxproj.cppwinrt_plat.rsp"
+[  +12 ms]   "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\packages\Microsoft.Windows.CppWinRT\build\native\..\..\bin\"cppwinrt @"flutter_tts_plugin.dir\Release\flutter_tts_plugin.vcxproj.cppwinrt_plat.rsp"
+[+1954 ms] ComputeStdModulesCompileInputs:
+[        ]   Lecture du fichier manifeste de biblioth├¿que 'C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\modules\modules.json' qui fournit des donn├®es pour les 'microsoft/STL' de biblioth├¿que.
+[        ]   LÔÇÖajout de la source de module 'C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\modules\std.ixx' ├á partir de la biblioth├¿que 'microsoft/STL' ├á g├®n├®rer avec ce projet.
+[        ]   LÔÇÖajout de la source de module 'C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\modules\std.compat.ixx' ├á partir de la biblioth├¿que 'microsoft/STL' ├á g├®n├®rer avec ce projet.
+[   +3 ms] MakeDirsForCl:
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\flutter_tts\flutter_tts_plugin.dir\Release\microsoft\STL".
+[   +1 ms] SetModuleDependencies:
+[        ]   Cr├®ation du r├®pertoire "flutter_tts_plugin.dir\Release\flutter_.41C90AFD_MD.tlog\".
+[  +39 ms] ClCompile:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\CL.exe /c /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\include" /I"flutter_tts_plugin.dir\Release\Generated Files\\" /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _WINDLL /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D FLUTTER_PLUGIN_IMPL /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /D flutter_tts_plugin_EXPORTS /EHsc /MD /GR /std:c++20 /Fo"flutter_tts_plugin.dir\Release\\" /Fd"flutter_tts_plugin.dir\Release\vc145.pdb" /external:W4 /TP /wd4100 /errorReport:queue  /bigobj "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\flutter_tts\windows\flutter_tts_plugin.cpp"
+[ +172 ms]   flutter_tts_plugin.cpp
+[+19096 ms] Link:
+[   +1 ms]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\link.exe /OUT:"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\flutter_tts\Release\flutter_tts_plugin.dll" /INCREMENTAL:NO /NOLOGO ..\..\flutter\Release\flutter_wrapper_plugin.lib "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\flutter_windows.dll.lib" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib WindowsApp.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/flutter_tts/Release/flutter_tts_plugin.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/flutter_tts/Release/flutter_tts_plugin.lib" /MACHINE:X64  /machine:x64 /DLL flutter_tts_plugin.dir\Release\flutter_tts_plugin.obj
+[ +247 ms]      Cr├®ation de la biblioth├¿que C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/flutter_tts/Release/flutter_tts_plugin.lib et de l'objet C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/flutter_tts/Release/flutter_tts_plugin.exp
+[ +162 ms]   flutter_tts_plugin.vcxproj -> C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\flutter_tts\Release\flutter_tts_plugin.dll
+[  +24 ms] FinalizeBuildStatus:
+[        ]   Suppression du fichier "flutter_tts_plugin.dir\Release\flutter_.41C90AFD.tlog\unsuccessfulbuild".
+[   +1 ms]   Mise ├á jour de l'horodatage "flutter_tts_plugin.dir\Release\flutter_.41C90AFD.tlog\flutter_tts_plugin.lastbuildstate".
+[   +3 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\flutter_tts\flutter_tts_plugin.vcxproj" termin├®e (cibles par d├®faut).
+[  +37 ms] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\flutter_application_1.vcxproj" (9) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\flutter_wrapper_app.vcxproj" (11) sur le n┼ôud 1 (cibles par d├®faut).
+[   +1 ms] PrepareForBuild:
+[        ]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "flutter_wrapper_app.dir\Release\flutter_.9266622A.tlog\".
+[   +5 ms] InitializeBuildStatus:
+[        ]   Cr├®ation de "flutter_wrapper_app.dir\Release\flutter_.9266622A.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[        ]   Mise ├á jour de l'horodatage "flutter_wrapper_app.dir\Release\flutter_.9266622A.tlog\unsuccessfulbuild".
+[  +85 ms] CustomBuild:
+[   +1 ms]   Building Custom Rule C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/CMakeLists.txt
+[  +97 ms] ClCompile:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\CL.exe /c /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral" /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /EHsc /MD /GR /std:c++17 /Fo"flutter_wrapper_app.dir\Release\\" /Fd"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\Release\flutter_wrapper_app.pdb" /external:W4 /TP /wd4100 /errorReport:queue "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\core_implementations.cc" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\standard_codec.cc" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\flutter_engine.cc" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\flutter_view_controller.cc"
+[ +186 ms]   core_implementations.cc
+[+2226 ms]   standard_codec.cc
+[+1519 ms]   flutter_engine.cc
+[+1473 ms]   flutter_view_controller.cc
+[+1279 ms]   G├®n├®ration de code en cours...
+[+2065 ms] Lib:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\Lib.exe /OUT:"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\Release\flutter_wrapper_app.lib" /NOLOGO /MACHINE:X64  /machine:x64 flutter_wrapper_app.dir\Release\core_implementations.obj
+[        ]   flutter_wrapper_app.dir\Release\standard_codec.obj
+[        ]   flutter_wrapper_app.dir\Release\flutter_engine.obj
+[   +1 ms]   flutter_wrapper_app.dir\Release\flutter_view_controller.obj
+[ +141 ms]   flutter_wrapper_app.vcxproj -> C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\Release\flutter_wrapper_app.lib
+[  +10 ms] FinalizeBuildStatus:
+[        ]   Suppression du fichier "flutter_wrapper_app.dir\Release\flutter_.9266622A.tlog\unsuccessfulbuild".
+[        ]   Mise ├á jour de l'horodatage "flutter_wrapper_app.dir\Release\flutter_.9266622A.tlog\flutter_wrapper_app.lastbuildstate".
+[   +2 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\flutter\flutter_wrapper_app.vcxproj" termin├®e (cibles par d├®faut).
+[  +32 ms] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\flutter_application_1.vcxproj" (9) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\permission_handler_windows\permission_handler_windows_plugin.vcxproj" (12) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] PrepareForBuild:
+[        ]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\permission_handler_windows\Release\".
+[        ]   Cr├®ation du r├®pertoire "permission_handler_windows_plugin.dir\Release\permissi.F44EBD7F.tlog\".
+[   +3 ms] InitializeBuildStatus:
+[        ]   Cr├®ation de "permission_handler_windows_plugin.dir\Release\permissi.F44EBD7F.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[        ]   Mise ├á jour de l'horodatage "permission_handler_windows_plugin.dir\Release\permissi.F44EBD7F.tlog\unsuccessfulbuild".
+[  +61 ms] CustomBuild:
+[   +1 ms]   Building Custom Rule C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/.plugin_symlinks/permission_handler_windows/windows/CMakeLists.txt
+[  +55 ms] ComputeStdModulesCompileInputs:
+[        ]   Lecture du fichier manifeste de biblioth├¿que 'C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\modules\modules.json' qui fournit des donn├®es pour les 'microsoft/STL' de biblioth├¿que.
+[        ]   LÔÇÖajout de la source de module 'C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\modules\std.ixx' ├á partir de la biblioth├¿que 'microsoft/STL' ├á g├®n├®rer avec ce projet.
+[        ]   LÔÇÖajout de la source de module 'C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\modules\std.compat.ixx' ├á partir de la biblioth├¿que 'microsoft/STL' ├á g├®n├®rer avec ce projet.
+[   +1 ms] MakeDirsForCl:
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\permission_handler_windows\permission_handler_windows_plugin.dir\Release\microsoft\STL".
+[   +1 ms] SetModuleDependencies:
+[   +1 ms]   Cr├®ation du r├®pertoire "permission_handler_windows_plugin.dir\Release\permissi.F44EBD7F_MD.tlog\".
+[   +6 ms] ClCompile:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\CL.exe /c /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\include" /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _WINDLL /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D FLUTTER_PLUGIN_IMPL /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /D permission_handler_windows_plugin_EXPORTS /EHsc /MD /GR /std:c++20 /Fo"permission_handler_windows_plugin.dir\Release\\" /Fd"permission_handler_windows_plugin.dir\Release\vc145.pdb" /external:W0 /TP /wd4100 /errorReport:queue  /external:I "C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/include" /await "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\permission_handler_windows\windows\permission_handler_windows_plugin.cpp"
+[  +92 ms] cl : ligne de commande  warning D9047: l'option ┬½┬áawait┬á┬╗ est d├®conseill├®e et sera supprim├®e dans une version ult├®rieure. [C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\permission_handler_windows\permission_handler_windows_plugin.vcxproj]
+[        ]       Les coroutines C++ standard sont disponibles par d├®faut en C++20 ou version ult├®rieure, ou utilisez '/await:strict' dans les modes de langage ant├®rieurs.
+[        ]   permission_handler_windows_plugin.cpp
+[+9143 ms] Link:
+[   +7 ms]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\link.exe /OUT:"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\permission_handler_windows\Release\permission_handler_windows_plugin.dll" /INCREMENTAL:NO /NOLOGO ..\..\flutter\Release\flutter_wrapper_plugin.lib "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\flutter_windows.dll.lib" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/permission_handler_windows/Release/permission_handler_windows_plugin.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/permission_handler_windows/Release/permission_handler_windows_plugin.lib" /MACHINE:X64  /machine:x64 /DLL permission_handler_windows_plugin.dir\Release\permission_handler_windows_plugin.obj
+[ +264 ms]      Cr├®ation de la biblioth├¿que C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/permission_handler_windows/Release/permission_handler_windows_plugin.lib et de l'objet C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/permission_handler_windows/Release/permission_handler_windows_plugin.exp
+[ +153 ms]   permission_handler_windows_plugin.vcxproj -> C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\permission_handler_windows\Release\permission_handler_windows_plugin.dll
+[  +17 ms] FinalizeBuildStatus:
+[        ]   Suppression du fichier "permission_handler_windows_plugin.dir\Release\permissi.F44EBD7F.tlog\unsuccessfulbuild".
+[        ]   Mise ├á jour de l'horodatage "permission_handler_windows_plugin.dir\Release\permissi.F44EBD7F.tlog\permission_handler_windows_plugin.lastbuildstate".
+[   +1 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\permission_handler_windows\permission_handler_windows_plugin.vcxproj" termin├®e (cibles par d├®faut).
+[  +52 ms] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\flutter_application_1.vcxproj" (9) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\record_windows\record_windows_plugin.vcxproj" (13) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] PrepareForBuild:
+[        ]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\record_windows\Release\".
+[        ]   Cr├®ation du r├®pertoire "record_windows_plugin.dir\Release\record_w.D29C5030.tlog\".
+[   +6 ms] InitializeBuildStatus:
+[        ]   Cr├®ation de "record_windows_plugin.dir\Release\record_w.D29C5030.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[        ]   Mise ├á jour de l'horodatage "record_windows_plugin.dir\Release\record_w.D29C5030.tlog\unsuccessfulbuild".
+[  +76 ms] CustomBuild:
+[        ]   Building Custom Rule C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/.plugin_symlinks/record_windows/windows/CMakeLists.txt
+[  +72 ms] ClCompile:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\CL.exe /c /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\include" /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _WINDLL /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D FLUTTER_PLUGIN_IMPL /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /D record_windows_plugin_EXPORTS /EHsc /MD /GR /std:c++17 /Fo"record_windows_plugin.dir\Release\\" /Fd"record_windows_plugin.dir\Release\vc145.pdb" /external:W4 /TP /wd4100 /errorReport:queue "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\record_windows\windows\record_windows_plugin_c_api.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\record_windows\windows\record_windows_plugin.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\record_windows\windows\record.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\record_windows\windows\record_readercallback.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\record_windows\windows\record_iunknown.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\record_windows\windows\record_mediatype.cpp"
+[  +73 ms]   record_windows_plugin_c_api.cpp
+[+2343 ms]   record_windows_plugin.cpp
+[+2942 ms]   record.cpp
+[+1802 ms]   record_readercallback.cpp
+[+1733 ms]   record_iunknown.cpp
+[+1503 ms]   record_mediatype.cpp
+[+1497 ms]   G├®n├®ration de code en cours...
+[+3642 ms] Link:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\link.exe /OUT:"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\record_windows\Release\record_windows_plugin.dll" /INCREMENTAL:NO /NOLOGO ..\..\flutter\Release\flutter_wrapper_plugin.lib dxva2.lib evr.lib mf.lib mfplat.lib mfplay.lib mfreadwrite.lib mfuuid.lib Shlwapi.lib "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\flutter_windows.dll.lib" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/record_windows/Release/record_windows_plugin.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/record_windows/Release/record_windows_plugin.lib" /MACHINE:X64  /machine:x64 /DLL record_windows_plugin.dir\Release\record_windows_plugin_c_api.obj
+[        ]   record_windows_plugin.dir\Release\record_windows_plugin.obj
+[        ]   record_windows_plugin.dir\Release\record.obj
+[        ]   record_windows_plugin.dir\Release\record_readercallback.obj
+[        ]   record_windows_plugin.dir\Release\record_iunknown.obj
+[        ]   record_windows_plugin.dir\Release\record_mediatype.obj
+[ +274 ms]      Cr├®ation de la biblioth├¿que C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/record_windows/Release/record_windows_plugin.lib et de l'objet C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/record_windows/Release/record_windows_plugin.exp
+[ +147 ms]   record_windows_plugin.vcxproj -> C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\record_windows\Release\record_windows_plugin.dll
+[  +14 ms] FinalizeBuildStatus:
+[        ]   Suppression du fichier "record_windows_plugin.dir\Release\record_w.D29C5030.tlog\unsuccessfulbuild".
+[        ]   Mise ├á jour de l'horodatage "record_windows_plugin.dir\Release\record_w.D29C5030.tlog\record_windows_plugin.lastbuildstate".
+[   +2 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\record_windows\record_windows_plugin.vcxproj" termin├®e (cibles par d├®faut).
+[  +45 ms] Le projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\flutter_application_1.vcxproj" (9) g├®n├¿re "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\speech_to_text_windows\speech_to_text_windows_plugin.vcxproj" (14) sur le n┼ôud 1 (cibles par d├®faut).
+[        ] PrepareForBuild:
+[        ]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\speech_to_text_windows\Release\".
+[        ]   Cr├®ation du r├®pertoire "speech_to_text_windows_plugin.dir\Release\speech_t.5E1FE803.tlog\".
+[   +6 ms] InitializeBuildStatus:
+[        ]   Cr├®ation de "speech_to_text_windows_plugin.dir\Release\speech_t.5E1FE803.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[        ]   Mise ├á jour de l'horodatage "speech_to_text_windows_plugin.dir\Release\speech_t.5E1FE803.tlog\unsuccessfulbuild".
+[  +75 ms] CustomBuild:
+[        ]   Building Custom Rule C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/flutter/ephemeral/.plugin_symlinks/speech_to_text_windows/windows/CMakeLists.txt
+[  +59 ms] ClCompile:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\CL.exe /c /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\speech_to_text_windows\windows" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\include" /nologo /W3 /WX /diagnostics:column /O2 /Ob2 /D _WINDLL /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D FLUTTER_PLUGIN_IMPL /D WIN32_LEAN_AND_MEAN /D NOMINMAX /D _CRT_SECURE_NO_WARNINGS /D _WINSOCK_DEPRECATED_NO_WARNINGS /D UNICODE /D _UNICODE /D "CMAKE_INTDIR=\"Release\"" /D speech_to_text_windows_plugin_EXPORTS /EHsc /MD /GR /std:c++17 /Fo"speech_to_text_windows_plugin.dir\Release\\" /Fd"speech_to_text_windows_plugin.dir\Release\vc145.pdb" /external:W3 /TP /wd4996 /wd4100 /wd4996 /wd4245 /errorReport:queue "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\speech_to_text_windows\windows\speech_to_text_windows.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\speech_to_text_windows\windows\speech_to_text_windows_plugin.cpp"
+[  +70 ms]   speech_to_text_windows.cpp
+[+1480 ms]   speech_to_text_windows_plugin.cpp
+[+1768 ms]   G├®n├®ration de code en cours...
+[+1366 ms] Link:
+[   +1 ms]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\link.exe /OUT:"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\speech_to_text_windows\Release\speech_to_text_windows_plugin.dll" /INCREMENTAL:NO /NOLOGO ..\..\flutter\Release\flutter_wrapper_plugin.lib ole32.lib oleaut32.lib uuid.lib sapi.lib "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\flutter_windows.dll.lib" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/speech_to_text_windows/Release/speech_to_text_windows_plugin.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/speech_to_text_windows/Release/speech_to_text_windows_plugin.lib" /MACHINE:X64  /machine:x64 /DLL speech_to_text_windows_plugin.dir\Release\speech_to_text_windows.obj
+[   +1 ms]   speech_to_text_windows_plugin.dir\Release\speech_to_text_windows_plugin.obj
+[ +105 ms]      Cr├®ation de la biblioth├¿que C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/speech_to_text_windows/Release/speech_to_text_windows_plugin.lib et de l'objet C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/plugins/speech_to_text_windows/Release/speech_to_text_windows_plugin.exp
+[ +136 ms]   speech_to_text_windows_plugin.vcxproj -> C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\speech_to_text_windows\Release\speech_to_text_windows_plugin.dll
+[  +18 ms] FinalizeBuildStatus:
+[        ]   Suppression du fichier "speech_to_text_windows_plugin.dir\Release\speech_t.5E1FE803.tlog\unsuccessfulbuild".
+[        ]   Mise ├á jour de l'horodatage "speech_to_text_windows_plugin.dir\Release\speech_t.5E1FE803.tlog\speech_to_text_windows_plugin.lastbuildstate".
+[   +2 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\speech_to_text_windows\speech_to_text_windows_plugin.vcxproj" termin├®e (cibles par d├®faut).
+[  +26 ms] PrepareForBuild:
+[   +4 ms]   La sortie structur├®e est activ├®e. La mise en forme du compilateur diagnostics refl├¿te la hi├®rarchie des erreurs. Pour plus dÔÇÖinformations, consultez https://aka.ms/cpp/structured-output.
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\Release\".
+[        ]   Cr├®ation du r├®pertoire "flutter_application_1.dir\Release\flutter_.00F19513.tlog\".
+[   +7 ms] InitializeBuildStatus:
+[        ]   Cr├®ation de "flutter_application_1.dir\Release\flutter_.00F19513.tlog\unsuccessfulbuild", car "AlwaysCreate" a ├®t├® sp├®cifi├®.
+[        ]   Mise ├á jour de l'horodatage "flutter_application_1.dir\Release\flutter_.00F19513.tlog\unsuccessfulbuild".
+[  +67 ms] CustomBuild:
+[        ]   Building Custom Rule C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/windows/runner/CMakeLists.txt
+[  +73 ms] ComputeStdModulesCompileInputs:
+[        ]   Lecture du fichier manifeste de biblioth├¿que 'C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\modules\modules.json' qui fournit des donn├®es pour les 'microsoft/STL' de biblioth├¿que.
+[        ]   LÔÇÖajout de la source de module 'C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\modules\std.ixx' ├á partir de la biblioth├¿que 'microsoft/STL' ├á g├®n├®rer avec ce projet.
+[        ]   LÔÇÖajout de la source de module 'C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\modules\std.compat.ixx' ├á partir de la biblioth├¿que 'microsoft/STL' ├á g├®n├®rer avec ce projet.
+[   +3 ms] MakeDirsForCl:
+[        ]   Cr├®ation du r├®pertoire "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\flutter_application_1.dir\Release\microsoft\STL".
+[   +1 ms] SetModuleDependencies:
+[        ]   Cr├®ation du r├®pertoire "flutter_application_1.dir\Release\flutter_.00F19513_MD.tlog\".
+[  +10 ms] ClCompile:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\CL.exe /c /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\cloud_firestore\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\flutter_tts\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\permission_handler_windows\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\record_windows\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\speech_to_text_windows\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\speech_to_text_windows\windows" /nologo /W4 /WX /diagnostics:column /O2 /Ob2 /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D "FLUTTER_VERSION=\"0.1.0\"" /D FLUTTER_VERSION_MAJOR=0 /D FLUTTER_VERSION_MINOR=1 /D FLUTTER_VERSION_PATCH=0 /D FLUTTER_VERSION_BUILD=0 /D NOMINMAX /D UNICODE /D _UNICODE /D FLUTTER_PLUGIN_IMPL /D "CMAKE_INTDIR=\"Release\"" /EHsc /MD /GR /std:c++20 /Fo"flutter_application_1.dir\Release\\" /Fd"flutter_application_1.dir\Release\vc145.pdb" /external:W0 /TP /wd4100 /errorReport:queue  /external:I "C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/extracted/firebase_cpp_sdk_windows/include" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\runner\flutter_window.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\runner\main.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\runner\utils.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\runner\win32_window.cpp" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\generated_plugin_registrant.cc"
+[  +81 ms]   flutter_window.cpp
+[+2781 ms]   main.cpp
+[+2649 ms]   utils.cpp
+[+1739 ms]   win32_window.cpp
+[+1674 ms]   generated_plugin_registrant.cc
+[ +797 ms]   G├®n├®ration de code en cours...
+[ +747 ms] ResourceCompile:
+[        ]   C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe /D _UNICODE /D UNICODE /D WIN32 /D _WINDOWS /D NDEBUG /D _HAS_EXCEPTIONS=0 /D "FLUTTER_VERSION=\\\"0.1.0\\\"" /D FLUTTER_VERSION_MAJOR=0 /D FLUTTER_VERSION_MINOR=1 /D FLUTTER_VERSION_PATCH=0 /D FLUTTER_VERSION_BUILD=0 /D NOMINMAX /D UNICODE /D _UNICODE /D FLUTTER_PLUGIN_IMPL /D "CMAKE_INTDIR=\\\"Release\\\"" /l"0x0409" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\cpp_client_wrapper\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\cloud_firestore\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\flutter_tts\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\permission_handler_windows\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\record_windows\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\speech_to_text_windows\windows\include" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\.plugin_symlinks\speech_to_text_windows\windows" /I"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\extracted\firebase_cpp_sdk_windows\include" /nologo /fo"flutter_application_1.dir\Release\Runner.res" "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\runner\Runner.rc" 
+[ +258 ms] Link:
+[        ]   C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717\bin\HostX64\x64\link.exe /OUT:"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\Release\flutter_application_1.exe" /INCREMENTAL:NO /NOLOGO ..\flutter\Release\flutter_wrapper_app.lib dwmapi.lib ..\plugins\cloud_firestore\Release\cloud_firestore_plugin.lib ..\plugins\firebase_auth\Release\firebase_auth_plugin.lib ..\plugins\firebase_core\Release\firebase_core_plugin.lib ..\plugins\flutter_tts\Release\flutter_tts_plugin.lib ..\plugins\permission_handler_windows\Release\permission_handler_windows_plugin.lib ..\plugins\record_windows\Release\record_windows_plugin.lib ..\plugins\speech_to_text_windows\Release\speech_to_text_windows_plugin.lib ..\extracted\firebase_cpp_sdk_windows\libs\windows\VS2019\MD\x64\Release\firebase_firestore.lib shell32.lib Bcrypt.lib DbgHelp.lib advapi32.lib ws2_32.lib crypt32.lib rpcrt4.lib ole32.lib ..\extracted\firebase_cpp_sdk_windows\libs\windows\VS2019\MD\x64\Release\firebase_app.lib icu.lib ..\extracted\firebase_cpp_sdk_windows\libs\windows\VS2019\MD\x64\Release\firebase_auth.lib ..\flutter\Release\flutter_wrapper_plugin.lib "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\flutter\ephemeral\flutter_windows.dll.lib" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\windows\runner\runner.exe.manifest" /PDB:"C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/runner/Release/flutter_application_1.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /IMPLIB:"C:/dev_mobile/PFE-v5-stable - dev/Merged Tests/build/windows/x64/runner/Release/flutter_application_1.lib" /MACHINE:X64  /machine:x64 flutter_application_1.dir\Release\Runner.res
+[        ]   flutter_application_1.dir\Release\flutter_window.obj
+[        ]   flutter_application_1.dir\Release\main.obj
+[        ]   flutter_application_1.dir\Release\utils.obj
+[        ]   flutter_application_1.dir\Release\win32_window.obj
+[        ]   flutter_application_1.dir\Release\generated_plugin_registrant.obj
+[ +119 ms] LINK : 
+fatal error LNK1181: 
+impossible d'ouvrir le 
+fichier en entr├®e '..\
+extracted\firebase_cpp_
+sdk_windows\libs\window
+s\VS2019\MD\x64\Release
+\firebase_firestore.lib
+' [C:\dev_mobile\PFE-v5
+-stable - dev\Merged Te
+sts\build\windows\x64\r
+unner\flutter_applicati
+on_1.vcxproj]
+[   +4 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\flutter_application_1.vcxproj" termin├®e (cibles par d├®faut) -- ├ëCHEC.
+[   +2 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\ALL_BUILD.vcxproj" termin├®e (cibles par d├®faut) -- ├ëCHEC.
+[   +1 ms] G├®n├®ration du projet "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\INSTALL.vcxproj" termin├®e (cibles par d├®faut) -- ├ëCHEC.
+[  +37 ms] ├ëCHEC de la build.
+[   +8 ms] "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\INSTALL.vcxproj" (cible par d├®faut) (1) ->
+[        ] "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\ALL_BUILD.vcxproj" (cible par d├®faut) (3) ->
+[        ] "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\flutter_application_1.vcxproj" (cible par d├®faut) (9) ->
+[        ] "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\permission_handler_windows\permission_handler_windows_plugin.vcxproj" (cible par d├®faut) (12) ->
+[        ] (ClCompile cible) -> 
+[        ]   cl : ligne de commande  warning D9047: l'option ┬½┬áawait┬á┬╗ est d├®conseill├®e et sera supprim├®e dans une version ult├®rieure. [C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\plugins\permission_handler_windows\permission_handler_windows_plugin.vcxproj]
+[        ] "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\INSTALL.vcxproj" (cible par d├®faut) (1) ->
+[        ] "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\ALL_BUILD.vcxproj" (cible par d├®faut) (3) ->
+[        ] "C:\dev_mobile\PFE-v5-stable - dev\Merged Tests\build\windows\x64\runner\flutter_application_1.vcxproj" (cible par d├®faut) (9) ->
+[        ] (Link cible) -> 
+[        ]   LINK : 
+fatal error LNK1181: 
+impossible d'ouvrir le 
+fichier en entr├®e '..\
+extracted\firebase_cpp_
+sdk_windows\libs\window
+s\VS2019\MD\x64\Release
+\firebase_firestore.lib
+' [C:\dev_mobile\PFE-v5
+-stable - dev\Merged Te
+sts\build\windows\x64\r
+unner\flutter_applicati
+on_1.vcxproj]
+[        ]     1 Avertissement(s)
+[        ]     1 Erreur(s)
+[        ] Temps ├®coul├® 00:02:55.67
+[ +182 ms] Building Windows application... (completed in 188,8s)
+[   +6 ms] "flutter windows" took 189ÔÇ»966ms.
+[ +217 ms] Build 
+process failed.
+[   +2 ms] 
+           #0      
+throwToolExit (package:
+flutter_tools/src/base/
+common.dart:34:3)
+           #1      
+_runBuild (package:flut
+ter_tools/src/windows/b
+uild_windows.dart:258:5
+)
+           
+<asynchronous 
+suspension>
+           #2      
+buildWindows (package:f
+lutter_tools/src/window
+s/build_windows.dart:11
+4:5)
+           
+<asynchronous 
+suspension>
+           #3      Buil
+dWindowsCommand.runComm
+and (package:flutter_to
+ols/src/commands/build_
+windows.dart:66:5)
+           
+<asynchronous 
+suspension>
+           #4      Flut
+terCommand.run.<anonymo
+us closure> (package:fl
+utter_tools/src/runner/
+flutter_command.dart:15
+81:27)
+           
+<asynchronous 
+suspension>
+           #5      AppC
+ontext.run.<anonymous 
+closure> (package:flutt
+er_tools/src/base/conte
+xt.dart:154:19)
+           
+<asynchronous 
+suspension>
+           #6      Comm
+andRunner.runCommand (p
+ackage:args/command_run
+ner.dart:212:13)
+           
+<asynchronous 
+suspension>
+           #7      Flut
+terCommandRunner.runCom
+mand.<anonymous 
+closure> (package:flutt
+er_tools/src/runner/flu
+tter_command_runner.dar
+t:503:9)
+           
+<asynchronous 
+suspension>
+           #8      AppC
+ontext.run.<anonymous 
+closure> (package:flutt
+er_tools/src/base/conte
+xt.dart:154:19)
+           
+<asynchronous 
+suspension>
+           #9      Flut
+terCommandRunner.runCom
+mand (package:flutter_t
+ools/src/runner/flutter
+_command_runner.dart:43
+8:5)
+           
+<asynchronous 
+suspension>
+           #10     
+run.<anonymous 
+closure>.<anonymous 
+closure> (package:flutt
+er_tools/runner.dart:98
+:11)
+           
+<asynchronous 
+suspension>
+           #11     AppC
+ontext.run.<anonymous 
+closure> (package:flutt
+er_tools/src/base/conte
+xt.dart:154:19)
+           
+<asynchronous 
+suspension>
+           #12     
+main (package:flutter_t
+ools/executable.dart:10
+1:3)
+           
+<asynchronous 
+suspension>
+
+
+[        ] Running 1 shutdown hook
+[   +4 ms] Shutdown hooks complete
+[ +268 ms] exiting with code 1

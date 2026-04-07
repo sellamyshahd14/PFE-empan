@@ -1,0 +1,23 @@
+# AI Agent Rules for Medical Cognitive App
+
+# 1. Logic Integrity
+- NEVER change the scoring logic for clinical tests (TMT, HADS, DSM-48) without explicit confirmation.
+- ALWAYS maintain the bilingual support (ar/fr) using the `AppLocalizations` class.
+
+# 2. Database & Auth
+- ALWAYS ensure `patientId` (the identifier) and `docId` (the Firestore UUID) are handled correctly in `FirestoreService`.
+- NEVER bypass the `AuthService` for login/registration logic.
+
+# 3. UI & Styling
+- ALWAYS use `GoogleFonts.cairo()` for text widgets to ensure Arabic rendering is correct.
+- Keep the theme consistent: Use `Colors.teal` for primary actions and `Colors.white` for backgrounds.
+- TMT tests must use `CustomPainter` for line drawing logic; do not replace with standard widgets.
+
+# 4. Coding Style
+- Follow clean architecture: UI in `lib/`, logic/services in `lib/services/`, tests in `lib/tests/`.
+- Use `debugPrint` for logging instead of `print`.
+- Ensure all new UI components are responsive for tablet/mobile.
+
+# 5. Token Efficiency
+- Do not rewrite entire files if only a small change is needed.
+- Refer to Project_Context.md for domain knowledge before asking for clarification.
