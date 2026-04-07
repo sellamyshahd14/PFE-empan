@@ -4,15 +4,13 @@ import '../services/firestore_service.dart';
 import '../localization.dart';
 
 class TestHADS extends StatefulWidget {
-  final String? patientId;
-  final String? patientName;
-  final String? patientIdentifier;
+  final String patientDocId;
+  final String patientIdentifier;
 
   const TestHADS({
     super.key,
-    this.patientId,
-    this.patientName,
-    this.patientIdentifier,
+    required this.patientDocId,
+    required this.patientIdentifier,
   });
 
   @override
@@ -188,18 +186,16 @@ class _TestHADSState extends State<TestHADS> {
         }
       }
 
-      if (widget.patientId != null) {
-        try {
-          await _firestoreService.saveTestResult(
-            patientId: widget.patientId!,
-            patientIdentifier: widget.patientIdentifier ?? 'Unknown',
-            scoreA: scoreA.toDouble(),
-            scoreD: scoreD.toDouble(),
-            testName: "HADS",
-          );
-        } catch (e) {
-          debugPrint("Error saving result: $e");
-        }
+      try {
+        await _firestoreService.saveTestResult(
+          patientDocId: widget.patientDocId,
+          patientIdentifier: widget.patientIdentifier,
+          scoreA: scoreA.toDouble(),
+          scoreD: scoreD.toDouble(),
+          testType: "HADS",
+        );
+      } catch (e) {
+        debugPrint("Error saving result: $e");
       }
 
       setState(() => _isSaving = false);

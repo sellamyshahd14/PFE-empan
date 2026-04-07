@@ -6,6 +6,7 @@ import 'services/firestore_service.dart';
 import 'services/auth_service.dart';
 import 'login_page.dart';
 import 'patient_details_screen.dart';
+import 'patient_registration_screen.dart';
 
 class DoctorDashboard extends StatefulWidget {
   const DoctorDashboard({super.key});
@@ -30,67 +31,9 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
   }
 
   void _showAddPatientDialog() {
-    final nameController = TextEditingController();
-    final lastNameController = TextEditingController();
-    final idController = TextEditingController(); // Or auto-generate
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          "Add New Patient",
-          style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(labelText: "First Name"),
-            ),
-            TextField(
-              controller: lastNameController,
-              decoration: const InputDecoration(labelText: "Last Name"),
-            ),
-            TextField(
-              controller: idController,
-              decoration: const InputDecoration(
-                labelText: "Patient ID (Login ID)",
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              if (nameController.text.isNotEmpty &&
-                  idController.text.isNotEmpty) {
-                try {
-                  await _firestoreService.addPatient(
-                    firstName: nameController.text,
-                    lastName: lastNameController.text,
-                    patientIdentifier: idController.text,
-                    birthDate: DateTime.now(), // Default for now
-                  );
-                  if (mounted) Navigator.pop(context);
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(e.toString().replaceAll("Exception: ", "")),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              }
-            },
-            child: const Text("Add"),
-          ),
-        ],
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PatientRegistrationScreen()),
     );
   }
 
@@ -111,15 +54,27 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
         centerTitle: true,
         actions: [
           IconButton(
+            onPressed: _showAddPatientDialog,
+            icon: const Icon(Icons.person_add, color: Colors.white),
+            tooltip: "Nouveau Patient",
+          ),
+          IconButton(
             onPressed: _logout,
             icon: const Icon(Icons.logout, color: Colors.white),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: _showAddPatientDialog,
-        backgroundColor: Colors.teal,
-        child: const Icon(Icons.add, color: Colors.white),
+        backgroundColor: Colors.teal.shade800,
+        icon: const Icon(Icons.add, color: Colors.white),
+        label: Text(
+          "Nouveau Patient",
+          style: GoogleFonts.cairo(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -127,10 +82,11 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Your Patients",
+              "Liste des Patients",
               style: GoogleFonts.cairo(
-                fontSize: 20,
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
+                color: Colors.teal.shade900,
               ),
             ),
             const SizedBox(height: 16),

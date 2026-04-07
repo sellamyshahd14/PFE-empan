@@ -4,9 +4,14 @@ import '../services/firestore_service.dart';
 import '../localization.dart';
 
 class Dsm48Set1Page extends StatefulWidget {
-  final String patientId;
+  final String patientDocId;
+  final String patientIdentifier;
 
-  const Dsm48Set1Page({super.key, required this.patientId});
+  const Dsm48Set1Page({
+    super.key,
+    required this.patientDocId,
+    required this.patientIdentifier,
+  });
 
   @override
   State<Dsm48Set1Page> createState() => _Dsm48Set1PageState();
@@ -106,13 +111,13 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
     final String durationStr = "$seconds s";
 
     debugPrint(
-      "DSM-48 Set 1 Completed in: $durationStr for patient ${widget.patientId} (Score: $_score)",
+      "DSM-48 Set 1 Completed in: $durationStr for patient ${widget.patientDocId} (Score: $_score)",
     );
 
     try {
       await _firestoreService.saveTestResult(
-        patientId: widget.patientId,
-        patientIdentifier: widget.patientId,
+        patientDocId: widget.patientDocId,
+        patientIdentifier: widget.patientIdentifier,
         score: _score.toDouble(),
         totalDuration: durationStr,
         testType: 'DSM-48 Set 1',
@@ -124,8 +129,6 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
     if (!mounted) return;
 
     final loc = AppLocalizations.of(context);
-    String scoreText = loc.dsm48Score.replaceAll('{}', '$_score');
-
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -136,25 +139,10 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
             textAlign: TextAlign.center,
             style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                loc.testSuccess,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.cairo(),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                scoreText,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.cairo(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal,
-                ),
-              ),
-            ],
+          content: Text(
+            loc.testSuccess,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.cairo(),
           ),
           actions: [
             TextButton(

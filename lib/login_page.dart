@@ -44,8 +44,9 @@ class _LoginPageState extends State<LoginPage> {
               context,
               MaterialPageRoute(
                 builder: (context) => PatientHomePage(
-                  patientId: patientData['docId'],
-                ), // Pass DB ID
+                  patientDocId: patientData['docId'],
+                  patientIdentifier: patientData['patientIdentifier'] ?? "Unknown",
+                ),
               ),
             );
           } else if (mounted) {

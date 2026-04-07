@@ -8,37 +8,48 @@ import '../localization.dart';
 import '../services/firestore_service.dart';
 
 import 'dart:async';
+import 'package:flutter/services.dart';
 
 class EmpanDirect extends StatefulWidget {
-  final String patientName;
-  const EmpanDirect({super.key, required this.patientName});
+  final String patientDocId;
+  final String patientIdentifier;
+
+  const EmpanDirect({
+    super.key,
+    required this.patientDocId,
+    required this.patientIdentifier,
+  });
 
   @override
   State<EmpanDirect> createState() => _EmpanDirectState();
 }
 
-class _EmpanDirectState extends State<EmpanDirect>
-    with TickerProviderStateMixin {
+class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin {
   late stt.SpeechToText _speech;
   late FlutterTts _flutterTts;
   late final AudioRecorder _audioRecorder;
-  // ignore: unused_field
-  String? _audioPath;
+  
   bool _isListening = false;
   bool _isPlaying = false;
   String _spokenText = "";
-  // ignore: unused_field
+  String _accumulatedDigits = "";
+  double _soundLevel = 0.0;
   double _score = 0.0;
   int _currentIndex = 0;
+  int _attemptCount = 0;
+  final Set<int> _scoredIndices = {};
   bool _isTestStarted = false;
   final Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
-  // ignore: unused_field
+  Timer? _listenTimer; // Force stop timer
+  Timer? _guardianTimer; // Check for early closure
   String _formattedTime = "00:00";
   bool _showFeedback = false;
   String? _lastIncorrectInput;
+  bool _isFluentRunning = false;
+  bool _showManualInput = false;
+  final TextEditingController _manualController = TextEditingController();
 
-  // Animation controller for the mic "breathing" effect
   late AnimationController _micAnimController;
   late Animation<double> _micAnimation;
 
@@ -78,30 +89,6 @@ class _EmpanDirectState extends State<EmpanDirect>
   }
 
   Future<void> _startTest() async {
-    // Start global recording
-    /*
-    try {
-      if (await Permission.microphone.request().isGranted) {
-        final dir = await getTemporaryDirectory();
-        String fileName =
-            'empan_test_${widget.patientName}_${DateTime.now().millisecondsSinceEpoch}.m4a';
-        String path = '${dir.path}/$fileName';
-
-        // Ensure no previous recording is running
-        if (await _audioRecorder.isRecording()) {
-          await _audioRecorder.stop();
-        }
-
-        await _audioRecorder.start(const RecordConfig(), path: path);
-        debugPrint("Recording started to: $path");
-      } else {
-        debugPrint("ERROR: Microphone permission NOT granted");
-      }
-    } catch (e) {
-      debugPrint("Error starting recording: $e");
-    }
-    */
-
     setState(() {
       _isTestStarted = true;
       _stopwatch.start();
@@ -111,27 +98,13 @@ class _EmpanDirectState extends State<EmpanDirect>
         });
       });
     });
-    _speakSequence();
   }
 
   Future<void> _stopTest() async {
     _stopwatch.stop();
     _timer?.cancel();
-
-    // Stop global recording
-    /*
-    try {
-      final path = await _audioRecorder.stop();
-      if (path != null) {
-        setState(() {
-          _audioPath = path;
-        });
-        debugPrint("Recording saved to: $path");
-      }
-    } catch (e) {
-      debugPrint("Error stopping recording: $e");
-    }
-    */
+    _listenTimer?.cancel();
+    _stopGuardian();
   }
 
   String _formatTime(Duration duration) {
@@ -143,12 +116,26 @@ class _EmpanDirectState extends State<EmpanDirect>
 
   void _initSpeech() async {
     await Permission.microphone.request();
+    bool available = await _speech.initialize(
+      onStatus: (status) => debugPrint("STT Status: $status"),
+      onError: (error) {
+        debugPrint("STT Error: $error");
+        if (_isListening) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (_isListening) _startSttSession(initial: false);
+          });
+        }
+      },
+    );
+    if (!available) {
+      debugPrint("STT Not Available");
+    }
   }
 
   void _initTts() async {
     try {
-      await _flutterTts.setLanguage("ar");
-      await _flutterTts.setSpeechRate(0.5);
+      await _flutterTts.awaitSpeakCompletion(true);
+      await _flutterTts.setSpeechRate(0.65);
       await _flutterTts.setVolume(1.0);
       await _flutterTts.setPitch(1.0);
     } catch (e) {
@@ -162,88 +149,292 @@ class _EmpanDirectState extends State<EmpanDirect>
 
   Future<void> _speakSequence() async {
     if (_isPlaying) return;
+
+    if (_isListening) {
+      _listenTimer?.cancel();
+      _stopGuardian();
+      _speech.stop();
+      setState(() => _isListening = false);
+    }
+
+    if (!mounted) return;
+    final locs = AppLocalizations.of(context);
+
+    if (!_isTestStarted) {
+      _startTest();
+    }
+
     setState(() {
       _isPlaying = true;
-      _showFeedback = false; // Hide previous feedback
+      _showFeedback = false;
       _spokenText = "";
+      _accumulatedDigits = "";
     });
 
+    String lang = locs.locale.languageCode;
+    await _flutterTts.setLanguage(lang == 'ar' ? 'ar' : 'fr-FR');
+
+    if (_currentIndex == 0) {
+      String introSentence = locs.empanDirectIntro;
+      await _flutterTts.speak(introSentence);
+      await Future.delayed(const Duration(milliseconds: 1000));
+    }
+
+    if (!mounted) return;
     String sequence = _sequences[_currentIndex];
     List<String> numbers = sequence.split(' ');
 
     for (String number in numbers) {
-      String arabicWord = _getArabicWord(number);
-      await _flutterTts.speak(arabicWord);
-      // Simple fixed delay, no complex awaiting completion
-      await Future.delayed(const Duration(milliseconds: 1200));
+      if (!mounted) break;
+      String word = _getLocalizedWord(number, locs);
+      await _flutterTts.speak(word);
+      await Future.delayed(const Duration(milliseconds: 900));
     }
 
-    setState(() => _isPlaying = false);
+    if (mounted) {
+      setState(() => _isPlaying = false);
+    }
   }
 
-  String _getArabicWord(String digit) {
-    switch (digit) {
-      case '0':
-        return 'صفر';
-      case '1':
-        return 'واحد';
-      case '2':
-        return 'اثنان';
-      case '3':
-        return 'ثلاثة';
-      case '4':
-        return 'أربعة';
-      case '5':
-        return 'خمسة';
-      case '6':
-        return 'ستة';
-      case '7':
-        return 'سبعة';
-      case '8':
-        return 'ثمانية';
-      case '9':
-        return 'تسعة';
-      default:
-        return digit;
+  Future<void> _runFluentSequence() async {
+    if (!mounted) return;
+    final locs = AppLocalizations.of(context);
+    if (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex)) return;
+
+    setState(() {
+      _isFluentRunning = true;
+      _attemptCount++;
+      _spokenText = "";
+      _accumulatedDigits = "";
+    });
+
+    await _speakSequence();
+
+    if (!mounted) return;
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (!mounted) return;
+    String cue = locs.onCommenceCue;
+    await _flutterTts.speak(cue);
+    await Future.delayed(const Duration(milliseconds: 1500));
+
+    if (!mounted) return;
+    _listen();
+
+    if (mounted) {
+      setState(() => _isFluentRunning = false);
     }
+  }
+
+  void _listenOnly() async {
+    if (_isPlaying || _isFluentRunning) return;
+    if (_scoredIndices.contains(_currentIndex)) return;
+
+    setState(() {
+      _spokenText = "";
+      _accumulatedDigits = "";
+      _showFeedback = false;
+      _lastIncorrectInput = null;
+    });
+
+    if (_isListening) {
+      _stopGuardian();
+      _listenTimer?.cancel();
+      await _speech.stop();
+      setState(() => _isListening = false);
+      await Future.delayed(const Duration(milliseconds: 300));
+    }
+
+    _listen();
+  }
+
+  String _getLocalizedWord(String digit, AppLocalizations locs) {
+    String lang = locs.locale.languageCode;
+    if (lang == 'fr') {
+      switch (digit) {
+        case '0': return 'zéro';
+        case '1': return 'un';
+        case '2': return 'deux';
+        case '3': return 'trois';
+        case '4': return 'quatre';
+        case '5': return 'cinq';
+        case '6': return 'six';
+        case '7': return 'sept';
+        case '8': return 'huit';
+        case '9': return 'neuf';
+        default: return digit;
+      }
+    } else {
+      switch (digit) {
+        case '0': return locs.zero;
+        case '1': return locs.one;
+        case '2': return locs.two;
+        case '3': return locs.three;
+        case '4': return locs.four;
+        case '5': return locs.five;
+        case '6': return locs.six;
+        case '7': return locs.seven;
+        case '8': return locs.eight;
+        case '9': return locs.nine;
+        default: return digit;
+      }
+    }
+  }
+
+  String _extractDigits(String input) {
+    if (input.isEmpty) return "";
+    String result = input.toLowerCase();
+
+    const Map<String, String> arabicToLatin = {
+      '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
+      '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+    };
+    arabicToLatin.forEach((k, v) => result = result.replaceAll(k, v));
+
+    final Map<String, String> wordToDigit = {
+      'واحد': '1', 'واحده': '1', 'احد': '1', 'وحد': '1',
+      'جوج': '2', 'زوز': '2', 'اثنين': '2', 'اثنان': '2', 'إثنين': '2', 'اتنين': '2',
+      'ثلاثة': '3', 'ثلاثه': '3', 'ثلاثا': '3', 'تلاتة': '3', 'تلاته': '3', 'تلاتا': '3',
+      'أربعة': '4', 'أربعه': '4', 'أربعا': '4', 'اربعة': '4', 'اربعه': '4', 'اربعا': '4', 'ربة': '4', 'ربعه': '4', 'ربعا': '4',
+      'خمسة': '5', 'خمسه': '5', 'خمسا': '5', 'حمسة': '5', 'حمسه': '5', 'حمسا': '5',
+      'ستة': '6', 'سته': '6', 'ستا': '6', 'ست': '6',
+      'سبعة': '7', 'سبعه': '7', 'سبعا': '7', 'سبع': '7',
+      'ثمانية': '8', 'ثمانيه': '8', 'ثمانيا': '8', 'ثمنية': '8', 'ثمنيه': '8', 'ثمنيا': '8', 'تمنية': '8', 'تمنيه': '8', 'تمنيا': '8',
+      'تسعة': '9', 'تسعه': '9', 'تسعا': '9', 'تسع': '9',
+      'عشرة': '10', 'عشره': '10', 'عشرا': '10', 'صفر': '0',
+      'un': '1', 'une': '1', 'deux': '2', 'trois': '3', 'quatre': '4', 'cinq': '5', 'six': '6', 'sept': '7', 'huit': '8', 'neuf': '9', 'zéro': '0', 'zero': '0',
+    };
+
+    final sortedKeys = wordToDigit.keys.toList()..sort((a, b) => b.length.compareTo(a.length));
+    for (var key in sortedKeys) {
+      result = result.replaceAll(key, ' ${wordToDigit[key]} ');
+    }
+
+    result = result.replaceAll(RegExp(r'[^0-9]'), '');
+
+    if (result.isEmpty) return "";
+    StringBuffer sb = StringBuffer();
+    sb.write(result[0]);
+    for (int i = 1; i < result.length; i++) {
+      if (result[i] != result[i - 1]) {
+        sb.write(result[i]);
+      }
+    }
+    return sb.toString();
+  }
+
+  String _mergeDigits(String existing, String incoming) {
+    if (incoming.isEmpty) return existing;
+    if (existing.isEmpty) return incoming;
+    if (incoming.startsWith(existing)) return incoming;
+    return existing + incoming;
   }
 
   void _listen() async {
+    if (_showManualInput) return;
     if (!_isListening) {
-      bool available = await _speech.initialize();
-      if (available) {
-        setState(() => _isListening = true);
-        _speech.listen(
-          localeId: 'ar-TN',
-          onResult: (val) {
-            setState(() {
-              _spokenText = val.recognizedWords;
+      bool available = await _speech.initialize(
+        onStatus: (status) => debugPrint("STT Status: $status"),
+        onError: (error) {
+          if (_isListening) {
+            Future.delayed(const Duration(milliseconds: 500), () {
+              if (_isListening) _startSttSession(initial: false);
             });
-          },
-        );
+          }
+        },
+      );
+      if (available) {
+        setState(() {
+          _isListening = true;
+          _spokenText = "";
+          _accumulatedDigits = "";
+        });
+        _startSttSession(initial: true);
+
+        _listenTimer?.cancel();
+        _listenTimer = Timer(const Duration(seconds: 60), () {
+          _stopGuardian();
+          if (_isListening) {
+            _speech.stop();
+            setState(() => _isListening = false);
+          }
+        });
+
+        _guardianTimer?.cancel();
+        _guardianTimer = Timer.periodic(const Duration(seconds: 1), (t) {
+          if (!_isListening) {
+            t.cancel();
+            return;
+          }
+          if (!_speech.isListening) {
+            _startSttSession(initial: false);
+          }
+        });
       }
     } else {
+      _stopGuardian();
+      _listenTimer?.cancel();
       setState(() => _isListening = false);
       _speech.stop();
     }
   }
 
+  void _startSttSession({required bool initial}) {
+    if (!mounted) return;
+    String lang = AppLocalizations.of(context).locale.languageCode;
+    _speech.listen(
+      localeId: lang == 'ar' ? 'ar-TN' : null,
+      partialResults: true,
+      onSoundLevelChange: (level) {
+        if (!mounted) return;
+        setState(() {
+          _soundLevel = level;
+        });
+      },
+      pauseFor: initial ? const Duration(seconds: 5) : const Duration(seconds: 10),
+      listenFor: const Duration(seconds: 60),
+      onResult: (val) {
+        if (!mounted) return;
+        setState(() {
+          _spokenText = val.recognizedWords;
+          _accumulatedDigits = _mergeDigits(_accumulatedDigits, _extractDigits(val.recognizedWords));
+        });
+      },
+    );
+  }
+
+  void _stopGuardian() {
+    _guardianTimer?.cancel();
+    _guardianTimer = null;
+  }
+
   bool _isValidated = false;
 
   void _validate() {
-    String targetDigits = _sequences[_currentIndex].replaceAll(' ', '');
-    String cleanSpoken = _spokenText.replaceAll(RegExp(r'[^0-9]'), '');
+    if (_isListening) {
+      _stopGuardian();
+      _listenTimer?.cancel();
+      _speech.stop();
+      setState(() => _isListening = false);
+    }
 
-    bool isCorrect = false;
-    if (cleanSpoken.contains(targetDigits)) {
+    if (_scoredIndices.contains(_currentIndex)) return;
+
+    String targetDigits = _sequences[_currentIndex].replaceAll(' ', '');
+    bool isCorrect = (_accumulatedDigits == targetDigits);
+
+    if (!isCorrect && _accumulatedDigits.contains(targetDigits) && _accumulatedDigits.length <= targetDigits.length + 1) {
       isCorrect = true;
     }
 
     if (isCorrect) {
       setState(() {
-        _score += 0.5;
+        if (!_scoredIndices.contains(_currentIndex)) {
+          _score += 0.5;
+          _scoredIndices.add(_currentIndex);
+        }
         _showFeedback = false;
-        _isValidated = true; // Mark as validated
+        _isValidated = true;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -254,8 +445,8 @@ class _EmpanDirectState extends State<EmpanDirect>
     } else {
       setState(() {
         _showFeedback = true;
-        _lastIncorrectInput = _spokenText;
-        _isValidated = true; // Even if wrong, it's validated
+        _lastIncorrectInput = _accumulatedDigits.isNotEmpty ? _accumulatedDigits : _spokenText;
+        _isValidated = true;
       });
     }
   }
@@ -266,20 +457,32 @@ class _EmpanDirectState extends State<EmpanDirect>
         SnackBar(
           content: Text(AppLocalizations.of(context).validateFirstMsg),
           backgroundColor: Colors.orange,
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
     }
 
+    if (_isListening) {
+      _stopGuardian();
+      _listenTimer?.cancel();
+      _speech.stop();
+      setState(() => _isListening = false);
+    }
+
     if (_currentIndex < _sequences.length - 1) {
       setState(() {
         _currentIndex++;
+        _attemptCount = 0;
         _spokenText = "";
+        _accumulatedDigits = "";
         _isListening = false;
         _showFeedback = false;
         _lastIncorrectInput = null;
-        _isValidated = false; // Reset for next sequence
+        _isValidated = false;
       });
+      _stopGuardian();
+      _listenTimer?.cancel();
       _speech.stop();
     } else {
       _showFinalScore();
@@ -289,16 +492,15 @@ class _EmpanDirectState extends State<EmpanDirect>
   final FirestoreService _firestoreService = FirestoreService();
 
   void _showFinalScore() async {
-    _stopTest(); // Stop timer
+    _stopTest();
 
-    // Save to Firestore
     try {
       await _firestoreService.saveTestResult(
-        patientId: widget.patientName,
-        patientIdentifier: "Unknown",
+        patientDocId: widget.patientDocId,
+        patientIdentifier: widget.patientIdentifier,
         score: _score,
         totalDuration: _formattedTime,
-        testType: 'Empan Direct', // Explicitly setting the test type
+        testType: 'Empan Direct',
       );
       debugPrint("Result Saved!");
     } catch (e) {
@@ -339,8 +541,8 @@ class _EmpanDirectState extends State<EmpanDirect>
         actions: [
           TextButton(
             onPressed: () {
-              // Return to Login Page (Root)
-              Navigator.of(context).popUntil((route) => route.isFirst);
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
             },
             child: Text(
               AppLocalizations.of(context).mainMenu,
@@ -352,21 +554,248 @@ class _EmpanDirectState extends State<EmpanDirect>
     );
   }
 
+  void _showExitConfirmationDialog() {
+    final loc = AppLocalizations.of(context);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          loc.exitWithoutSaving,
+          style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          loc.exitConfirmBody,
+          style: GoogleFonts.cairo(),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(loc.cancel, style: GoogleFonts.cairo()),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // dialog
+              Navigator.of(context).pop(); // exit test
+            },
+            child: Text(
+              loc.exitWithoutSaving,
+              style: GoogleFonts.cairo(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showManualInputDialog() {
+    if (_isListening) {
+      _stopGuardian();
+      _listenTimer?.cancel();
+      _speech.stop();
+      setState(() => _isListening = false);
+    }
+
+    setState(() {
+      _showManualInput = true;
+      _manualController.clear();
+    });
+
+    final locs = AppLocalizations.of(context);
+    final targetLength = _sequences[_currentIndex].replaceAll(' ', '').length;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(
+                locs.manualInputTitle,
+                style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(locs.manualInputInstr, style: GoogleFonts.cairo()),
+                    const SizedBox(height: 15),
+                    TextField(
+                      controller: _manualController,
+                      keyboardType: TextInputType.number,
+                      maxLength: targetLength,
+                      autofocus: true,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.outfit(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                      decoration: const InputDecoration(
+                        counterText: "",
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.teal, width: 2),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.teal, width: 2),
+                        ),
+                      ),
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      onChanged: (val) => setDialogState(() {}),
+                    ),
+                    const SizedBox(height: 20),
+                    // Digit Grid (Phone style 3x3 + Backspace centered)
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildDigitButton('1', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('2', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('3', setDialogState),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildDigitButton('4', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('5', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('6', setDialogState),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildDigitButton('7', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('8', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('9', setDialogState),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        // Backspace row
+                        InkWell(
+                          onTap: () {
+                            if (_manualController.text.isNotEmpty) {
+                              setDialogState(() {
+                                _manualController.text = _manualController.text
+                                    .substring(0, _manualController.text.length - 1);
+                              });
+                            }
+                          },
+                          child: Container(
+                            width: 54,
+                            height: 54,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.red.shade300, width: 2),
+                            ),
+                            child: Icon(Icons.backspace_outlined, color: Colors.red.shade400, size: 24),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    setState(() => _showManualInput = false);
+                    Navigator.pop(context);
+                  },
+                  child: Text(locs.cancel, style: GoogleFonts.cairo(color: Colors.grey)),
+                ),
+                ElevatedButton(
+                  onPressed: _manualController.text.isEmpty
+                      ? null
+                      : () {
+                          setState(() {
+                            _accumulatedDigits = _manualController.text;
+                            _spokenText = "manual: ${_manualController.text}";
+                            _isValidated = false;
+                            _showManualInput = false;
+                          });
+                          Navigator.pop(context);
+                        },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  ),
+                  child: Text(locs.validateBtn, style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildDigitButton(String digit, StateSetter setDialogState) {
+    final targetLength = _sequences[_currentIndex].replaceAll(' ', '').length;
+    return InkWell(
+      onTap: _manualController.text.length >= targetLength
+          ? null
+          : () {
+              setDialogState(() {
+                _manualController.text += digit;
+              });
+            },
+      child: Container(
+        width: 54,
+        height: 54,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: _manualController.text.length >= targetLength ? Colors.grey.shade300 : Colors.teal,
+            width: 2,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            digit,
+            style: GoogleFonts.outfit(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: _manualController.text.length >= targetLength ? Colors.grey : Colors.teal,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   void dispose() {
+    _manualController.dispose();
     _audioRecorder.dispose();
     _flutterTts.stop();
     _timer?.cancel();
+    _listenTimer?.cancel();
+    _guardianTimer?.cancel();
     _micAnimController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Auto-start removed as requested
-
-    return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5), // Light grey for serenity
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        _showExitConfirmationDialog();
+      },
+      child: Scaffold(
+      backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context).testTitle,
@@ -375,13 +804,26 @@ class _EmpanDirectState extends State<EmpanDirect>
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [],
-        iconTheme: const IconThemeData(color: Colors.black),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: TextButton.icon(
+              onPressed: _showFinalScore, // MODIFIED: same behavior as bottom button
+              icon: const Icon(Icons.stop_circle_outlined, color: Colors.red),
+              label: Text(
+                AppLocalizations.of(context).finishTest,
+                style: GoogleFonts.cairo(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(
           children: [
-            // 1. Progress Bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
@@ -412,97 +854,148 @@ class _EmpanDirectState extends State<EmpanDirect>
 
             const Spacer(),
 
-            // 2. Central Text
-            Text(
-              AppLocalizations.of(context).repeatSequence,
-              style: GoogleFonts.cairo(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF333333),
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 10),
-
-            // Play Button
-            ElevatedButton.icon(
-              onPressed: _isPlaying
-                  ? null
-                  : () {
-                      if (!_isTestStarted) {
-                        _startTest(); // Start timer on first play
-                      }
-                      _speakSequence();
-                    },
-              icon: Icon(_isPlaying ? Icons.volume_up : Icons.play_arrow),
-              label: Text(
-                _isPlaying
-                    ? AppLocalizations.of(context).playBtn
-                    : AppLocalizations.of(context).listenBtn,
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.teal,
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 40),
-
-            // 3. Mic Button with Animation
-            GestureDetector(
-              onTap: _listen,
-              child: AnimatedBuilder(
-                animation: _micAnimation,
-                builder: (context, child) {
-                  return Container(
-                    width: 80 * (_isListening ? _micAnimation.value : 1.0),
-                    height: 80 * (_isListening ? _micAnimation.value : 1.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.teal.withValues(
-                        alpha: _isListening ? 0.2 : 0.0,
-                      ),
+            Center(
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex) || _isFluentRunning || _isPlaying || _isListening)
+                        ? null
+                        : _runFluentSequence,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        if (_isPlaying || _isListening || _isFluentRunning)
+                          AnimatedBuilder(
+                            animation: _micAnimation,
+                            builder: (context, child) {
+                              double pulseSize = 120 + (_soundLevel.clamp(0, 10) * 2);
+                              return Container(
+                                width: pulseSize,
+                                height: pulseSize,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: (_isPlaying || _isFluentRunning)
+                                      ? const Color(0x33009688)
+                                      : const Color(0x33FF9800),
+                                ),
+                              );
+                            },
+                          ),
+                        Container(
+                          width: 120,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex))
+                                ? Colors.grey
+                                : (_isListening ? Colors.orange : Colors.teal),
+                            boxShadow: [
+                              BoxShadow(
+                                color: (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex))
+                                    ? const Color(0x669E9E9E)
+                                    : (_isListening ? const Color(0x66FF9800) : const Color(0x66009688)),
+                                blurRadius: 20,
+                                spreadRadius: 5,
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            _isListening ? Icons.mic : Icons.volume_up,
+                            color: Colors.white,
+                            size: 50,
+                          ),
+                        ),
+                      ],
                     ),
-                    child: child,
-                  );
-                },
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.teal,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.teal.withValues(alpha: 0.4),
-                        blurRadius: 15,
-                        spreadRadius: 5,
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    AppLocalizations.of(context)
+                        .attemptsLabel
+                        .replaceFirst('{}', '$_attemptCount')
+                        .replaceFirst('/3', '/2'),
+                    style: GoogleFonts.cairo(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: _attemptCount >= 2 ? Colors.red : Colors.grey[700],
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  IconButton(
+                    onPressed: (_scoredIndices.contains(_currentIndex) || _isFluentRunning || _isPlaying)
+                        ? null
+                        : _listenOnly,
+                    icon: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.teal, width: 2),
                       ),
-                    ],
+                      child: const Icon(Icons.replay, color: Colors.teal, size: 30),
+                    ),
+                    tooltip: "Erase and restart recording",
                   ),
-                  child: Icon(
-                    _isListening ? Icons.mic : Icons.mic_none,
-                    color: Colors.white,
-                    size: 40,
+                  Text(
+                    AppLocalizations.of(context).repeatSequence,
+                    style: GoogleFonts.cairo(
+                      fontSize: 12,
+                      color: Colors.teal,
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 10),
+                  if (_isListening || (_spokenText.isEmpty && !_isPlaying && !_isFluentRunning))
+                    IconButton(
+                      onPressed: _showManualInputDialog,
+                      icon: const Icon(Icons.keyboard_alt_outlined, color: Colors.teal, size: 28),
+                      tooltip: AppLocalizations.of(context).manualInputHint,
+                    ),
+                ],
               ),
             ),
             if (_isListening)
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Text(
-                  AppLocalizations.of(context).listening,
-                  style: GoogleFonts.cairo(color: Colors.teal),
-                ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      AppLocalizations.of(context).listening,
+                      style: GoogleFonts.cairo(
+                        color: Colors.orange,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      _stopGuardian();
+                      _listenTimer?.cancel();
+                      _speech.stop();
+                      setState(() => _isListening = false);
+                    },
+                    icon: const Icon(Icons.check_circle_outline),
+                    label: Text(
+                      AppLocalizations.of(context).doneListening,
+                      style: GoogleFonts.cairo(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                ],
               ),
 
-            // Visualization of Spoken Text
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
@@ -516,9 +1009,36 @@ class _EmpanDirectState extends State<EmpanDirect>
               ),
             ),
 
+            if (_spokenText.isNotEmpty || _accumulatedDigits.isNotEmpty)
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey[400]!),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (_spokenText.startsWith("manual:"))
+                      Text('⌨️ Tapped: $_accumulatedDigits', // MODIFIED: relabel for manual mode
+                          style: GoogleFonts.cairo(fontSize: 12))
+                    else
+                      Text('🎤 STT: $_spokenText',
+                          style: GoogleFonts.cairo(fontSize: 12)),
+                    Text('🔢 Mapped: $_accumulatedDigits',
+                        style: GoogleFonts.cairo(
+                          fontSize: 12,
+                          color: Colors.blue[800],
+                        )),
+                    // MODIFIED: deleted '✅ Expected' row to prevent patient from seeing answers
+                  ],
+                ),
+              ),
+
             const Spacer(),
 
-            // 4. Feedback Card
             if (_showFeedback && _lastIncorrectInput != null)
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -556,7 +1076,7 @@ class _EmpanDirectState extends State<EmpanDirect>
                           ),
                         ),
                         Text(
-                          _lastIncorrectInput!, // Arabic text
+                          _lastIncorrectInput!,
                           style: GoogleFonts.cairo(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -570,7 +1090,6 @@ class _EmpanDirectState extends State<EmpanDirect>
                 ),
               ),
 
-            // 5. Action Buttons
             Padding(
               padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
               child: Column(
@@ -578,7 +1097,6 @@ class _EmpanDirectState extends State<EmpanDirect>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Validate Button
                       Expanded(
                         child: ElevatedButton(
                           onPressed: _validate,
@@ -600,7 +1118,6 @@ class _EmpanDirectState extends State<EmpanDirect>
                         ),
                       ),
                       const SizedBox(width: 20),
-                      // Next Button
                       Expanded(
                         child: ElevatedButton(
                           onPressed: _next,
@@ -624,7 +1141,6 @@ class _EmpanDirectState extends State<EmpanDirect>
                     ],
                   ),
                   const SizedBox(height: 15),
-                  // Finish Button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -649,6 +1165,7 @@ class _EmpanDirectState extends State<EmpanDirect>
             ),
           ],
         ),
+      ),
       ),
     );
   }

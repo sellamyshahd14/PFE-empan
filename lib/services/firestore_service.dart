@@ -14,13 +14,20 @@ class FirestoreService {
     required String lastName,
     required String patientIdentifier,
     required DateTime birthDate,
+    String? gender,
+    String? addressPhone,
+    String? insurance,
+    String? educationLevel,
+    String? maritalStatus,
+    String? mainCaregiver,
+    Map<String, dynamic>? antecedents,
   }) async {
     User? doctor = _auth.currentUser;
     if (doctor == null) throw Exception("No doctor logged in");
 
     debugPrint("ADDING PATIENT: Doctor UID = ${doctor.uid}");
 
-    // Check if ID already exists (Globally or Per Doctor? Usually Per Doctor is safer, but Global avoids confusion)
+    // Check if ID already exists
     final existingParams = await _db
         .collection('patients')
         .where('patientIdentifier', isEqualTo: patientIdentifier)
@@ -31,14 +38,23 @@ class FirestoreService {
       throw Exception("Patient ID '$patientIdentifier' already exists!");
     }
 
-    await _db.collection('patients').add({
+    final Map<String, dynamic> patientData = {
       'firstName': firstName,
       'lastName': lastName,
-      'patientIdentifier': patientIdentifier, // The ID used for login
+      'patientIdentifier': patientIdentifier, // The ID used for login (Medical ID)
       'birthDate': Timestamp.fromDate(birthDate),
+      'gender': gender,
+      'addressPhone': addressPhone,
+      'insurance': insurance,
+      'educationLevel': educationLevel,
+      'maritalStatus': maritalStatus,
+      'mainCaregiver': mainCaregiver,
+      'antecedents': antecedents,
       'createdByDoctorId': doctor.uid,
       'createdAt': FieldValue.serverTimestamp(),
-    });
+    };
+
+    await _db.collection('patients').add(patientData);
     debugPrint("PATIENT ADDED SUCCESSFULLY");
   }
 
@@ -79,7 +95,7 @@ class FirestoreService {
 
   // Save a Test Result
   Future<void> saveTestResult({
-    required String patientId, // The DB ID of the patient
+    required String patientDocId, // The DB ID of the patient
     required String patientIdentifier,
     double? score,
     double? scoreA, // HADS Anxiety
@@ -87,7 +103,8 @@ class FirestoreService {
     String totalDuration = "N/A",
     String testType = 'Empan', // Default for retro-compatibility
     int errors = 0,
-    String? testName, // To match HADS module signature if needed
+    String? testName,
+    Map<String, dynamic>? metadata,
   }) async {
     // If testName is passed, it overrides testType
     String finalTestType = testName ?? testType;
@@ -96,7 +113,7 @@ class FirestoreService {
     // (Optional: could verify patient ownership here)
 
     final Map<String, dynamic> data = {
-      'patientId': patientId,
+      'patientId': patientDocId,
       'patientIdentifier': patientIdentifier,
       'duration': totalDuration,
       'testType': finalTestType,
@@ -109,6 +126,7 @@ class FirestoreService {
     if (score != null) data['score'] = score;
     if (scoreA != null) data['scoreA'] = scoreA;
     if (scoreD != null) data['scoreD'] = scoreD;
+    if (metadata != null) data.addAll(metadata);
 
     await _db.collection('results').add(data);
   }

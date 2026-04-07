@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,9 +7,14 @@ import '../services/firestore_service.dart';
 import '../localization.dart';
 
 class TmtAPage extends StatefulWidget {
-  final String patientId;
+  final String patientDocId;
+  final String patientIdentifier;
 
-  const TmtAPage({super.key, required this.patientId});
+  const TmtAPage({
+    super.key,
+    required this.patientDocId,
+    required this.patientIdentifier,
+  });
 
   @override
   State<TmtAPage> createState() => _TmtAPageState();
@@ -105,20 +109,22 @@ class _TmtAPageState extends State<TmtAPage> {
       _startTest();
     }
 
-    if (number == _nextExpectedNumber) {
-      // Correct
-      setState(() {
-        _connectedNumbers.add(number);
-        _nextExpectedNumber++;
-        _showError = false;
-      });
+    // Ignore if tapping the same circle that is already the end of the trail
+    if (_connectedNumbers.isNotEmpty && _connectedNumbers.last == number) return;
 
-      if (number == _totalCircles) {
-        _finishTest();
-      }
-    } else {
-      // Incorrect
-      _triggerError();
+    // Track error if skipped or backtracked
+    if (number != _nextExpectedNumber) {
+      _errorCount++;
+    }
+
+    setState(() {
+      _connectedNumbers.add(number);
+      _nextExpectedNumber = number + 1;
+      _showError = false;
+    });
+
+    if (number == _totalCircles) {
+      _finishTest();
     }
   }
 
@@ -168,26 +174,6 @@ class _TmtAPageState extends State<TmtAPage> {
     );
   }
 
-  void _triggerError() {
-    // Haptic feedback
-    HapticFeedback.mediumImpact();
-
-    _errorCount++;
-
-    // Visual feedback (Flash red)
-    setState(() {
-      _showError = true;
-    });
-
-    // Reset error state after short delay
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (mounted) {
-        setState(() {
-          _showError = false;
-        });
-      }
-    });
-  }
 
   void _submitResult() async {
     final int elapsedMilliseconds = _stopwatch.elapsedMilliseconds;
@@ -195,17 +181,19 @@ class _TmtAPageState extends State<TmtAPage> {
     final String durationStr = "$seconds s";
 
     debugPrint(
-      "TMT-A Completed in: $durationStr for patient ${widget.patientId}",
+      "TMT-A Completed in: $durationStr for patient ${widget.patientDocId}",
     );
 
     try {
       await _firestoreService.saveTestResult(
-        patientId: widget.patientId,
-        patientIdentifier: widget.patientId, // Defaulting to docId
-        score: 0,
+        patientDocId: widget.patientDocId,
+        patientIdentifier: widget.patientIdentifier,
+        score: (24 - _errorCount).toDouble(),
         totalDuration: durationStr,
         testType: 'TMT-A',
-        errors: _errorCount,
+        metadata: {
+          'mistakes': _errorCount,
+        },
       );
     } catch (e) {
       debugPrint("Error saving result: $e");

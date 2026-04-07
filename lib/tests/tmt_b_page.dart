@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,9 +7,14 @@ import '../services/firestore_service.dart';
 import '../localization.dart';
 
 class TmtBPage extends StatefulWidget {
-  final String patientId;
+  final String patientDocId;
+  final String patientIdentifier;
 
-  const TmtBPage({super.key, required this.patientId});
+  const TmtBPage({
+    super.key,
+    required this.patientDocId,
+    required this.patientIdentifier,
+  });
 
   @override
   State<TmtBPage> createState() => _TmtBPageState();
@@ -33,7 +37,6 @@ class TmtItem {
 
 class _TmtBPageState extends State<TmtBPage> {
   final FirestoreService _firestoreService = FirestoreService();
-  final int _maxNumber = 25;
   List<TmtItem> _items = [];
   final List<TmtItem> _connectedItems = [];
 
@@ -55,7 +58,8 @@ class _TmtBPageState extends State<TmtBPage> {
   // Mapped from the official TMT-B reference layout
   static const List<List<double>> _normalizedPositions = [
     // White Circles (1-25) - Mapped from Image
-    [1, 1, 0.68, 0.53], // 1 (début)
+    [1, 1, 0.68, 0.53], // 1-W (début)
+    [1, 0, 0.60, 0.60], // 1-B
     [2, 1, 0.50, 0.62], // 2W
     [3, 1, 0.73, 0.67], // 3W
     [4, 1, 0.82, 0.45], // 4W
@@ -207,29 +211,29 @@ class _TmtBPageState extends State<TmtBPage> {
       _startTest();
     }
 
-    // Check correctness
-    bool isCorrect = false;
+    // Find the current item's index in the official 50-item sequence
+    // Sequence logic: Number N, Color White (isWhite=true) -> Number N, Color Blue (isWhite=false)
+    // Formula for index in [1W, 1B, 2W, 2B...]: (Number - 1) * 2 + (isWhite ? 0 : 1)
+    int tappedIndex = (item.number - 1) * 2 + (item.isWhite ? 0 : 1);
 
-    // The sequence follows: 1W -> 2B -> 3W -> 4B ... -> 25W
-    bool expectedIsWhite = (_nextNumber % 2 != 0);
+    // Any circle tap is allowed and moves the trail forward from its current position.
+    // We only ignore if the user taps the exact same circle that is already at the end of the trail.
+    if (_connectedItems.isNotEmpty && _connectedItems.last == item) return;
 
-    if (item.number == _nextNumber && item.isWhite == expectedIsWhite) {
-      isCorrect = true;
+    // Is it the one we expected in the serial 1W-1B-2W-2B... sequence?
+    if (tappedIndex != _nextNumber - 1) {
+      _errorCount++;
     }
 
-    if (isCorrect) {
-      setState(() {
-        _connectedItems.add(item);
-        _nextNumber++;
-        _showError = false;
-      });
+    setState(() {
+      _connectedItems.add(item);
+      _nextNumber = tappedIndex + 2; // The next expected will be tappedIndex + 1
+      _showError = false; 
+    });
 
-      // Completion check: Connected 25-White
-      if (item.number == _maxNumber && item.isWhite) {
-        _finishTest();
-      }
-    } else {
-      _triggerError();
+    // Completion check: Connected 25-Blue
+    if (item.number == 25 && !item.isWhite) {
+      _finishTest();
     }
   }
 
@@ -277,20 +281,6 @@ class _TmtBPageState extends State<TmtBPage> {
     );
   }
 
-  void _triggerError() {
-    HapticFeedback.mediumImpact();
-    _errorCount++;
-    setState(() {
-      _showError = true;
-    });
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (mounted) {
-        setState(() {
-          _showError = false;
-        });
-      }
-    });
-  }
 
   void _submitResult() async {
     final int elapsedMilliseconds = _stopwatch.elapsedMilliseconds;
@@ -298,18 +288,20 @@ class _TmtBPageState extends State<TmtBPage> {
     final String durationStr = "$seconds s";
 
     debugPrint(
-      "TMT-B Completed in: $durationStr for patient ${widget.patientId}",
+      "TMT-B Completed in: $durationStr for patient ${widget.patientDocId}",
     );
 
     try {
-      await _firestoreService.saveTestResult(
-        patientId: widget.patientId,
-        patientIdentifier: widget.patientId, // Defaulting to docId
-        score: 0,
-        totalDuration: durationStr,
-        testType: 'TMT-B',
-        errors: _errorCount,
-      );
+        await _firestoreService.saveTestResult(
+          patientDocId: widget.patientDocId,
+          patientIdentifier: widget.patientIdentifier,
+          score: (24 - _errorCount).toDouble(),
+          totalDuration: durationStr,
+          testType: 'TMT-B',
+          metadata: {
+            'mistakes': _errorCount,
+          },
+        );
     } catch (e) {
       debugPrint("Error saving result: $e");
     }
@@ -385,7 +377,7 @@ class _TmtBPageState extends State<TmtBPage> {
                   bool isStart = (item.number == 1 && item.isWhite);
                   bool isEnd =
                       (item.number == 25 &&
-                      item.isWhite); // Changed back to White
+                      !item.isWhite); // Finish is under 25 Blue
 
                   return Positioned(
                     left: item.position.dx,

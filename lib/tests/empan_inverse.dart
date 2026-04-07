@@ -9,15 +9,21 @@ import '../services/firestore_service.dart';
 
 import 'dart:async';
 
-class EmpanInverseDirect extends StatefulWidget {
-  final String patientName;
-  const EmpanInverseDirect({super.key, required this.patientName});
+class EmpanInverse extends StatefulWidget {
+  final String patientDocId;
+  final String patientIdentifier;
+
+  const EmpanInverse({
+    super.key,
+    required this.patientDocId,
+    required this.patientIdentifier,
+  });
 
   @override
-  State<EmpanInverseDirect> createState() => _EmpanInverseDirectState();
+  State<EmpanInverse> createState() => _EmpanInverseState();
 }
 
-class _EmpanInverseDirectState extends State<EmpanInverseDirect>
+class _EmpanInverseState extends State<EmpanInverse>
     with TickerProviderStateMixin {
   late stt.SpeechToText _speech;
   late FlutterTts _flutterTts;
@@ -27,12 +33,18 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
   String _spokenText = "";
   double _score = 0.0;
   int _currentIndex = 0;
+  int _attemptCount = 0;
+  final Set<int> _scoredIndices = {};
+  double _soundLevel = 0.0;
   bool _isTestStarted = false;
   final Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
+  Timer? _listenTimer; // Hard stop timer for mic
+  Timer? _guardianTimer; // Polling guardian to restart mic on early close
   String _formattedTime = "00:00";
   bool _showFeedback = false;
   String? _lastIncorrectInput;
+  bool _isFluentRunning = false;
 
   late AnimationController _micAnimController;
   late Animation<double> _micAnimation;
@@ -83,12 +95,12 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
         });
       });
     });
-    _speakSequence();
   }
 
   Future<void> _stopTest() async {
     _stopwatch.stop();
     _timer?.cancel();
+    _listenTimer?.cancel();
   }
 
   String _formatTime(Duration duration) {
@@ -100,12 +112,19 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
 
   void _initSpeech() async {
     await Permission.microphone.request();
+    bool available = await _speech.initialize(
+      onStatus: (status) => debugPrint("STT Status: $status"),
+      onError: (error) => debugPrint("STT Error: $error"),
+    );
+    if (!available) {
+      debugPrint("STT Not Available");
+    }
   }
 
   void _initTts() async {
     try {
-      await _flutterTts.setLanguage("ar");
-      await _flutterTts.setSpeechRate(0.5);
+      await _flutterTts.awaitSpeakCompletion(true);
+      await _flutterTts.setSpeechRate(0.65);
       await _flutterTts.setVolume(1.0);
       await _flutterTts.setPitch(1.0);
     } catch (e) {
@@ -119,80 +138,254 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
 
   Future<void> _speakSequence() async {
     if (_isPlaying) return;
+
+    // Stop mic if it is active before playing the sequence
+    if (_isListening) {
+      _listenTimer?.cancel();
+      _speech.stop();
+      setState(() => _isListening = false);
+    }
+
+    // Start the test timer on first interaction
+    if (!_isTestStarted) {
+      _startTest();
+    }
+
     setState(() {
       _isPlaying = true;
       _showFeedback = false;
       _spokenText = "";
     });
 
+    String lang = AppLocalizations.of(context).locale.languageCode;
+    await _flutterTts.setLanguage(lang == 'ar' ? 'ar' : 'fr-FR');
+
+    if (_currentIndex == 0) {
+      String introSentence = AppLocalizations.of(context).empanInverseIntro;
+      await _flutterTts.speak(introSentence);
+      await Future.delayed(const Duration(milliseconds: 1000));
+    }
+
     String sequence = _sequences[_currentIndex];
     List<String> numbers = sequence.split(' ');
 
     for (String number in numbers) {
-      String arabicWord = _getArabicWord(number);
-      await _flutterTts.speak(arabicWord);
-      await Future.delayed(const Duration(milliseconds: 1200));
+      String word = _getLocalizedWord(number);
+      await _flutterTts.speak(word);
+      await Future.delayed(const Duration(milliseconds: 900));
     }
-
     setState(() => _isPlaying = false);
   }
 
-  String _getArabicWord(String digit) {
-    switch (digit) {
-      case '0':
-        return 'صفر';
-      case '1':
-        return 'واحد';
-      case '2':
-        return 'اثنان';
-      case '3':
-        return 'ثلاثة';
-      case '4':
-        return 'أربعة';
-      case '5':
-        return 'خمسة';
-      case '6':
-        return 'ستة';
-      case '7':
-        return 'سبعة';
-      case '8':
-        return 'ثمانية';
-      case '9':
-        return 'تسعة';
-      default:
-        return digit;
+  // Combined Listen + 3s Pause + Cue + Record
+  Future<void> _runFluentSequence() async {
+    if (_isFluentRunning || _isPlaying || _isListening) return;
+    if (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex)) return;
+
+    setState(() {
+      _isFluentRunning = true;
+      _attemptCount++;
+    });
+
+    // 1. Speak numbers
+    await _speakSequence();
+
+    // 2. Wait 3 seconds
+    await Future.delayed(const Duration(seconds: 3));
+
+    // 3. Play Cue
+    String cue = AppLocalizations.of(context).onCommenceCue;
+    await _flutterTts.speak(cue);
+    // Give cue time to finish
+    await Future.delayed(const Duration(milliseconds: 1500));
+
+    // 4. Start Listening
+    _listen();
+
+    setState(() => _isFluentRunning = false);
+  }
+
+  // Purely for the small "Re-record" button (user calls it "the arrow")
+  void _listenOnly() async {
+    if (_isPlaying || _isFluentRunning) return;
+    if (_scoredIndices.contains(_currentIndex)) return;
+
+    // Immediately clear current state to "erase" visible response
+    setState(() {
+      _spokenText = "";
+      _showFeedback = false;
+      _lastIncorrectInput = null;
+    });
+
+    // If already listening, stop first and small delay
+    if (_isListening) {
+      _stopGuardian();
+      _listenTimer?.cancel();
+      await _speech.stop();
+      setState(() => _isListening = false);
+      await Future.delayed(const Duration(milliseconds: 300));
     }
+
+    _listen();
+  }
+
+  // _startListening removed in favor of fluent flow
+
+  String _getLocalizedWord(String digit) {
+    String lang = AppLocalizations.of(context).locale.languageCode;
+    if (lang == 'fr') {
+      switch (digit) {
+        case '0': return 'zéro';
+        case '1': return 'un';
+        case '2': return 'deux';
+        case '3': return 'trois';
+        case '4': return 'quatre';
+        case '5': return 'cinq';
+        case '6': return 'six';
+        case '7': return 'sept';
+        case '8': return 'huit';
+        case '9': return 'neuf';
+        default: return digit;
+      }
+    } else {
+      switch (digit) {
+        case '0': return 'صفر';
+        case '1': return 'واحد';
+        case '2': return 'اثنان';
+        case '3': return 'ثلاثة';
+        case '4': return 'أربعة';
+        case '5': return 'خمسة';
+        case '6': return 'ستة';
+        case '7': return 'سبعة';
+        case '8': return 'ثمانية';
+        case '9': return 'تسعة';
+        default: return digit;
+      }
+    }
+  }
+
+  String _normalizeDigits(String input) {
+    const Map<String, String> wordToDigit = {
+      'واحد': '1', 'واحده': '1', 'احد': '1', 'un': '1', 'une': '1',
+      'اثنان': '2', 'اثنين': '2', 'إثنان': '2', 'إثنين': '2', 'deux': '2',
+      'ثلاثة': '3', 'ثلاثه': '3', 'trois': '3',
+      'أربعة': '4', 'أربعه': '4', 'اربعة': '4', 'اربعه': '4', 'quatre': '4',
+      'خمسة': '5', 'خمسه': '5', 'cinq': '5',
+      'ستة': '6', 'سته': '6', 'six': '6',
+      'سبعة': '7', 'سبعه': '7', 'sept': '7',
+      'ثمانية': '8', 'ثمانيه': '8', 'huit': '8',
+      'تسعة': '9', 'تسعه': '9', 'neuf': '9',
+      'صفر': '0', 'zéro': '0', 'zero': '0',
+    };
+    const Map<String, String> arabicToLatin = {
+      '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
+      '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+    };
+
+    String result = input.toLowerCase();
+    wordToDigit.forEach((word, digit) {
+      result = result.replaceAll(word, digit);
+    });
+    arabicToLatin.forEach((arabic, latin) {
+      result = result.replaceAll(arabic, latin);
+    });
+    return result.replaceAll(RegExp(r'[^0-9]'), '');
   }
 
   void _listen() async {
     if (!_isListening) {
-      bool available = await _speech.initialize();
+      bool available = await _speech.initialize(
+        onStatus: (status) => debugPrint("STT Status: $status"),
+        onError: (error) => debugPrint("STT Error: $error"),
+      );
       if (available) {
-        setState(() => _isListening = true);
-        _speech.listen(
-          localeId: 'ar-TN',
-          onResult: (val) {
-            setState(() {
-              _spokenText = val.recognizedWords;
-            });
-          },
-        );
+        setState(() {
+          _isListening = true;
+          _spokenText = "";
+        });
+        _startSttSession();
+
+        // Hard 60-second force-stop timer
+        _listenTimer?.cancel();
+        _listenTimer = Timer(const Duration(seconds: 60), () {
+          _stopGuardian();
+          if (_isListening) {
+            _speech.stop();
+            setState(() => _isListening = false);
+          }
+        });
+
+        // Polling guardian: check every 1s if STT stopped early → restart
+        _guardianTimer?.cancel();
+        _guardianTimer = Timer.periodic(const Duration(seconds: 1), (t) {
+          if (!_isListening) {
+            t.cancel();
+            return;
+          }
+          if (!_speech.isListening) {
+            _startSttSession();
+          }
+        });
       }
     } else {
+      _stopGuardian();
+      _listenTimer?.cancel();
       setState(() => _isListening = false);
       _speech.stop();
     }
   }
 
+  void _startSttSession() {
+    String lang = AppLocalizations.of(context).locale.languageCode;
+    _speech.listen(
+      localeId: lang == 'ar' ? 'ar-TN' : null,
+      listenFor: const Duration(seconds: 60),
+      pauseFor: const Duration(seconds: 20),
+      partialResults: true,
+      onSoundLevelChange: (level) {
+        setState(() { _soundLevel = level; });
+      },
+      onResult: (val) {
+        if (val.recognizedWords.isNotEmpty) {
+          setState(() {
+            _spokenText = val.recognizedWords;
+          });
+        }
+      },
+    );
+  }
+
+  void _stopGuardian() {
+    _guardianTimer?.cancel();
+    _guardianTimer = null;
+  }
+
   bool _isValidated = false;
 
   void _validate() {
-    // REVERSED LOGIC FOR EMPAN INVERSE
-    String targetDigitsReversed = _sequences[_currentIndex]
-        .split(' ')
-        .reversed
-        .join('');
-    String cleanSpoken = _spokenText.replaceAll(RegExp(r'[^0-9]'), '');
+    // Stop mic and guardian if still active
+    if (_isListening) {
+      _stopGuardian();
+      _listenTimer?.cancel();
+      _speech.stop();
+      setState(() => _isListening = false);
+    }
+
+    // If already scored for this sequence, do nothing
+    if (_scoredIndices.contains(_currentIndex)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context).correctFeedback),
+          backgroundColor: Colors.green,
+        ),
+      );
+      return;
+    }
+
+    // Empan Inverse: the answer must be the REVERSE of the sequence
+    String targetDigitsReversed =
+        _sequences[_currentIndex].split(' ').reversed.join('');
+    String cleanSpoken = _normalizeDigits(_spokenText);
 
     bool isCorrect = false;
     if (cleanSpoken.contains(targetDigitsReversed)) {
@@ -201,7 +394,10 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
 
     if (isCorrect) {
       setState(() {
-        _score += 0.5;
+        if (!_scoredIndices.contains(_currentIndex)) {
+          _score += 0.5;
+          _scoredIndices.add(_currentIndex);
+        }
         _showFeedback = false;
         _isValidated = true;
       });
@@ -234,12 +430,15 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
     if (_currentIndex < _sequences.length - 1) {
       setState(() {
         _currentIndex++;
+        _attemptCount = 0; // Reset for next sequence
         _spokenText = "";
         _isListening = false;
         _showFeedback = false;
         _lastIncorrectInput = null;
         _isValidated = false;
       });
+      _stopGuardian();
+      _listenTimer?.cancel();
       _speech.stop();
     } else {
       _showFinalScore();
@@ -253,11 +452,11 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
 
     try {
       await _firestoreService.saveTestResult(
-        patientId: widget.patientName,
-        patientIdentifier: "Unknown",
+        patientDocId: widget.patientDocId,
+        patientIdentifier: widget.patientIdentifier,
         score: _score,
         totalDuration: _formattedTime,
-        testType: 'Empan Inverse', // Explicitly setting the test type
+        testType: 'Empan Inverse',
       );
       debugPrint("Result Saved!");
     } catch (e) {
@@ -298,11 +497,45 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).popUntil((route) => route.isFirst);
+              Navigator.of(context).pop(); // Close Dialog
+              Navigator.of(context).pop(); // Close Test Page
             },
             child: Text(
               AppLocalizations.of(context).mainMenu,
               style: GoogleFonts.cairo(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showExitConfirmationDialog() {
+    final loc = AppLocalizations.of(context);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          loc.exitWithoutSaving,
+          style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          loc.exitConfirmBody,
+          style: GoogleFonts.cairo(),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(loc.cancel, style: GoogleFonts.cairo()),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // dialog
+              Navigator.of(context).pop(); // exit test
+            },
+            child: Text(
+              loc.exitWithoutSaving,
+              style: GoogleFonts.cairo(color: Colors.red),
             ),
           ),
         ],
@@ -315,13 +548,21 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
     _audioRecorder.dispose();
     _flutterTts.stop();
     _timer?.cancel();
+    _listenTimer?.cancel();
+    _guardianTimer?.cancel();
     _micAnimController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        _showExitConfirmationDialog();
+      },
+      child: Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
         title: Text(
@@ -334,6 +575,22 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: TextButton.icon(
+              onPressed: _showFinalScore, // MODIFIED: same behavior as bottom button
+              icon: const Icon(Icons.stop_circle_outlined, color: Colors.red),
+              label: Text(
+                AppLocalizations.of(context).finishTest,
+                style: GoogleFonts.cairo(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(
@@ -368,91 +625,145 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
 
             const Spacer(),
 
-            Text(
-              AppLocalizations.of(context).repeatSequence,
-              style: GoogleFonts.cairo(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF333333),
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 10),
-
-            ElevatedButton.icon(
-              onPressed: _isPlaying
-                  ? null
-                  : () {
-                      if (!_isTestStarted) {
-                        _startTest();
-                      }
-                      _speakSequence();
-                    },
-              icon: Icon(_isPlaying ? Icons.volume_up : Icons.play_arrow),
-              label: Text(
-                _isPlaying
-                    ? AppLocalizations.of(context).playBtn
-                    : AppLocalizations.of(context).listenBtn,
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.teal,
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 40),
-
-            GestureDetector(
-              onTap: _listen,
-              child: AnimatedBuilder(
-                animation: _micAnimation,
-                builder: (context, child) {
-                  return Container(
-                    width: 80 * (_isListening ? _micAnimation.value : 1.0),
-                    height: 80 * (_isListening ? _micAnimation.value : 1.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.teal.withValues(
-                        alpha: _isListening ? 0.2 : 0.0,
-                      ),
+            // 2. Fluent Flow Buttons
+            Center(
+              child: Column(
+                children: [
+                  // MAIN BUTTON: Full Sequence (Listen + 3s + Cue + Record)
+                  GestureDetector(
+                    onTap: (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex) || _isFluentRunning || _isPlaying || _isListening)
+                        ? null
+                        : _runFluentSequence,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Pulsing Ring for both Play and Listen
+                        if (_isPlaying || _isListening || _isFluentRunning)
+                          AnimatedBuilder(
+                            animation: _micAnimation,
+                            builder: (context, child) {
+                              double pulseSize = 120 + (_soundLevel.clamp(0, 10) * 2);
+                              return Container(
+                                width: pulseSize,
+                                height: pulseSize,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: (_isPlaying || _isFluentRunning)
+                                      ? Colors.teal.withOpacity(0.2)
+                                      : Colors.orange.withOpacity(0.2),
+                                ),
+                              );
+                            },
+                          ),
+                        Container(
+                          width: 120,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex))
+                                ? Colors.grey
+                                : (_isListening ? Colors.orange : Colors.teal),
+                            boxShadow: [
+                              BoxShadow(
+                                color: ((_attemptCount >= 2 || _scoredIndices.contains(_currentIndex))
+                                        ? Colors.grey
+                                        : (_isListening ? Colors.orange : Colors.teal))
+                                    .withOpacity(0.4),
+                                blurRadius: 20,
+                                spreadRadius: 5,
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            _isListening ? Icons.mic : Icons.volume_up,
+                            color: Colors.white,
+                            size: 50,
+                          ),
+                        ),
+                      ],
                     ),
-                    child: child,
-                  );
-                },
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.teal,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.teal.withValues(alpha: 0.4),
-                        blurRadius: 15,
-                        spreadRadius: 5,
+                  ),
+                  const SizedBox(height: 15),
+                  // Attempt Counter for Main Button
+                  Text(
+                    AppLocalizations.of(context)
+                        .attemptsLabel
+                        .replaceFirst('{}', '$_attemptCount')
+                        .replaceFirst('/3', '/2'), // UI requirement check: user said "repeat 2 times not 3"
+                    style: GoogleFonts.cairo(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: _attemptCount >= 2 ? Colors.red : Colors.grey[700],
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  // SUB-BUTTON: Re-record Only (Unlimited)
+                  IconButton(
+                    onPressed: (_scoredIndices.contains(_currentIndex) || _isFluentRunning || _isPlaying)
+                        ? null
+                        : _listenOnly,
+                    icon: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.teal, width: 2),
                       ),
-                    ],
+                      child: const Icon(Icons.replay, color: Colors.teal, size: 30),
+                    ),
+                    tooltip: "Erase and restart recording",
                   ),
-                  child: Icon(
-                    _isListening ? Icons.mic : Icons.mic_none,
-                    color: Colors.white,
-                    size: 40,
+                  Text(
+                    AppLocalizations.of(context).repeatSequence, // Using an existing key that fits "Repeat"
+                    style: GoogleFonts.cairo(
+                      fontSize: 12,
+                      color: Colors.teal,
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             if (_isListening)
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Text(
-                  AppLocalizations.of(context).listening,
-                  style: GoogleFonts.cairo(color: Colors.teal),
-                ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      AppLocalizations.of(context).listening,
+                      style: GoogleFonts.cairo(
+                        color: Colors.orange,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      _stopGuardian();
+                      _listenTimer?.cancel();
+                      _speech.stop();
+                      setState(() => _isListening = false);
+                    },
+                    icon: const Icon(Icons.check_circle_outline),
+                    label: Text(
+                      AppLocalizations.of(context).finishTest, // MODIFIED: localized
+                      style: GoogleFonts.cairo(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                ],
               ),
 
             Padding(
@@ -467,6 +778,40 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
                 textAlign: TextAlign.center,
               ),
             ),
+
+            if (_spokenText.isNotEmpty)
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey[400]!),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (_spokenText.startsWith("manual:"))
+                      Text(
+                        '⌨️ Tapped: ${_normalizeDigits(_spokenText)}', // MODIFIED: consistency with Direct
+                        style: GoogleFonts.cairo(fontSize: 12),
+                      )
+                    else
+                      Text(
+                        '🎤 STT: $_spokenText',
+                        style: GoogleFonts.cairo(fontSize: 12),
+                      ),
+                    Text(
+                      '🔢 Mapped: ${_normalizeDigits(_spokenText)}',
+                      style: GoogleFonts.cairo(
+                        fontSize: 12,
+                        color: Colors.blue[800],
+                      ),
+                    ),
+                    // MODIFIED: '✅ Expected' row NOT added to ensure patient privacy
+                  ],
+                ),
+              ),
 
             const Spacer(),
 
@@ -596,6 +941,7 @@ class _EmpanInverseDirectState extends State<EmpanInverseDirect>
             ),
           ],
         ),
+      ),
       ),
     );
   }

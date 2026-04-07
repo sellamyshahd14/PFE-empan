@@ -7,9 +7,14 @@ import 'dsm48_set2.dart';
 import 'dsm48_set3.dart';
 
 class Dsm48MenuPage extends StatelessWidget {
-  final String patientId;
+  final String patientDocId;
+  final String patientIdentifier;
 
-  const Dsm48MenuPage({super.key, required this.patientId});
+  const Dsm48MenuPage({
+    super.key,
+    required this.patientDocId,
+    required this.patientIdentifier,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +55,7 @@ class Dsm48MenuPage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Dsm48EncodagePage(patientId: patientId),
+                  builder: (context) => Dsm48EncodagePage(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
                 ),
               ),
             ),
@@ -62,7 +67,7 @@ class Dsm48MenuPage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Dsm48Set1Page(patientId: patientId),
+                  builder: (context) => Dsm48Set1Page(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
                 ),
               ),
             ),
@@ -74,7 +79,7 @@ class Dsm48MenuPage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Dsm48Set2Page(patientId: patientId),
+                  builder: (context) => Dsm48Set2Page(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
                 ),
               ),
             ),
@@ -86,7 +91,7 @@ class Dsm48MenuPage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Dsm48Set3Page(patientId: patientId),
+                  builder: (context) => Dsm48Set3Page(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
                 ),
               ),
             ),

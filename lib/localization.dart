@@ -36,6 +36,16 @@ class AppLocalizations {
       'correct_feedback': 'صحيح! +0.5',
       'wrong_feedback': 'خطأ.',
       'heard': 'سمعت: ',
+      'zero': 'صفر',
+      'one': 'واحد',
+      'two': 'اثنان',
+      'three': 'ثلاثة',
+      'four': 'أربعة',
+      'five': 'خمسة',
+      'six': 'ستة',
+      'seven': 'سبعة',
+      'eight': 'ثمانية',
+      'nine': 'تسعة',
       'test_finished_title': 'انتهى الاختبار',
       'test_finished_msg': 'تم الاختبار بنجاح.\nشكراً لمشاركتك.',
       'main_menu': 'القائمة الرئيسية',
@@ -57,10 +67,15 @@ class AppLocalizations {
       'test_success': 'لقد أتممت الاختبار بنجاح.',
       'start_node': 'بداية',
       'end_node': 'نهاية',
+      'empan_direct_intro': 'سوف تسمع سلسلة من الأرقام. استمع جيداً وكررها بنفس الترتيب. يرجى التحدث فقط عندما يصبح لون الأيقونة برتقالياً وتسمع "فلنبدأ".',
+      'empan_inverse_intro': 'سوف تسمع سلسلة من الأرقام. استمع جيداً وكررها بالترتيب العكسي. يرجى التحدث فقط عندما يصبح لون الأيقونة برتقالياً وتسمع "فلنبدأ".',
       'tmt_a_instr':
           'اضغط على الأرقام بالترتيب من 1 إلى 25.\nاضغط على 1 للبدء.',
       'tmt_b_instr':
-          'اربط الأرقام بالترتيب مع التناوب بين الألوان.\n1 (أبيض) -> 2 (أزرق) -> 3 (أبيض) -> 4 (أزرق)...',
+          'صِل بالترتيب مع التناوب: 1 (أبيض) ← أ (أزرق) ← 2 (أبيض) ← ب (أزرق) ← 3 (أبيض)...',
+      'tmt_c_title': 'اختبار TMT-C',
+      'tmt_c_instr':
+          'اربط الأرقام والحروف بالتناوب (1-A-2-B...). اضغط على 1 للبدء.',
       'empan_inverse_test': 'اختبار إمبان العكسي',
       'dsm48_title': 'اختبار DSM-48',
       'dsm48_menu_encodage': 'مرحلة الحفظ (الترميز)',
@@ -72,6 +87,10 @@ class AppLocalizations {
       'dsm48_image_counter': 'صورة {} / 48',
       'dsm48_set_instr': 'اختر الصورة التي حفظتها سابقاً',
       'dsm48_score': 'النتيجة: {}/48',
+      'dsm48_encodage_question': 'ما هو اللون الذي تراه؟',
+      'dsm48_listening': 'أنا أستمع...',
+      'dsm48_mic_btn_tooltip': 'اضغط للتحدث',
+      'dsm48_voice_error': 'يرجى الإجابة قبل الانتقال',
       // HADS
       'hads_test_title': 'اختبار HADS',
       'depression': 'الاكتئاب',
@@ -154,6 +173,23 @@ class AppLocalizations {
       'hads_instruction': 'من فضلك قم باختيار الإجابة المناسبة بالضغط عليها',
       'hads_intro_text':
           'يرجى الإجابة وفقًا لحالتك النفسية خلال الأسبوعين الماضيين، وإذا كان العرض المذكور موجودًا معظم الوقت.',
+      'on_commence_cue': 'فلنبدأ',
+      'attempts_label': 'المحاولات: {}/3',
+      'max_attempts_reached': 'وصلت إلى الحد الأقصى للمحاولات',
+      'speak_btn': 'تحدث',
+      'do30_title': 'Test DO-30',
+      'do30_instr': 'قل بصوت عالٍ ما تراه في الصورة.',
+      'do30_correct': 'صحيح!',
+      'do30_wrong': 'غير صحيح. حاول مرة أخرى أو تجاوز.',
+      'do30_image_counter': 'صورة {} / 30',
+      'manual_input_hint': 'إدخال يدوي',
+      'manual_input_title': 'إدخال يدوي',
+      'manual_input_instr': 'أدخل الأرقام بالترتيب',
+      'cancel': 'إلغاء',
+      'exitWithoutSaving': 'الخروج بدون حفظ',
+      'exitConfirmBody': 'سيتم فقدان تقدمك.',
+      'clearAndRetry': 'مسح وإعادة المحاولة',
+      'done_listening': 'انتهيت',
     },
     'fr': {
       'login_title': 'Test de Performance Cognitive',
@@ -178,6 +214,16 @@ class AppLocalizations {
       'correct_feedback': 'Correct! +0.5',
       'wrong_feedback': 'Faux.',
       'heard': 'Entendu: ',
+      'zero': 'zéro',
+      'one': 'un',
+      'two': 'deux',
+      'three': 'trois',
+      'four': 'quatre',
+      'five': 'cinq',
+      'six': 'six',
+      'seven': 'sept',
+      'eight': 'huit',
+      'nine': 'neuf',
       'test_finished_title': 'Test Terminé',
       'test_finished_msg':
           'Le test est terminé avec succès.\nMerci pour votre participation.',
@@ -200,10 +246,17 @@ class AppLocalizations {
       'test_success': 'Vous avez terminé le test avec succès.',
       'start_node': 'Début',
       'end_node': 'Fin',
+      'empan_direct_intro':
+          'Vous allez entendre une série de chiffres. Écoutez attentivement et répétez-les dans le même ordre. Veuillez parler uniquement lorsque l\'icône devient orange et que vous entendez "On commence".',
+      'empan_inverse_intro':
+          'Vous allez entendre une série de chiffres. Écoutez attentivement et répétez-les dans l\'ordre inverse. Veuillez parler uniquement lorsque l\'icône devient orange et que vous entendez "On commence".',
       'tmt_a_instr':
           'Appuyez sur les nombres dans l\'ordre de 1 à 25.\nAppuyez sur 1 pour commencer.',
       'tmt_b_instr':
-          'Reliez les nombres dans l\'ordre en alternant les couleurs.\n1 (Blanc) -> 2 (Bleu) -> 3 (Blanc) -> 4 (Bleu)...',
+          'Reliez dans l\'ordre en alternant : 1 (blanc) → A (bleu) → 2 (blanc) → B (bleu) → 3 (blanc) → C (bleu)...',
+      'tmt_c_title': 'Test TMT-C',
+      'tmt_c_instr':
+          'Reliez les chiffres et les lettres alternativement (1-A-2-B...). Appuyez sur 1 pour commencer.',
       'empan_inverse_test': 'Test d\'Empan Inverse',
       'dsm48_title': 'Test DSM-48',
       'dsm48_menu_encodage': 'Phase d\'encodage',
@@ -216,6 +269,10 @@ class AppLocalizations {
       'dsm48_image_counter': 'Image {} / 48',
       'dsm48_set_instr': 'Choisissez l\'image que vous avez mémorisée',
       'dsm48_score': 'Score : {}/48',
+      'dsm48_encodage_question': 'Quelle couleur voyez-vous ?',
+      'dsm48_listening': 'Je vous écoute...',
+      'dsm48_mic_btn_tooltip': 'Appuyez pour parler',
+      'dsm48_voice_error': 'Veuillez répondre avant de continuer',
       // HADS
       'hads_test_title': 'Test HADS',
       'depression': 'Dépression',
@@ -302,6 +359,23 @@ class AppLocalizations {
           'Veuillez choisir la réponse appropriée en cliquant dessus',
       'hads_intro_text':
           'Veuillez répondre en fonction de votre état psychologique au cours des deux dernières semaines, et si le symptôme mentionné était présent la plupart du temps.',
+      'on_commence_cue': 'On commence',
+      'attempts_label': 'Essais: {}/3',
+      'max_attempts_reached': 'Maximum d\'essais atteint',
+      'speak_btn': 'Parler',
+      'do30_title': 'Test DO-30',
+      'do30_instr': 'Dites à haute voix ce que vous voyez sur l\'image.',
+      'do30_correct': 'Correct !',
+      'do30_wrong': 'Incorrect. Essayez encore ou passez.',
+      'do30_image_counter': 'Image {} / 30',
+      'manual_input_hint': 'Saisie manuelle',
+      'manual_input_title': 'Saisie manuelle',
+      'manual_input_instr': 'Tapez les chiffres dans l\'ordre',
+      'cancel': 'Annuler',
+      'exitWithoutSaving': 'Quitter sans enregistrer',
+      'exitConfirmBody': 'Votre progression sera perdue.',
+      'clearAndRetry': 'Effacer et réessayer',
+      'done_listening': 'J\'ai terminé',
     },
   };
 
@@ -361,6 +435,16 @@ class AppLocalizations {
   String get wrongFeedback =>
       _localizedValues[locale.languageCode]!['wrong_feedback']!;
   String get heard => _localizedValues[locale.languageCode]!['heard']!;
+  String get zero => _localizedValues[locale.languageCode]!['zero']!;
+  String get one => _localizedValues[locale.languageCode]!['one']!;
+  String get two => _localizedValues[locale.languageCode]!['two']!;
+  String get three => _localizedValues[locale.languageCode]!['three']!;
+  String get four => _localizedValues[locale.languageCode]!['four']!;
+  String get five => _localizedValues[locale.languageCode]!['five']!;
+  String get six => _localizedValues[locale.languageCode]!['six']!;
+  String get seven => _localizedValues[locale.languageCode]!['seven']!;
+  String get eight => _localizedValues[locale.languageCode]!['eight']!;
+  String get nine => _localizedValues[locale.languageCode]!['nine']!;
   String get testFinishedTitle =>
       _localizedValues[locale.languageCode]!['test_finished_title']!;
   String get testFinishedMsg =>
@@ -387,6 +471,10 @@ class AppLocalizations {
       _localizedValues[locale.languageCode]!['tmt_a_title']!;
   String get tmtBTitle =>
       _localizedValues[locale.languageCode]!['tmt_b_title']!;
+  String get tmtCTitle =>
+      _localizedValues[locale.languageCode]!['tmt_c_title']!;
+  String get tmtCInstr =>
+      _localizedValues[locale.languageCode]!['tmt_c_instr']!;
   String get empanTest => _localizedValues[locale.languageCode]!['empan_test']!;
   String get chooseTest =>
       _localizedValues[locale.languageCode]!['choose_test']!;
@@ -395,10 +483,22 @@ class AppLocalizations {
       _localizedValues[locale.languageCode]!['test_success']!;
   String get startNode => _localizedValues[locale.languageCode]!['start_node']!;
   String get endNode => _localizedValues[locale.languageCode]!['end_node']!;
+  String get empanDirectIntro =>
+      _localizedValues[locale.languageCode]!['empan_direct_intro']!;
+  String get empanInverseIntro =>
+      _localizedValues[locale.languageCode]!['empan_inverse_intro']!;
   String get tmtAInstr =>
       _localizedValues[locale.languageCode]!['tmt_a_instr']!;
   String get tmtBInstr =>
       _localizedValues[locale.languageCode]!['tmt_b_instr']!;
+  String get exitWithoutSaving =>
+      _localizedValues[locale.languageCode]!['exitWithoutSaving']!;
+  String get exitConfirmBody =>
+      _localizedValues[locale.languageCode]!['exitConfirmBody']!;
+  String get clearAndRetry =>
+      _localizedValues[locale.languageCode]!['clearAndRetry']!;
+  String get doneListening =>
+      _localizedValues[locale.languageCode]!['done_listening']!;
   String get empanInverseTest =>
       _localizedValues[locale.languageCode]!['empan_inverse_test']!;
   String get dsm48Title =>
@@ -421,6 +521,14 @@ class AppLocalizations {
       _localizedValues[locale.languageCode]!['dsm48_set_instr']!;
   String get dsm48Score =>
       _localizedValues[locale.languageCode]!['dsm48_score']!;
+  String get dsm48EncodageQuestion =>
+      _localizedValues[locale.languageCode]!['dsm48_encodage_question']!;
+  String get dsm48Listening =>
+      _localizedValues[locale.languageCode]!['dsm48_listening']!;
+  String get dsm48MicBtnTooltip =>
+      _localizedValues[locale.languageCode]!['dsm48_mic_btn_tooltip']!;
+  String get dsm48VoiceError =>
+      _localizedValues[locale.languageCode]!['dsm48_voice_error']!;
 
   // HADS Additions
   String get hadsTestTitle =>
@@ -439,6 +547,31 @@ class AppLocalizations {
       _localizedValues[locale.languageCode]!['hads_intro_text']!;
   String get hadsInstruction =>
       _localizedValues[locale.languageCode]!['hads_instruction']!;
+  String get onCommenceCue =>
+      _localizedValues[locale.languageCode]!['on_commence_cue']!;
+  String get attemptsLabel =>
+      _localizedValues[locale.languageCode]!['attempts_label']!;
+  String get maxAttemptsReached =>
+      _localizedValues[locale.languageCode]!['max_attempts_reached']!;
+  String get speakBtn =>
+      _localizedValues[locale.languageCode]!['speak_btn']!;
+  String get do30Title =>
+      _localizedValues[locale.languageCode]!['do30_title']!;
+  String get do30Instr =>
+      _localizedValues[locale.languageCode]!['do30_instr']!;
+  String get do30Correct =>
+      _localizedValues[locale.languageCode]!['do30_correct']!;
+  String get do30Wrong =>
+      _localizedValues[locale.languageCode]!['do30_wrong']!;
+  String get do30ImageCounter =>
+      _localizedValues[locale.languageCode]!['do30_image_counter']!;
+  String get manualInputHint =>
+      _localizedValues[locale.languageCode]!['manual_input_hint']!;
+  String get manualInputTitle =>
+      _localizedValues[locale.languageCode]!['manual_input_title']!;
+  String get manualInputInstr =>
+      _localizedValues[locale.languageCode]!['manual_input_instr']!;
+  String get cancel => _localizedValues[locale.languageCode]!['cancel']!;
 
   // Generic translate method for HADS dynamic questions
   String translate(String key) {

@@ -5,13 +5,20 @@ import 'tests/empan_direct.dart';
 import 'tests/empan_inverse.dart';
 import 'tests/tmt_a_page.dart';
 import 'tests/tmt_b_page.dart';
+import 'tests/tmt_c_page.dart';
 import 'tests/hads.dart';
 import 'tests/dsm48_menu.dart';
+import 'tests/do30_test.dart';
 
 class PatientHomePage extends StatelessWidget {
-  final String patientId;
+  final String patientDocId;
+  final String patientIdentifier;
 
-  const PatientHomePage({super.key, required this.patientId});
+  const PatientHomePage({
+    super.key,
+    required this.patientDocId,
+    required this.patientIdentifier,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +59,10 @@ class PatientHomePage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EmpanDirect(patientName: patientId),
+                  builder: (context) => EmpanDirect(
+                    patientDocId: patientDocId,
+                    patientIdentifier: patientIdentifier,
+                  ),
                 ),
               ),
             ),
@@ -61,13 +71,13 @@ class PatientHomePage extends StatelessWidget {
               context,
               loc.empanInverseTest,
               Icons.sync_alt, // Represents inversed action
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      EmpanInverseDirect(patientName: patientId),
-                ),
-              ),
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              EmpanInverse(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
+                        ),
+                      ),
             ),
             const SizedBox(height: 20),
             _buildTestButton(
@@ -77,7 +87,7 @@ class PatientHomePage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TestHADS(patientId: patientId),
+                  builder: (context) => TestHADS(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
                 ),
               ),
             ),
@@ -89,7 +99,7 @@ class PatientHomePage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TmtAPage(patientId: patientId),
+                  builder: (context) => TmtAPage(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
                 ),
               ),
             ),
@@ -101,7 +111,19 @@ class PatientHomePage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TmtBPage(patientId: patientId),
+                  builder: (context) => TmtBPage(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildTestButton(
+              context,
+              loc.tmtCTitle,
+              Icons.shuffle,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TmtCPage(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
                 ),
               ),
             ),
@@ -113,10 +135,34 @@ class PatientHomePage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Dsm48MenuPage(patientId: patientId),
+                  builder: (context) => Dsm48MenuPage(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
                 ),
               ),
             ),
+            const SizedBox(height: 20),
+            _buildTestButton(
+              context,
+              loc.do30Title,
+              Icons.image_search,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Do30TestPage(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
+                ),
+              ),
+            ),
+            // Scroll test section
+            const SizedBox(height: 300), 
+            Text(
+              "Hello, $patientIdentifier",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.cairo(
+                fontSize: 24,
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 50),
           ],
         ),
       ),
