@@ -38,6 +38,7 @@ class _Do30TestPageState extends State<Do30TestPage>
   late stt.SpeechToText _speech;
   late FlutterTts _flutterTts;
   bool _isListening = false;
+  bool _isFinished = false; // NEW: Flag to prevent multiple saves
   bool _isSpeaking = false;
   String _spokenText = "";
   double _soundLevel = 0.0;
@@ -48,7 +49,6 @@ class _Do30TestPageState extends State<Do30TestPage>
       TextEditingController(); // MODIFIED: For text input answer
 
   int _currentIndex = 0;
-  int _errors = 0;
   List<String> _transcriptions = List.filled(30, "");
   List<bool> _results = List.filled(30, false);
 
@@ -56,19 +56,19 @@ class _Do30TestPageState extends State<Do30TestPage>
     Do30Item(
       "01 Robinet.jpg",
       ["robinet"],
-      ["سبالة", "شيش ما", "حنفية", "صنبور"],
+      ["سبالة", "شيش ما", "حنفية", "صنبور", "شيشما", "شيشمة"],
     ),
     Do30Item(
       "02 Parachute.jpg",
       ["parachute"],
-      ["بارشيت", "باراشوت", "منطاد", "براشوت", "برشيد"],
+      ["بارشيت", "باراشوت", "منطاد", "براشوت", "برشيد", "رشيد"],
     ),
     Do30Item(
       "03 Ancre.jpg",
       ["ancre"],
-      ["مخطاف", "مقلاع", "علاق", "مختاف", "مختطف", "مختار"],
+      ["مخطاف", "مقلاع", "علاق", "مختاف", "مختطف", "مختار", "خطاف", "خطّاف"],
     ),
-    Do30Item("04 Domino.jpg", ["domino"], ["ديمينو", "دمينو"]),
+    Do30Item("04 Domino.jpg", ["domino"], ["ديمينو", "دمينو", "دومينو"]),
     Do30Item(
       "05 Champignon.jpg",
       ["champignon", "fongus"],
@@ -86,14 +86,14 @@ class _Do30TestPageState extends State<Do30TestPage>
     Do30Item(
       "11 Kangourou.jpg",
       ["kangourou"],
-      ["كنغر", "كنغرو", "كونغرو", "تنكر", "كنجر"],
+      ["كنغر", "كنغرو", "كونغرو", "تنكر", "كنجر", "كونغو", "كونكرو"],
     ),
     Do30Item("12 Girafe.jpg", ["girafe"], ["زرافة"]),
     Do30Item("13 Chat.jpg", ["chat"], ["قط", "قطوس", "قطوس"]),
     Do30Item(
       "14 Rhinocéros.jpg",
       ["rhinoceros"],
-      ["وحيد القرن", "كركدم", "كركدن"],
+      ["وحيد القرن", "كركدم", "كركدن", "ذو القرن", "القرن", "ذو القرم"],
     ),
     Do30Item("15 Papillon.jpg", ["papillon"], ["فراشة"]),
     Do30Item("16 Ecureuil.jpg", ["ecureuil"], ["سنجاب", "فار"]),
@@ -101,21 +101,21 @@ class _Do30TestPageState extends State<Do30TestPage>
     Do30Item(
       "18 Cloche.jpg",
       ["cloche"],
-      ["ناقوز", "ناقوس", "نيكوز", "نيقوز", "جرس"],
+      ["ناقوز", "ناقوس", "نيكوز", "نيقوز", "جرس", "نقود", "نيقود", "نيقوس"],
     ),
     Do30Item(
       "19 Hélicoptère.jpg",
       ["helicoptere"],
-      ["طيارة", "طائرة", "هيليكوبتر", "هليكوبتر"],
+      ["طيارة", "طائرة", "هيليكوبتر", "هليكوبتر", "هليكوبتير", "مروحية", "مروحيه"],
     ),
     Do30Item("20 Crocodile.jpg", ["crocodile"], ["تمساح"]),
     Do30Item(
       "21 Penser.jpg",
       ["penser", "reflechir", "triste"],
-      ["يفكر", "حزين", "يخمم"],
+      ["يفكر", "حزين", "يخمم", "يخم"],
     ),
-    Do30Item("22 Tomber.jpg", ["tomber"], ["طايح", "يطيح"]),
-    Do30Item("23 Pleurer.jpg", ["pleurer"], ["يبكي"]),
+    Do30Item("22 Tomber.jpg", ["tomber"], ["طايح", "يطيح", "طايه", "ولد", "راجل", "رجل", "واحد"]),
+    Do30Item("23 Pleurer.jpg", ["pleurer"], ["يبكي", "ولد", "راجل", "رجل"]),
     Do30Item(
       "24 Escalader.jpg",
       ["escalader", "grimper"],
@@ -128,19 +128,25 @@ class _Do30TestPageState extends State<Do30TestPage>
         "اكابش",
         "الكابش",
         "يطلع",
-        "الكعبش",
+        "يكعبش",
+        "بكعبش",
+        "في كعبش",
+        "ولد",
+        "راجل",
+        "رجل",
+        "وليّد",
       ],
     ),
-    Do30Item("25 Dormir.jpg", ["dormir"], ["راقد", "رقد", "ريقد", "يرقد"]),
-    Do30Item("26 Nager.jpg", ["nager"], ["يعوم", "يسبح", "يصبح"]),
-    Do30Item("27 Courir.jpg", ["courir"], ["تجري", "طفله", "تفله", "امراه"]),
-    Do30Item("29 Ecrir.jpg", ["ecrire"], ["تكتب", "طفله", "تفله", "امراه"]),
+    Do30Item("25 Dormir.jpg", ["dormir"], ["راقد", "رقد", "ريقد", "يرقد", "راجل", "وليّد", "رجل نائم"]),
+    Do30Item("26 Nager.jpg", ["nager"], ["يعوم", "يسبح", "يصبح", "راجل", "وليّد", "يوم", "واحد يوم"]),
+    Do30Item("27 Courir.jpg", ["courir"], ["تجري", "طفله", "تفله", "امراه", "بنية", "تقفز", "تنقز", "نكز"]),
+    Do30Item("29 Ecrir.jpg", ["ecrire"], ["تكتب", "طفله", "تفله", "امراه", "بنية"]),
     Do30Item(
       "29 Manger.jpg",
       ["manger"],
-      ["تاكل", "تأكل", "طفله", "تفله", "امراه", "تيكل"],
+      ["تاكل", "تأكل", "طفله", "تفله", "امراه", "تيكل", "بنية"],
     ),
-    Do30Item("30 Boire.jpg", ["boire"], ["تشرب", "طفله", "تفله", "امراه"]),
+    Do30Item("30 Boire.jpg", ["boire"], ["تشرب", "طفله", "تفله", "امراه", "بنية", "يشرب"]),
   ];
 
   late AnimationController _micController;
@@ -225,7 +231,23 @@ class _Do30TestPageState extends State<Do30TestPage>
       },
       onError: (error) {
         debugPrint("STT Error: $error");
-        setState(() => _isListening = false);
+        
+        // Skip visual error for silence or common timeouts to let guardian restart silently
+        bool isSilenceError = error.errorMsg == "error_no_match" || 
+                             error.errorMsg == "error_speech_timeout";
+
+        if (mounted && !isSilenceError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Erreur Microphone/STT: ${error.errorMsg}"),
+              backgroundColor: Colors.orange,
+            ),
+          );
+        }
+
+        if (!isSilenceError) {
+          setState(() => _isListening = false);
+        }
       },
     );
 
@@ -251,6 +273,7 @@ class _Do30TestPageState extends State<Do30TestPage>
             ? 'ar-SA'
             : null,
         onSoundLevelChange: (level) => setState(() => _soundLevel = level),
+        pauseFor: const Duration(seconds: 30),
         cancelOnError: false,
       );
 
@@ -279,6 +302,7 @@ class _Do30TestPageState extends State<Do30TestPage>
           ? 'ar-SA'
           : null,
       onSoundLevelChange: (level) => setState(() => _soundLevel = level),
+      pauseFor: const Duration(seconds: 30),
       cancelOnError: false,
     );
   }
@@ -304,28 +328,26 @@ class _Do30TestPageState extends State<Do30TestPage>
     setState(() {
       _transcriptions[_currentIndex] = _spokenText;
       _results[_currentIndex] = isCorrect;
-      if (!isCorrect) _errors++;
       _isListening = false;
       _guardianTimer?.cancel();
     });
 
-    if (loc.locale.languageCode == 'ar') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            isCorrect ? "صحيح (${_spokenText})" : "غير صحيح (${_spokenText})",
-          ),
-          backgroundColor: isCorrect ? Colors.green : Colors.red,
-          duration: const Duration(milliseconds: 1000),
-        ),
-      );
-    }
 
     _speech.stop();
 
-    // Auto move next disabled as per user request (want manual validation)
-    // _nextPageTimer?.cancel();
-    // _nextPageTimer = Timer(const Duration(milliseconds: 1500), () { ... });
+    // AUTO-MOVE: Automatically move to next image IF the answer is CORRECT
+    if (isCorrect) {
+      _nextPageTimer?.cancel();
+      _nextPageTimer = Timer(const Duration(milliseconds: 1500), () {
+        if (mounted) {
+          if (_currentIndex < _items.length - 1) {
+            _nextPage();
+          } else {
+            _finishTest();
+          }
+        }
+      });
+    }
   }
 
   bool _checkMatching(String spoken, String correct) {
@@ -384,19 +406,25 @@ class _Do30TestPageState extends State<Do30TestPage>
   }
 
   void _finishTest() async {
+    if (_isFinished) return;
+    setState(() => _isFinished = true);
+
     _stopwatch.stop();
     final String durationStr =
         "${(_stopwatch.elapsedMilliseconds / 1000).truncate()} s";
+
+    final int finalScore = _results.where((r) => r == true).length;
+    final int finalErrors = 30 - finalScore;
 
     try {
       await _firestoreService.saveTestResult(
         patientDocId: widget.patientDocId,
         patientIdentifier: widget.patientIdentifier,
-        score: (30 - _errors).toDouble(),
+        score: finalScore.toDouble(),
         totalDuration: durationStr,
         testType: 'DO-30',
         metadata: {
-          'errors': _errors,
+          'errors': finalErrors,
           'transcriptions': _transcriptions,
           'results': _results,
           'tableFormat':
@@ -515,7 +543,8 @@ class _Do30TestPageState extends State<Do30TestPage>
                   setState(() {
                     _currentIndex = index;
                     _spokenText = "";
-                    _hasHeardWord = false;
+                    // If we already have a transcription for this page, show the Next button
+                    _hasHeardWord = _transcriptions[index].isNotEmpty;
                   });
                   _startListening();
                 },
@@ -682,7 +711,7 @@ class _Do30TestPageState extends State<Do30TestPage>
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  if (_hasHeardWord)
+                  if (_hasHeardWord || _transcriptions[_currentIndex].isNotEmpty)
                     TweenAnimationBuilder<double>(
                       tween: Tween(begin: 0.0, end: 1.0),
                       duration: const Duration(milliseconds: 500),
@@ -691,7 +720,7 @@ class _Do30TestPageState extends State<Do30TestPage>
                         return Transform.scale(
                           scale: value,
                           child: ElevatedButton.icon(
-                            onPressed: () {
+                            onPressed: _isFinished ? null : () {
                               _guardianTimer?.cancel();
                               _speech.stop();
                               if (_currentIndex < _items.length - 1) {

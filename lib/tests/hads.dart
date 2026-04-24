@@ -186,6 +186,20 @@ class _TestHADSState extends State<TestHADS> {
         }
       }
 
+      // Build detailed results for the dashboard
+      final List<Map<String, dynamic>> hadsFormat = List.generate(_questions.length, (i) {
+        final q = _questions[i];
+        final score = _answers[i] ?? 0;
+        final answerObj = (q['answers'] as List).firstWhere((ans) => ans['score'] == score);
+        return {
+          'numero': i + 1,
+          'type': q['type'],
+          'qKey': q['key'],
+          'aKey': answerObj['aKey'],
+          'score': score,
+        };
+      });
+
       try {
         await _firestoreService.saveTestResult(
           patientDocId: widget.patientDocId,
@@ -193,6 +207,9 @@ class _TestHADSState extends State<TestHADS> {
           scoreA: scoreA.toDouble(),
           scoreD: scoreD.toDouble(),
           testType: "HADS",
+          metadata: {
+            'hadsFormat': hadsFormat,
+          },
         );
       } catch (e) {
         debugPrint("Error saving result: $e");

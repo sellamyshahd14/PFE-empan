@@ -30,8 +30,10 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
   late final AudioRecorder _audioRecorder;
   
   bool _isListening = false;
+  bool _isFinished = false;
   bool _isPlaying = false;
   String _spokenText = "";
+  String _previousSpokenText = "";
   String _accumulatedDigits = "";
   double _soundLevel = 0.0;
   double _score = 0.0;
@@ -47,6 +49,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
   bool _showFeedback = false;
   String? _lastIncorrectInput;
   bool _isFluentRunning = false;
+  bool _isPaused = false;
   bool _showManualInput = false;
   final TextEditingController _manualController = TextEditingController();
 
@@ -114,15 +117,54 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
     return "$twoDigitMinutes:$twoDigitSeconds";
   }
 
+  void _togglePause() {
+    if (!_isTestStarted || _isFinished) return;
+
+    setState(() {
+      _isPaused = !_isPaused;
+      if (_isPaused) {
+        _stopwatch.stop();
+        _timer?.cancel();
+        _flutterTts.stop();
+        _speech.stop();
+        _stopGuardian();
+        _listenTimer?.cancel();
+        _isListening = false;
+        _isPlaying = false;
+        _isFluentRunning = false;
+      } else {
+        _stopwatch.start();
+        _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+          if (mounted) {
+            setState(() {
+              _formattedTime = _formatTime(_stopwatch.elapsed);
+            });
+          }
+        });
+        // Automatically reopen mic/stt without erasing
+        _listen(resume: true);
+      }
+    });
+  }
+
   void _initSpeech() async {
     await Permission.microphone.request();
     bool available = await _speech.initialize(
       onStatus: (status) => debugPrint("STT Status: $status"),
       onError: (error) {
         debugPrint("STT Error: $error");
-        if (_isListening) {
+        bool isSilenceError = error.errorMsg == "error_no_match" || 
+                             error.errorMsg == "error_speech_timeout";
+
+        if (mounted && !isSilenceError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erreur STT: ${error.errorMsg}')),
+          );
+        }
+        
+        if (!isSilenceError && _isListening) {
           Future.delayed(const Duration(milliseconds: 500), () {
-            if (_isListening) _startSttSession(initial: false);
+            if (_isListening) _startSttSession();
           });
         }
       },
@@ -211,7 +253,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
     await _speakSequence();
 
     if (!mounted) return;
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 1500));
 
     if (!mounted) return;
     String cue = locs.onCommenceCue;
@@ -232,6 +274,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
 
     setState(() {
       _spokenText = "";
+      _previousSpokenText = "";
       _accumulatedDigits = "";
       _showFeedback = false;
       _lastIncorrectInput = null;
@@ -323,14 +366,9 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
     return sb.toString();
   }
 
-  String _mergeDigits(String existing, String incoming) {
-    if (incoming.isEmpty) return existing;
-    if (existing.isEmpty) return incoming;
-    if (incoming.startsWith(existing)) return incoming;
-    return existing + incoming;
-  }
+  // _mergeDigits removed as it is no longer safely handling resumes and restarts
 
-  void _listen() async {
+  void _listen({bool resume = false}) async {
     if (_showManualInput) return;
     if (!_isListening) {
       bool available = await _speech.initialize(
@@ -338,7 +376,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
         onError: (error) {
           if (_isListening) {
             Future.delayed(const Duration(milliseconds: 500), () {
-              if (_isListening) _startSttSession(initial: false);
+              if (_isListening) _startSttSession();
             });
           }
         },
@@ -346,10 +384,13 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
       if (available) {
         setState(() {
           _isListening = true;
-          _spokenText = "";
-          _accumulatedDigits = "";
+          if (!resume) {
+            _spokenText = "";
+            _previousSpokenText = "";
+            _accumulatedDigits = "";
+          }
         });
-        _startSttSession(initial: true);
+        _startSttSession();
 
         _listenTimer?.cancel();
         _listenTimer = Timer(const Duration(seconds: 60), () {
@@ -367,7 +408,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
             return;
           }
           if (!_speech.isListening) {
-            _startSttSession(initial: false);
+            _startSttSession();
           }
         });
       }
@@ -379,9 +420,13 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
     }
   }
 
-  void _startSttSession({required bool initial}) {
+  void _startSttSession() {
     if (!mounted) return;
     String lang = AppLocalizations.of(context).locale.languageCode;
+    
+    // Commit the current spoken text before starting a new session
+    _previousSpokenText = _spokenText;
+    
     _speech.listen(
       localeId: lang == 'ar' ? 'ar-TN' : null,
       partialResults: true,
@@ -391,13 +436,16 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
           _soundLevel = level;
         });
       },
-      pauseFor: initial ? const Duration(seconds: 5) : const Duration(seconds: 10),
+      pauseFor: const Duration(seconds: 30),
       listenFor: const Duration(seconds: 60),
       onResult: (val) {
         if (!mounted) return;
         setState(() {
-          _spokenText = val.recognizedWords;
-          _accumulatedDigits = _mergeDigits(_accumulatedDigits, _extractDigits(val.recognizedWords));
+          String newWords = val.recognizedWords;
+          _spokenText = _previousSpokenText.isEmpty 
+              ? newWords 
+              : "$_previousSpokenText $newWords".trim();
+          _accumulatedDigits = _extractDigits(_spokenText);
         });
       },
     );
@@ -484,6 +532,13 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
       _stopGuardian();
       _listenTimer?.cancel();
       _speech.stop();
+
+      // AUTO-TRIGGER: Launch next sequence automatically after 1.5s (except for the very first one)
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        if (mounted && _currentIndex > 0) {
+          _runFluentSequence();
+        }
+      });
     } else {
       _showFinalScore();
     }
@@ -492,6 +547,9 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
   final FirestoreService _firestoreService = FirestoreService();
 
   void _showFinalScore() async {
+    if (_isFinished) return;
+    setState(() => _isFinished = true);
+
     _stopTest();
 
     try {
@@ -808,7 +866,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: TextButton.icon(
-              onPressed: _showFinalScore, // MODIFIED: same behavior as bottom button
+              onPressed: _isFinished ? null : _showFinalScore,
               icon: const Icon(Icons.stop_circle_outlined, color: Colors.red),
               label: Text(
                 AppLocalizations.of(context).finishTest,
@@ -858,54 +916,67 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex) || _isFluentRunning || _isPlaying || _isListening)
+                    onTap: (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex) || _isFluentRunning || _isPlaying || _isListening || _isPaused)
                         ? null
                         : _runFluentSequence,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        if (_isPlaying || _isListening || _isFluentRunning)
-                          AnimatedBuilder(
-                            animation: _micAnimation,
-                            builder: (context, child) {
-                              double pulseSize = 120 + (_soundLevel.clamp(0, 10) * 2);
-                              return Container(
-                                width: pulseSize,
-                                height: pulseSize,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: (_isPlaying || _isFluentRunning)
-                                      ? const Color(0x33009688)
-                                      : const Color(0x33FF9800),
+                    child: SizedBox(
+                      width: 180,
+                      height: 180,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          if (_isPlaying || _isListening || _isFluentRunning)
+                            AnimatedBuilder(
+                              animation: _micAnimation,
+                              builder: (context, child) {
+                                double scale = 1.0 + (_soundLevel.clamp(0, 10) / 15);
+                                return Transform.scale(
+                                  scale: scale,
+                                  child: Container(
+                                    width: 120,
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: (_isPlaying || _isFluentRunning)
+                                          ? const Color(0x33009688)
+                                          : const Color(0x33FF9800),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: (_attemptCount >= 2 ||
+                                      _scoredIndices.contains(_currentIndex) || _isPaused)
+                                  ? Colors.grey
+                                  : (_isListening
+                                      ? Colors.orange
+                                      : Colors.teal),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: (_attemptCount >= 2 ||
+                                          _scoredIndices.contains(_currentIndex) || _isPaused)
+                                      ? const Color(0x669E9E9E)
+                                      : (_isListening
+                                          ? const Color(0x66FF9800)
+                                          : const Color(0x66009688)),
+                                  blurRadius: 20,
+                                  spreadRadius: 5,
                                 ),
-                              );
-                            },
+                              ],
+                            ),
+                            child: Icon(
+                              _isListening ? Icons.mic : Icons.volume_up,
+                              color: Colors.white,
+                              size: 50,
+                            ),
                           ),
-                        Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex))
-                                ? Colors.grey
-                                : (_isListening ? Colors.orange : Colors.teal),
-                            boxShadow: [
-                              BoxShadow(
-                                color: (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex))
-                                    ? const Color(0x669E9E9E)
-                                    : (_isListening ? const Color(0x66FF9800) : const Color(0x66009688)),
-                                blurRadius: 20,
-                                spreadRadius: 5,
-                              ),
-                            ],
-                          ),
-                          child: Icon(
-                            _isListening ? Icons.mic : Icons.volume_up,
-                            color: Colors.white,
-                            size: 50,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -920,33 +991,77 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
                       color: _attemptCount >= 2 ? Colors.red : Colors.grey[700],
                     ),
                   ),
-                  const SizedBox(height: 25),
-                  IconButton(
-                    onPressed: (_scoredIndices.contains(_currentIndex) || _isFluentRunning || _isPlaying)
-                        ? null
-                        : _listenOnly,
-                    icon: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.teal, width: 2),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: (_scoredIndices.contains(_currentIndex) ||
+                                    _isFluentRunning ||
+                                    _isPlaying ||
+                                    _isPaused)
+                                ? null
+                                : _listenOnly,
+                            icon: Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.teal, width: 2),
+                              ),
+                              child: const Icon(Icons.replay,
+                                  color: Colors.teal, size: 30),
+                            ),
+                            tooltip: "Erase and restart recording",
+                          ),
+                          Text(
+                            AppLocalizations.of(context).repeatSequence,
+                            style: GoogleFonts.cairo(
+                              fontSize: 12,
+                              color: Colors.teal,
+                            ),
+                          ),
+                        ],
                       ),
-                      child: const Icon(Icons.replay, color: Colors.teal, size: 30),
-                    ),
-                    tooltip: "Erase and restart recording",
-                  ),
-                  Text(
-                    AppLocalizations.of(context).repeatSequence,
-                    style: GoogleFonts.cairo(
-                      fontSize: 12,
-                      color: Colors.teal,
-                    ),
+                      const SizedBox(width: 30),
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: _togglePause,
+                            icon: Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                    color: _isPaused ? Colors.red : Colors.orange,
+                                    width: 2),
+                              ),
+                              child: Icon(
+                                _isPaused
+                                    ? Icons.play_circle_outline
+                                    : Icons.pause_circle_outline,
+                                color: _isPaused ? Colors.red : Colors.orange,
+                                size: 30,
+                              ),
+                            ),
+                            tooltip: _isPaused ? "Play" : "Pause",
+                          ),
+                          Text(
+                            _isPaused ? "Play" : "Pause",
+                            style: GoogleFonts.cairo(
+                              fontSize: 12,
+                              color: _isPaused ? Colors.red : Colors.orange,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   if (_isListening || (_spokenText.isEmpty && !_isPlaying && !_isFluentRunning))
                     IconButton(
-                      onPressed: _showManualInputDialog,
-                      icon: const Icon(Icons.keyboard_alt_outlined, color: Colors.teal, size: 28),
+                      onPressed: _isPaused ? null : _showManualInputDialog,
+                      icon: Icon(Icons.keyboard_alt_outlined, color: _isPaused ? Colors.grey : Colors.teal, size: 28),
                       tooltip: AppLocalizations.of(context).manualInputHint,
                     ),
                 ],
@@ -967,7 +1082,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton.icon(
-                    onPressed: () {
+                    onPressed: _isPaused ? null : () {
                       _stopGuardian();
                       _listenTimer?.cancel();
                       _speech.stop();
@@ -1099,7 +1214,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: _validate,
+                          onPressed: _isPaused ? null : _validate,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
                             foregroundColor: Colors.white,
@@ -1120,7 +1235,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
                       const SizedBox(width: 20),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: _next,
+                          onPressed: _isPaused ? null : _next,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
                             foregroundColor: Colors.white,
@@ -1144,7 +1259,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: _showFinalScore,
+                      onPressed: (_isFinished || _isPaused) ? null : _showFinalScore,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.redAccent,
                         foregroundColor: Colors.white,

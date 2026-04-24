@@ -35,6 +35,7 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
   List<String> _transcriptions = List.filled(48, "");
 
   int _currentIndex = 0;
+  bool _isFinished = false; // NEW: Lock to prevent duplicate saves
   final int _totalImages = 48;
 
   Timer? _listenTimer;
@@ -110,7 +111,17 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
 
     bool available = await _speech.initialize(
       onStatus: (status) => debugPrint("STT Status: $status"),
-      onError: (error) => debugPrint("STT Error: $error"),
+      onError: (error) {
+        debugPrint("STT Error: $error");
+        bool isSilenceError = error.errorMsg == "error_no_match" || 
+                             error.errorMsg == "error_speech_timeout";
+
+        if (mounted && !isSilenceError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erreur STT: ${error.errorMsg}')),
+          );
+        }
+      },
     );
 
     if (available) {
@@ -159,6 +170,7 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
       onSoundLevelChange: (level) {
         setState(() => _soundLevel = level);
       },
+      pauseFor: const Duration(seconds: 30),
       cancelOnError: false,
     );
   }
@@ -176,6 +188,9 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
   }
 
   void _finishEncodage() async {
+    if (_isFinished) return;
+    setState(() => _isFinished = true);
+
     _stopListening();
     _stopwatch.stop();
     final int elapsedMilliseconds = _stopwatch.elapsedMilliseconds;
@@ -446,7 +461,7 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
                   ),
                   if (_currentIndex == _totalImages - 1)
                     ElevatedButton.icon(
-                      onPressed: _finishEncodage,
+                      onPressed: _isFinished ? null : _finishEncodage,
                       icon: const Icon(Icons.check_circle),
                       label: Text(
                         loc.dsm48FinishEncodage,

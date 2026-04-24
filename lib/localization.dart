@@ -72,10 +72,10 @@ class AppLocalizations {
       'tmt_a_instr':
           'اضغط على الأرقام بالترتيب من 1 إلى 25.\nاضغط على 1 للبدء.',
       'tmt_b_instr':
-          'صِل بالترتيب مع التناوب: 1 (أبيض) ← أ (أزرق) ← 2 (أبيض) ← ب (أزرق) ← 3 (أبيض)...',
+          'صِل بالترتيب مع التناوب: 1 (أبيض) ← 1 (أخضر) ← 2 (أبيض) ← 2 (أخضر) ← 3 (أبيض)...',
       'tmt_c_title': 'اختبار TMT-C',
       'tmt_c_instr':
-          'اربط الأرقام والحروف بالتناوب (1-A-2-B...). اضغط على 1 للبدء.',
+          'اربط بالتناوب: 1 \u200F← A \u200F← 2 \u200F← B \u200F← 3 \u200F← C ... اضغط على 1 للبدء.',
       'empan_inverse_test': 'اختبار إمبان العكسي',
       'dsm48_title': 'اختبار DSM-48',
       'dsm48_menu_encodage': 'مرحلة الحفظ (الترميز)',
@@ -253,10 +253,10 @@ class AppLocalizations {
       'tmt_a_instr':
           'Appuyez sur les nombres dans l\'ordre de 1 à 25.\nAppuyez sur 1 pour commencer.',
       'tmt_b_instr':
-          'Reliez dans l\'ordre en alternant : 1 (blanc) → A (bleu) → 2 (blanc) → B (bleu) → 3 (blanc) → C (bleu)...',
+          'Reliez dans l\'ordre en alternant : 1 (blanc) → 1 (vert) → 2 (blanc) → 2 (vert) → 3 (blanc)...',
       'tmt_c_title': 'Test TMT-C',
       'tmt_c_instr':
-          'Reliez les chiffres et les lettres alternativement (1-A-2-B...). Appuyez sur 1 pour commencer.',
+          'Reliez en alternant : 1 → A → 2 → B → 3 → C... Appuyez sur 1 pour commencer.',
       'empan_inverse_test': 'Test d\'Empan Inverse',
       'dsm48_title': 'Test DSM-48',
       'dsm48_menu_encodage': 'Phase d\'encodage',

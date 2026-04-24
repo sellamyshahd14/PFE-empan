@@ -24,6 +24,17 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
   int _currentIndex = 0;
   int _score = 0;
   final int _totalImages = 48;
+  bool _isFinished = false;
+  final List<bool?> _itemResults = List.filled(48, null);
+  final List<String?> _patientChoices = List.filled(48, null);
+
+  static const List<String> _itemTypes = [
+    'Double', 'Unique', 'Unique', 'Double', 'Abstrait', 'Double', 'Unique', 'Unique', 'Unique', 'Abstrait',
+    'Unique', 'Abstrait', 'Abstrait', 'Unique', 'Double', 'Abstrait', 'Double', 'Unique', 'Unique', 'Double',
+    'Double', 'Abstrait', 'Double', 'Abstrait', 'Double', 'Abstrait', 'Double', 'Unique', 'Double', 'Abstrait',
+    'Unique', 'Abstrait', 'Unique', 'Unique', 'Abstrait', 'Double', 'Abstrait', 'Unique', 'Double', 'Abstrait',
+    'Unique', 'Abstrait', 'Double', 'Unique', 'Abstrait', 'Double', 'Abstrait', 'Double'
+  ];
 
   // Extracted from Correction DSM.pdf for Set 1
   final List<String> _correctAnswers = [
@@ -90,8 +101,10 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
   }
 
   void _handleSelection(String selection) {
-    // Check answer -> selection is 'A' or 'B'
-    if (selection == _correctAnswers[_currentIndex]) {
+    bool isCorrect = selection == _correctAnswers[_currentIndex];
+    _itemResults[_currentIndex] = isCorrect;
+    _patientChoices[_currentIndex] = selection;
+    if (isCorrect) {
       _score++;
     }
 
@@ -105,14 +118,24 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
   }
 
   void _finishTest() async {
+    if (_isFinished) return;
+    setState(() => _isFinished = true);
+
     _stopwatch.stop();
     final int elapsedMilliseconds = _stopwatch.elapsedMilliseconds;
     final int seconds = (elapsedMilliseconds / 1000).truncate();
     final String durationStr = "$seconds s";
 
-    debugPrint(
-      "DSM-48 Set 1 Completed in: $durationStr for patient ${widget.patientDocId} (Score: $_score)",
-    );
+    // Build detailed results for the dashboard
+    final List<Map<String, dynamic>> tableFormat = List.generate(_totalImages, (index) {
+      return {
+        'numero': index + 1,
+        'categorie': _itemTypes[index],
+        'attendu': _correctAnswers[index],
+        'patient': _patientChoices[index] ?? '-',
+        'isCorrect': _itemResults[index] ?? false,
+      };
+    });
 
     try {
       await _firestoreService.saveTestResult(
@@ -121,6 +144,9 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
         score: _score.toDouble(),
         totalDuration: durationStr,
         testType: 'DSM-48 Set 1',
+        metadata: {
+          'tableFormat': tableFormat,
+        },
       );
     } catch (e) {
       debugPrint("Error saving result: $e");

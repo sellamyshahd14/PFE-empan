@@ -297,9 +297,12 @@ class _TmtBPageState extends State<TmtBPage> {
           patientIdentifier: widget.patientIdentifier,
           score: (24 - _errorCount).toDouble(),
           totalDuration: durationStr,
+          errors: _errorCount,
           testType: 'TMT-B',
           metadata: {
             'mistakes': _errorCount,
+            'path': _connectedItems.map((item) => "${item.number}-${item.isWhite ? 'W' : 'B'}").toList(),
+            'totalActions': _connectedItems.length,
           },
         );
     } catch (e) {
@@ -307,41 +310,79 @@ class _TmtBPageState extends State<TmtBPage> {
     }
   }
 
+  Future<void> _requestExit() async {
+    if (_isTestCompleted) {
+      Navigator.of(context).pop();
+      return;
+    }
+
+    final loc = AppLocalizations.of(context);
+    final bool? shouldExit = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(loc.exitWithoutSaving, style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
+        content: Text(loc.exitConfirmBody, style: GoogleFonts.cairo()),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(loc.cancel, style: GoogleFonts.cairo()),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(loc.exitWithoutSaving, style: GoogleFonts.cairo(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldExit == true && mounted) {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
 
-    return Scaffold(
-      backgroundColor: _showError ? Colors.red[100] : Colors.white,
-      appBar: AppBar(
-        title: Text(
-          loc.tmtBTitle,
-          style: GoogleFonts.cairo(color: Colors.black),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: TextButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.stop_circle_outlined, color: Colors.red),
-              label: Text(
-                loc.finishTest, // Finish test mapped to localized Arabic
-                style: GoogleFonts.cairo(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
+    return PopScope(
+      canPop: _isTestCompleted,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        _requestExit();
+      },
+      child: Scaffold(
+        backgroundColor: _showError ? Colors.red[100] : Colors.white,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: _requestExit,
+          ),
+          title: Text(
+            loc.tmtBTitle,
+            style: GoogleFonts.cairo(color: Colors.black),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.black),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: TextButton.icon(
+                onPressed: _requestExit,
+                icon: const Icon(Icons.stop_circle_outlined, color: Colors.red),
+                label: Text(
+                  loc.finishTest, // Finish test mapped to localized Arabic
+                  style: GoogleFonts.cairo(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-      body: SafeArea(
+          ],
+        ),
+        body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
             if (_items.isEmpty) {
@@ -463,8 +504,9 @@ class _TmtBPageState extends State<TmtBPage> {
           },
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 class LinePainterB extends CustomPainter {

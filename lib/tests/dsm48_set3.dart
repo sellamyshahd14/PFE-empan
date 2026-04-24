@@ -24,57 +24,23 @@ class _Dsm48Set3PageState extends State<Dsm48Set3Page> {
   int _currentIndex = 0;
   int _score = 0;
   final int _totalImages = 48;
+  bool _isFinished = false;
+  final List<bool?> _itemResults = List.filled(48, null);
+  final List<String?> _patientChoices = List.filled(48, null);
+
+  static const List<String> _itemTypes = [
+    'Double', 'Abstrait', 'Unique', 'Abstrait', 'Abstrait', 'Unique', 'Double', 'Unique', 'Double', 'Abstrait',
+    'Unique', 'Abstrait', 'Unique', 'Double', 'Unique', 'Abstrait', 'Double', 'Unique', 'Double', 'Unique',
+    'Abstrait', 'Abstrait', 'Unique', 'Double', 'Double', 'Double', 'Abstrait', 'Abstrait', 'Abstrait', 'Abstrait',
+    'Double', 'Double', 'Abstrait', 'Double', 'Abstrait', 'Double', 'Abstrait', 'Unique', 'Double', 'Abstrait',
+    'Unique', 'Unique', 'Unique', 'Unique', 'Double', 'Double', 'Unique', 'Unique'
+  ];
 
   // Extracted from Correction DSM.pdf for Set 3
   final List<String> _correctAnswers = [
-    'A',
-    'B',
-    'A',
-    'B',
-    'B',
-    'A',
-    'B',
-    'A',
-    'A',
-    'B',
-    'B',
-    'A',
-    'A',
-    'B',
-    'B',
-    'B',
-    'A',
-    'B',
-    'B',
-    'A',
-    'B',
-    'B',
-    'B',
-    'A',
-    'B',
-    'A',
-    'B',
-    'A',
-    'B',
-    'B',
-    'B',
-    'A',
-    'B',
-    'A',
-    'B',
-    'A',
-    'A',
-    'B',
-    'A',
-    'A',
-    'A',
-    'B',
-    'A',
-    'B',
-    'A',
-    'B',
-    'A',
-    'B',
+    'B', 'B', 'A', 'B', 'A', 'A', 'B', 'B', 'A', 'B', 'A', 'A', 'B', 'A', 'A', 'B',
+    'A', 'B', 'A', 'B', 'A', 'A', 'B', 'A', 'A', 'A', 'B', 'A', 'B', 'B', 'B', 'A',
+    'B', 'B', 'A', 'B', 'B', 'A', 'A', 'B', 'A', 'B', 'B', 'A', 'B', 'A', 'B', 'A',
   ];
 
   @override
@@ -90,7 +56,10 @@ class _Dsm48Set3PageState extends State<Dsm48Set3Page> {
   }
 
   void _handleSelection(String selection) {
-    if (selection == _correctAnswers[_currentIndex]) {
+    bool isCorrect = selection == _correctAnswers[_currentIndex];
+    _itemResults[_currentIndex] = isCorrect;
+    _patientChoices[_currentIndex] = selection;
+    if (isCorrect) {
       _score++;
     }
 
@@ -104,14 +73,24 @@ class _Dsm48Set3PageState extends State<Dsm48Set3Page> {
   }
 
   void _finishTest() async {
+    if (_isFinished) return;
+    setState(() => _isFinished = true);
+
     _stopwatch.stop();
     final int elapsedMilliseconds = _stopwatch.elapsedMilliseconds;
     final int seconds = (elapsedMilliseconds / 1000).truncate();
     final String durationStr = "$seconds s";
 
-    debugPrint(
-      "DSM-48 Set 3 Completed in: $durationStr for patient ${widget.patientDocId} (Score: $_score)",
-    );
+    // Build detailed results for the dashboard
+    final List<Map<String, dynamic>> tableFormat = List.generate(_totalImages, (index) {
+      return {
+        'numero': index + 1,
+        'categorie': _itemTypes[index],
+        'attendu': _correctAnswers[index],
+        'patient': _patientChoices[index] ?? '-',
+        'isCorrect': _itemResults[index] ?? false,
+      };
+    });
 
     try {
       await _firestoreService.saveTestResult(
@@ -120,6 +99,9 @@ class _Dsm48Set3PageState extends State<Dsm48Set3Page> {
         score: _score.toDouble(),
         totalDuration: durationStr,
         testType: 'DSM-48 Set 3',
+        metadata: {
+          'tableFormat': tableFormat,
+        },
       );
     } catch (e) {
       debugPrint("Error saving result: $e");
