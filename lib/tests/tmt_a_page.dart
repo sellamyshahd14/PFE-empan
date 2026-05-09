@@ -185,10 +185,11 @@ class _TmtAPageState extends State<TmtAPage> {
     );
 
     try {
+      final int connectionsCount = _connectedNumbers.length > 0 ? _connectedNumbers.length - 1 : 0;
       await _firestoreService.saveTestResult(
         patientDocId: widget.patientDocId,
         patientIdentifier: widget.patientIdentifier,
-        score: (24 - _errorCount).toDouble(),
+        score: (connectionsCount - _errorCount).toDouble(),
         totalDuration: durationStr,
         errors: _errorCount,
         testType: 'TMT-A',
@@ -246,9 +247,19 @@ class _TmtAPageState extends State<TmtAPage> {
       child: Scaffold(
         backgroundColor: _showError ? Colors.red[100] : Colors.white,
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: _requestExit,
+          leadingWidth: 100,
+          leading: Directionality(
+            textDirection: TextDirection.ltr,
+            child: TextButton(
+              onPressed: _finishTest,
+              child: Text(
+                loc.finishTest,
+                style: GoogleFonts.cairo(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
           title: Text(
             loc.tmtATitle,
@@ -259,18 +270,12 @@ class _TmtAPageState extends State<TmtAPage> {
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
           actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: TextButton.icon(
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_forward),
                 onPressed: _requestExit,
-                icon: const Icon(Icons.stop_circle_outlined, color: Colors.red),
-                label: Text(
-                  loc.finishTest, // Finish test localized contextually
-                  style: GoogleFonts.cairo(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                tooltip: loc.exitWithoutSaving,
               ),
             ),
           ],

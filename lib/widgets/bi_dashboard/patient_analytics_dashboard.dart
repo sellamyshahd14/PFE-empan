@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -148,11 +149,13 @@ class ClinicalAlertBanner extends StatelessWidget {
     if (metrics == null) return const SizedBox.shrink();
 
     List<String> alerts = [];
-    if (metrics['dsmMean'] != null && metrics['dsmMean'] < 24) alerts.add("Score DSM-48 inférieur au seuil critique (< 24/48)");
+    if (metrics['dsmMean'] != null && metrics['dsmMean'] < 40) alerts.add("Score DSM-48 inférieur au seuil critique (< 40/48)");
     if (metrics['hadsA'] != null && metrics['hadsA'] >= 11) alerts.add("Symptomatologie anxieuse significative (HADS-A ≥ 11)");
     if (metrics['hadsD'] != null && metrics['hadsD'] >= 11) alerts.add("Symptomatologie dépressive significative (HADS-D ≥ 11)");
     if (metrics['tmtBAvg'] != null && metrics['tmtBAvg'] > 180) alerts.add("Déficit exécutif sévère (TMT B > 180s)");
-    if (metrics['empanDirect'] != null && metrics['empanDirect'] < 4) alerts.add("Mémoire à court terme très faible (Empan < 4)");
+    
+    double empanMax = max((metrics['empanDirect'] ?? 0).toDouble(), (metrics['empanInverse'] ?? 0).toDouble());
+    if (empanMax < 2) alerts.add("Indice d'attention sévère (Empan < 2)");
     if (metrics['empanMaFlag'] == true) alerts.add("Ratio Empan Inverse/Direct < 0.7 (Signe MA)");
 
     if (alerts.isEmpty) return const SizedBox.shrink();
@@ -207,11 +210,12 @@ class SessionSelectorBar extends StatelessWidget {
   bool _hasAlert(String session) {
     final m = state.sessionAverages[session];
     if (m == null) return false;
-    if (m['dsmMean'] != null && m['dsmMean'] < 24) return true;
+    if (m['dsmMean'] != null && m['dsmMean'] < 40) return true;
     if (m['hadsA'] != null && m['hadsA'] >= 11) return true;
     if (m['hadsD'] != null && m['hadsD'] >= 11) return true;
     if (m['tmtBAvg'] != null && m['tmtBAvg'] > 180) return true;
-    if (m['empanDirect'] != null && m['empanDirect'] < 4) return true;
+    double empanMax = max((m['empanDirect'] ?? 0).toDouble(), (m['empanInverse'] ?? 0).toDouble());
+    if (empanMax < 2) return true;
     if (m['empanMaFlag'] == true) return true;
     return false;
   }
@@ -303,18 +307,29 @@ class CognitiveDomainCards extends StatelessWidget {
 
     // 1. DMS-48
     double? dsm = metrics['dsmMean'];
-    Color dsmColor = dsm == null ? Colors.grey : (dsm >= 36 ? Colors.green : (dsm >= 24 ? Colors.orange : Colors.red));
+    Color dsmColor = dsm == null ? Colors.grey : (dsm >= 40 ? Colors.green : Colors.red);
     String dsmVal = dsm == null ? "Non évalué" : "${dsm.toStringAsFixed(1)} / 48";
     
     // 2. Empan
     double? eDir = metrics['empanDirect'];
     double? eInv = metrics['empanInverse'];
+    double eMax = max(eDir ?? 0.0, eInv ?? 0.0);
+    
+    Color empanColor = eMax >= 2.0 
+        ? Colors.green 
+        : (eMax >= 1.0 ? Colors.orange : Colors.red);
+        
+    String eStatus = eMax >= 2.0 
+        ? "Normal" 
+        : (eMax >= 1.0 ? "Fragilité" : "Sévère");
+        
     String eVal = "";
-    if (eDir != null && eInv != null) eVal = "Direct: ${eDir.toInt()} | Inv.: ${eInv.toInt()}";
-    else if (eDir != null) eVal = "Direct: ${eDir.toInt()}";
-    else if (eInv != null) eVal = "Inv.: ${eInv.toInt()}";
+    if (eDir != null && eInv != null) eVal = "D: ${eDir.toInt()} | I: ${eInv.toInt()}";
+    else if (eDir != null) eVal = "D: ${eDir.toInt()}";
+    else if (eInv != null) eVal = "I: ${eInv.toInt()}";
     else eVal = "Non évalué";
-    bool eAlert = metrics['empanMaFlag'] == true;
+    
+    bool eAlert = metrics['empanMaFlag'] == true || eMax < 2.0;
 
     // 3. DO-30
     double? do30 = metrics['do30'];
@@ -342,7 +357,7 @@ class CognitiveDomainCards extends StatelessWidget {
           children: [
             Expanded(child: _buildCard("Mémoire (DSM-48)", "Mémoire de reconnaissance visuelle", dsmVal, Icons.grid_view_rounded, Colors.teal, dsmColor)),
             const SizedBox(width: 16),
-            Expanded(child: _buildCard("Attention (Empan)", "Mémoire de travail verbale", eVal, Icons.graphic_eq, Colors.blue, Colors.blue, alertBadge: eAlert ? "Ratio D/I < 0.7 ⚠" : null)),
+            Expanded(child: _buildCard("Attention (Empan)", "Attention — État : $eStatus", eVal, Icons.graphic_eq, Colors.blue, empanColor, alertBadge: eAlert ? "Alerte CLINIQUE ⚠" : null)),
           ],
         ),
         const SizedBox(height: 16),

@@ -22,7 +22,8 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
 
   // Section 2: Socio-demographique
   String? _gender;
-  final _addressPhoneController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _phoneController = TextEditingController();
   String? _insurance;
   String? _educationLevel;
   String? _maritalStatus;
@@ -48,14 +49,16 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
       initialDate: DateTime(1960),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
+      locale: const Locale('fr', 'FR'), // Force Western/French calendar
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
               primary: Colors.teal,
               onPrimary: Colors.white,
-              onSurface: Colors.teal,
+              onSurface: Colors.black, // Darker text for better visibility
             ),
+            textTheme: GoogleFonts.cairoTextTheme(), // Ensure Cairo is used in picker
           ),
           child: child!,
         );
@@ -86,7 +89,8 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
         patientIdentifier: _medicalIdController.text.trim(),
         birthDate: _selectedBirthDate!,
         gender: _gender,
-        addressPhone: _addressPhoneController.text.trim(),
+        address: _addressController.text.trim(),
+        phone: _phoneController.text.trim(),
         insurance: _insurance,
         educationLevel: _educationLevel,
         maritalStatus: _maritalStatus,
@@ -261,10 +265,19 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: _addressPhoneController,
+                  controller: _addressController,
                   decoration: const InputDecoration(
-                    labelText: "Adresse et Téléphone",
+                    labelText: "Adresse",
                     prefixIcon: Icon(Icons.home),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                TextFormField(
+                  controller: _phoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: const InputDecoration(
+                    labelText: "Numéro de téléphone",
+                    prefixIcon: Icon(Icons.phone),
                   ),
                 ),
                 const SizedBox(height: 20),

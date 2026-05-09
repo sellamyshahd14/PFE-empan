@@ -6,6 +6,10 @@ class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Stream<QuerySnapshot> getAllDoctors() {
+    return _db.collection('doctors').snapshots();
+  }
+
   // --- Patients ---
 
   // Add a new Patient (linked to the current doctor)
@@ -15,7 +19,8 @@ class FirestoreService {
     required String patientIdentifier,
     required DateTime birthDate,
     String? gender,
-    String? addressPhone,
+    String? address,
+    String? phone,
     String? insurance,
     String? educationLevel,
     String? maritalStatus,
@@ -44,7 +49,8 @@ class FirestoreService {
       'patientIdentifier': patientIdentifier, // The ID used for login (Medical ID)
       'birthDate': Timestamp.fromDate(birthDate),
       'gender': gender,
-      'addressPhone': addressPhone,
+      'address': address,
+      'phone': phone,
       'insurance': insurance,
       'educationLevel': educationLevel,
       'maritalStatus': maritalStatus,
@@ -70,8 +76,7 @@ class FirestoreService {
 
     return _db
         .collection('patients')
-        .where('createdByDoctorId', isEqualTo: doctor.uid)
-        // .orderBy('createdAt', descending: true) // Commented out to debug Index/Ordering issues
+        // .where('createdByDoctorId', isEqualTo: doctor.uid) // Removed for central database visibility
         .snapshots();
   }
 

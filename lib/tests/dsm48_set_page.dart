@@ -3,21 +3,29 @@ import 'package:google_fonts/google_fonts.dart';
 import '../services/firestore_service.dart';
 import '../localization.dart';
 
-class Dsm48Set1Page extends StatefulWidget {
+class Dsm48SetPage extends StatefulWidget {
   final String patientDocId;
   final String patientIdentifier;
+  final int setIndex; // 1, 2, or 3
+  final List<String> correctAnswers;
+  final List<String> itemTypes;
+  final String setLabel; // e.g. "Set 1"
 
-  const Dsm48Set1Page({
+  const Dsm48SetPage({
     super.key,
     required this.patientDocId,
     required this.patientIdentifier,
+    required this.setIndex,
+    required this.correctAnswers,
+    required this.itemTypes,
+    required this.setLabel,
   });
 
   @override
-  State<Dsm48Set1Page> createState() => _Dsm48Set1PageState();
+  State<Dsm48SetPage> createState() => _Dsm48SetPageState();
 }
 
-class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
+class _Dsm48SetPageState extends State<Dsm48SetPage> {
   final FirestoreService _firestoreService = FirestoreService();
   final Stopwatch _stopwatch = Stopwatch();
 
@@ -25,72 +33,14 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
   int _score = 0;
   final int _totalImages = 48;
   bool _isFinished = false;
-  final List<bool?> _itemResults = List.filled(48, null);
-  final List<String?> _patientChoices = List.filled(48, null);
-
-  static const List<String> _itemTypes = [
-    'Double', 'Unique', 'Unique', 'Double', 'Abstrait', 'Double', 'Unique', 'Unique', 'Unique', 'Abstrait',
-    'Unique', 'Abstrait', 'Abstrait', 'Unique', 'Double', 'Abstrait', 'Double', 'Unique', 'Unique', 'Double',
-    'Double', 'Abstrait', 'Double', 'Abstrait', 'Double', 'Abstrait', 'Double', 'Unique', 'Double', 'Abstrait',
-    'Unique', 'Abstrait', 'Unique', 'Unique', 'Abstrait', 'Double', 'Abstrait', 'Unique', 'Double', 'Abstrait',
-    'Unique', 'Abstrait', 'Double', 'Unique', 'Abstrait', 'Double', 'Abstrait', 'Double'
-  ];
-
-  // Extracted from Correction DSM.pdf for Set 1
-  final List<String> _correctAnswers = [
-    'A',
-    'B',
-    'B',
-    'B',
-    'A',
-    'A',
-    'B',
-    'A',
-    'B',
-    'B',
-    'A',
-    'A',
-    'A',
-    'B',
-    'B',
-    'A',
-    'B',
-    'A',
-    'B',
-    'A',
-    'B',
-    'B',
-    'A',
-    'B',
-    'B',
-    'A',
-    'A',
-    'B',
-    'A',
-    'A',
-    'B',
-    'A',
-    'B',
-    'B',
-    'A',
-    'A',
-    'A',
-    'B',
-    'B',
-    'A',
-    'B',
-    'B',
-    'A',
-    'B',
-    'A',
-    'B',
-    'A',
-    'A',
-  ];
+  late final List<bool?> _itemResults;
+  late final List<String?> _patientChoices;
 
   @override
   void initState() {
     super.initState();
+    _itemResults = List.filled(_totalImages, null);
+    _patientChoices = List.filled(_totalImages, null);
     _stopwatch.start();
   }
 
@@ -100,8 +50,27 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
     super.dispose();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Precache first pair
+    _precachePair(0);
+    // Precache next pair (ahead of time)
+    _precachePair(1);
+  }
+
+  void _precachePair(int index) {
+    if (index >= _totalImages) return;
+    
+    final String pathA = 'assets/images/dsm48/set${widget.setIndex}/set${widget.setIndex}_pair${index + 1}_A.png';
+    final String pathB = 'assets/images/dsm48/set${widget.setIndex}/set${widget.setIndex}_pair${index + 1}_B.png';
+    
+    precacheImage(AssetImage(pathA), context);
+    precacheImage(AssetImage(pathB), context);
+  }
+
   void _handleSelection(String selection) {
-    bool isCorrect = selection == _correctAnswers[_currentIndex];
+    bool isCorrect = selection == widget.correctAnswers[_currentIndex];
     _itemResults[_currentIndex] = isCorrect;
     _patientChoices[_currentIndex] = selection;
     if (isCorrect) {
@@ -112,6 +81,8 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
       setState(() {
         _currentIndex++;
       });
+      // Precache the one after next
+      _precachePair(_currentIndex + 1);
     } else {
       _finishTest();
     }
@@ -130,8 +101,8 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
     final List<Map<String, dynamic>> tableFormat = List.generate(_totalImages, (index) {
       return {
         'numero': index + 1,
-        'categorie': _itemTypes[index],
-        'attendu': _correctAnswers[index],
+        'categorie': widget.itemTypes[index],
+        'attendu': widget.correctAnswers[index],
         'patient': _patientChoices[index] ?? '-',
         'isCorrect': _itemResults[index] ?? false,
       };
@@ -143,7 +114,7 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
         patientIdentifier: widget.patientIdentifier,
         score: _score.toDouble(),
         totalDuration: durationStr,
-        testType: 'DSM-48 Set 1',
+        testType: 'DSM-48 ${widget.setLabel}',
         metadata: {
           'tableFormat': tableFormat,
         },
@@ -188,11 +159,11 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
 
-    // Images are named set1_pair1_A.png, set1_pair2_A.png, etc.
+    // Images are named setX_pairY_A.png, etc.
     final String imagePathA =
-        'assets/images/dsm48/set1/set1_pair${_currentIndex + 1}_A.png';
+        'assets/images/dsm48/set${widget.setIndex}/set${widget.setIndex}_pair${_currentIndex + 1}_A.png';
     final String imagePathB =
-        'assets/images/dsm48/set1/set1_pair${_currentIndex + 1}_B.png';
+        'assets/images/dsm48/set${widget.setIndex}/set${widget.setIndex}_pair${_currentIndex + 1}_B.png';
     final String counterText = loc.dsm48ImageCounter.replaceAll(
       '{}',
       '${_currentIndex + 1}',
@@ -202,7 +173,7 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          loc.dsm48MenuSet1,
+          widget.setLabel,
           style: GoogleFonts.cairo(color: Colors.black),
         ),
         centerTitle: true,
@@ -269,6 +240,7 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
   }
 
   Widget _buildImageCard(String assetPath, String label) {
+    final loc = AppLocalizations.of(context);
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -302,7 +274,7 @@ class _Dsm48Set1PageState extends State<Dsm48Set1Page> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Image $label non trouvée',
+                        loc.imageNotFoundError.replaceAll('{}', label),
                         textAlign: TextAlign.center,
                         style: GoogleFonts.cairo(
                           color: Colors.grey.shade600,

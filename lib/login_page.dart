@@ -6,7 +6,6 @@ import 'localization.dart';
 import 'main.dart';
 import 'services/auth_service.dart';
 import 'services/firestore_service.dart';
-import 'register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -51,9 +50,7 @@ class _LoginPageState extends State<LoginPage> {
             );
           } else if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Patient ID not found. ask your Doctor."),
-              ),
+              SnackBar(content: Text(loc.patientNotFound)),
             );
           }
         } catch (e) {
@@ -85,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Login Failed. Check Email/Password.")),
+            SnackBar(content: Text(loc.loginFailed)),
           );
         }
       }
@@ -112,7 +109,10 @@ class _LoginPageState extends State<LoginPage> {
               underline: Container(),
               onChanged: (String? newValue) {
                 if (newValue != null) {
-                  MainApp.setLocale(context, Locale(newValue));
+                  Locale next = newValue == 'ar' 
+                    ? const Locale('ar', 'TN') 
+                    : const Locale('fr', 'FR');
+                  MainApp.setLocale(context, next);
                 }
               },
               items: const [
@@ -276,24 +276,6 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                 ),
 
-                if (!_isPatientMode)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const RegisterPage(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "Create new Doctor Account",
-                        style: GoogleFonts.cairo(color: Colors.teal),
-                      ),
-                    ),
-                  ),
               ],
             ),
           ),

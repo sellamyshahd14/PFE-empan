@@ -161,11 +161,12 @@ class _TmtCPageState extends State<TmtCPage> {
     final int seconds = (_stopwatch.elapsedMilliseconds / 1000).truncate();
     final String durationStr = "$seconds s";
 
+    final int connectionsCount = _connectedItems.length > 0 ? _connectedItems.length - 1 : 0;
     try {
       await _firestoreService.saveTestResult(
         patientDocId: widget.patientDocId,
         patientIdentifier: widget.patientIdentifier,
-        score: (24 - _errorCount).toDouble(),
+        score: (connectionsCount - _errorCount).toDouble(),
         totalDuration: durationStr,
         errors: _errorCount,
         testType: 'TMT-C',
@@ -223,9 +224,19 @@ class _TmtCPageState extends State<TmtCPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: _requestExit,
+          leadingWidth: 100,
+          leading: Directionality(
+            textDirection: TextDirection.ltr,
+            child: TextButton(
+              onPressed: _finishTest,
+              child: Text(
+                loc.finishTest,
+                style: GoogleFonts.cairo(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
           title:
               Text(loc.tmtCTitle, style: GoogleFonts.cairo(color: Colors.black)),
@@ -234,18 +245,12 @@ class _TmtCPageState extends State<TmtCPage> {
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
           actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: TextButton.icon(
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_forward),
                 onPressed: _requestExit,
-                icon: const Icon(Icons.stop_circle_outlined, color: Colors.red),
-                label: Text(
-                  loc.finishTest,
-                  style: GoogleFonts.cairo(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                tooltip: loc.exitWithoutSaving,
               ),
             ),
           ],

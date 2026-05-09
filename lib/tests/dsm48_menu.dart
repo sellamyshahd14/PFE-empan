@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../localization.dart';
 import 'dsm48_encodage.dart';
-import 'dsm48_set1.dart';
-import 'dsm48_set2.dart';
-import 'dsm48_set3.dart';
+import 'dsm48_set_page.dart';
 
 class Dsm48MenuPage extends StatelessWidget {
   final String patientDocId;
@@ -15,6 +13,48 @@ class Dsm48MenuPage extends StatelessWidget {
     required this.patientDocId,
     required this.patientIdentifier,
   });
+
+  static const List<String> _set1Types = [
+    'Double', 'Unique', 'Unique', 'Double', 'Abstrait', 'Double', 'Unique', 'Unique', 'Unique', 'Abstrait',
+    'Unique', 'Abstrait', 'Abstrait', 'Unique', 'Double', 'Abstrait', 'Double', 'Unique', 'Unique', 'Double',
+    'Double', 'Abstrait', 'Double', 'Abstrait', 'Double', 'Abstrait', 'Double', 'Unique', 'Double', 'Abstrait',
+    'Unique', 'Abstrait', 'Unique', 'Unique', 'Abstrait', 'Double', 'Abstrait', 'Unique', 'Double', 'Abstrait',
+    'Unique', 'Abstrait', 'Double', 'Unique', 'Abstrait', 'Double', 'Abstrait', 'Double'
+  ];
+
+  static const List<String> _set1Answers = [
+    'A', 'B', 'B', 'B', 'A', 'A', 'B', 'A', 'B', 'B', 'A', 'A', 'A', 'B', 'B', 'A',
+    'B', 'A', 'B', 'A', 'B', 'B', 'A', 'B', 'B', 'A', 'A', 'B', 'A', 'A', 'B', 'A',
+    'B', 'B', 'A', 'A', 'A', 'B', 'B', 'A', 'B', 'B', 'A', 'B', 'A', 'B', 'A', 'A',
+  ];
+
+  static const List<String> _set2Types = [
+    'Abstrait', 'Unique', 'Unique', 'Double', 'Double', 'Double', 'Abstrait', 'Double', 'Unique', 'Unique',
+    'Double', 'Abstrait', 'Unique', 'Abstrait', 'Abstrait', 'Abstrait', 'Abstrait', 'Unique', 'Abstrait', 'Abstrait',
+    'Double', 'Double', 'Unique', 'Unique', 'Abstrait', 'Double', 'Abstrait', 'Double', 'Abstrait', 'Double',
+    'Double', 'Abstrait', 'Double', 'Unique', 'Unique', 'Abstrait', 'Abstrait', 'Unique', 'Unique', 'Unique',
+    'Double', 'Double', 'Double', 'Abstrait', 'Double', 'Unique', 'Unique', 'Unique'
+  ];
+
+  static const List<String> _set2Answers = [
+    'A', 'B', 'A', 'B', 'B', 'A', 'B', 'A', 'A', 'B', 'B', 'A', 'A', 'B', 'A', 'B',
+    'A', 'B', 'B', 'A', 'B', 'B', 'B', 'A', 'A', 'A', 'B', 'A', 'B', 'B', 'B', 'A',
+    'B', 'A', 'B', 'A', 'A', 'B', 'A', 'A', 'A', 'B', 'A', 'B', 'A', 'B', 'A', 'B',
+  ];
+
+  static const List<String> _set3Types = [
+    'Double', 'Abstrait', 'Unique', 'Abstrait', 'Abstrait', 'Unique', 'Double', 'Unique', 'Double', 'Abstrait',
+    'Unique', 'Abstrait', 'Unique', 'Double', 'Unique', 'Abstrait', 'Double', 'Unique', 'Double', 'Unique',
+    'Abstrait', 'Abstrait', 'Unique', 'Double', 'Double', 'Double', 'Abstrait', 'Abstrait', 'Abstrait', 'Abstrait',
+    'Double', 'Double', 'Abstrait', 'Double', 'Abstrait', 'Double', 'Abstrait', 'Unique', 'Double', 'Abstrait',
+    'Unique', 'Unique', 'Unique', 'Unique', 'Double', 'Double', 'Unique', 'Unique'
+  ];
+
+  static const List<String> _set3Answers = [
+    'B', 'B', 'A', 'B', 'A', 'A', 'B', 'B', 'A', 'B', 'A', 'A', 'B', 'A', 'A', 'B',
+    'A', 'B', 'A', 'B', 'A', 'A', 'B', 'A', 'A', 'A', 'B', 'A', 'B', 'B', 'B', 'A',
+    'B', 'B', 'A', 'B', 'B', 'A', 'A', 'B', 'A', 'B', 'B', 'A', 'B', 'A', 'B', 'A',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +95,10 @@ class Dsm48MenuPage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Dsm48EncodagePage(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
+                  builder: (context) => Dsm48EncodagePage(
+                    patientDocId: patientDocId,
+                    patientIdentifier: patientIdentifier,
+                  ),
                 ),
               ),
             ),
@@ -67,7 +110,14 @@ class Dsm48MenuPage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Dsm48Set1Page(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
+                  builder: (context) => Dsm48SetPage(
+                    patientDocId: patientDocId,
+                    patientIdentifier: patientIdentifier,
+                    setIndex: 1,
+                    correctAnswers: _set1Answers,
+                    itemTypes: _set1Types,
+                    setLabel: loc.dsm48MenuSet1,
+                  ),
                 ),
               ),
             ),
@@ -79,7 +129,14 @@ class Dsm48MenuPage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Dsm48Set2Page(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
+                  builder: (context) => Dsm48SetPage(
+                    patientDocId: patientDocId,
+                    patientIdentifier: patientIdentifier,
+                    setIndex: 2,
+                    correctAnswers: _set2Answers,
+                    itemTypes: _set2Types,
+                    setLabel: loc.dsm48MenuSet2,
+                  ),
                 ),
               ),
             ),
@@ -91,7 +148,14 @@ class Dsm48MenuPage extends StatelessWidget {
               () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Dsm48Set3Page(patientDocId: patientDocId, patientIdentifier: patientIdentifier),
+                  builder: (context) => Dsm48SetPage(
+                    patientDocId: patientDocId,
+                    patientIdentifier: patientIdentifier,
+                    setIndex: 3,
+                    correctAnswers: _set3Answers,
+                    itemTypes: _set3Types,
+                    setLabel: loc.dsm48MenuSet3,
+                  ),
                 ),
               ),
             ),
@@ -129,39 +193,5 @@ class Dsm48MenuPage extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildDisabledButton(BuildContext context, String title) {
-    return ElevatedButton(
-      onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              "Bientôt disponible / قريبا",
-              style: GoogleFonts.cairo(),
-              textAlign: TextAlign.center,
-            ),
-            duration: const Duration(seconds: 1),
-          ),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey.shade400,
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        elevation: 0,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.lock_outline, size: 28),
-          const SizedBox(width: 15),
-          Text(
-            title,
-            style: GoogleFonts.cairo(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
 }
+

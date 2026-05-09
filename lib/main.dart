@@ -30,7 +30,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  Locale _locale = const Locale('ar');
+  Locale _locale = const Locale('ar', 'TN');
 
   void setLocale(Locale locale) {
     setState(() {
@@ -49,8 +49,8 @@ class _MainAppState extends State<MainApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('ar', ''), // Arabic
-        Locale('fr', ''), // French
+        Locale('ar', 'TN'), // Arabic (Tunisia)
+        Locale('fr', 'FR'), // French (France)
       ],
       locale: _locale,
       home: const LoginPage(),

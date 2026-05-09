@@ -24,7 +24,7 @@ class PatientAnalyticsState {
 class AnalyticsEngine {
   static const int expectedTestsPerSession = 8;
   static const int tmtMaxSeconds = 180;
-  static const double dsmThreshold = 36.0;
+  static const double dsmThreshold = 40.0;
 
   static PatientAnalyticsState process(List<QueryDocumentSnapshot> rawDocs) {
     // 1. Group by session
@@ -152,14 +152,14 @@ class AnalyticsEngine {
       final type = (data['testType'] ?? '').toString();
       
       if (type.contains("DSM-48")) {
-         if (type.contains("Set 1")) dsmSet1 = (data['score'] ?? 0.0).toDouble();
-         if (type.contains("Set 2")) dsmSet2 = (data['score'] ?? 0.0).toDouble();
-         if (type.contains("Set 3")) dsmSet3 = (data['score'] ?? 0.0).toDouble();
+         if (type.contains("Set 1") || type.contains("المجموعة 1")) dsmSet1 = (data['score'] ?? 0.0).toDouble();
+         if (type.contains("Set 2") || type.contains("المجموعة 2")) dsmSet2 = (data['score'] ?? 0.0).toDouble();
+         if (type.contains("Set 3") || type.contains("المجموعة 3")) dsmSet3 = (data['score'] ?? 0.0).toDouble();
       } else if (type == "DO-30") {
          do30 = max(do30, (data['score'] ?? 0.0).toDouble());
-      } else if (type.contains("Empan Direct")) {
+      } else if (type.contains("Empan Direct") || type.contains("إمبان المباشر")) {
          empanDirect = max(empanDirect ?? 0.0, (data['score'] ?? 0.0).toDouble());
-      } else if (type.contains("Empan Inverse")) {
+      } else if (type.contains("Empan Inverse") || type.contains("إمبان العكسي")) {
          empanInverse = max(empanInverse ?? 0.0, (data['score'] ?? 0.0).toDouble());
       } else if (type == "HADS") {
          hadsA = (data['scoreA'] ?? 0.0).toDouble();

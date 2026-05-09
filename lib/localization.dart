@@ -190,6 +190,20 @@ class AppLocalizations {
       'exitConfirmBody': 'سيتم فقدان تقدمك.',
       'clearAndRetry': 'مسح وإعادة المحاولة',
       'done_listening': 'انتهيت',
+      'stt_error': 'خطأ في التعرف على الصوت: ',
+      'write_answer': 'اكتب الإجابة هنا...',
+      'image_not_found_error': 'الصورة {} غير موجودة',
+      'patient_not_found': 'معرف المريض غير موجود. اسأل طبيبك.',
+      'login_failed': 'فشل تسجيل الدخول. تحقق من البريد الإلكتروني/كلمة المرور.',
+      'create_doctor_account': 'إنشاء حساب طبيب جديد',
+      'first_name': 'الاسم الأول',
+      'last_name': 'اللقب',
+      'email': 'البريد الإلكتروني',
+      'password': 'كلمة المرور',
+      'required': 'مطلوب',
+      'create_account': 'إنشاء حساب',
+      'account_created': 'تم إنشاء الحساب بنجاح!',
+      'add_doctor': 'إضافة طبيب',
     },
     'fr': {
       'login_title': 'Test de Performance Cognitive',
@@ -376,204 +390,139 @@ class AppLocalizations {
       'exitConfirmBody': 'Votre progression sera perdue.',
       'clearAndRetry': 'Effacer et réessayer',
       'done_listening': 'J\'ai terminé',
+      'stt_error': 'Erreur STT: ',
+      'write_answer': 'Écrire la réponse ici...',
+      'image_not_found_error': 'Image {} non trouvée',
+      'patient_not_found': 'ID Patient non trouvé. Demandez à votre Docteur.',
+      'login_failed': 'Échec de la connexion. Vérifiez l\'email/mot de passe.',
+      'create_doctor_account': 'Créer un nouveau compte Docteur',
+      'first_name': 'Prénom',
+      'last_name': 'Nom',
+      'email': 'Email',
+      'password': 'Mot de passe',
+      'required': 'Champs requis',
+      'create_account': 'Créer un compte',
+      'account_created': 'Compte créé avec succès !',
+      'add_doctor': 'Ajout Médecin',
     },
   };
 
-  String get loginTitle =>
-      _localizedValues[locale.languageCode]!['login_title']!;
-  // ... (omitting middle lines for brevity in thought, but tool needs exact context)
-  // Actually, I can use a smaller chunk for the map and another for the getter.
+  String _get(String key) => _localizedValues[locale.languageCode]![key]!;
 
-  // Chunk 1: Add key to 'fr' map (since 'ar' was maybe added? No, let's check again.)
-  // In step 227 it failed. In step 228 it succeeded for 'ar' but failed for 'fr'?
-  // Looking at the file content in Step 239:
-  // Lines 49-50: 'validate_btn', 'next_btn' are there in 'ar'.
-  // Line 51: 'validate_first_msg' IS MISSING in 'ar'.
-  // Lines 87-88: 'validate_btn', 'next_btn' are there in 'fr'.
-  // Line 89: 'validate_first_msg' IS MISSING in 'fr'.
+  String get loginTitle => _get('login_title');
+  String get patientSpace => _get('patient_space');
+  String get doctorSpace => _get('doctor_space');
+  String get patientIdLabel => _get('patient_id_label');
+  String get patientIdHint => _get('patient_id_hint');
+  String get doctorIdLabel => _get('doctor_id_label');
+  String get doctorPwdLabel => _get('doctor_pwd_label');
+  String get loginBtn => _get('login_btn');
+  String get loginAction => _get('login_action');
+  String get invalidLogin => _get('invalid_login');
+  String get welcome => _get('welcome');
+  String get startTest => _get('start_test');
+  String get testTitle => _get('test_title');
+  String get sequenceLabel => _get('sequence_label');
+  String get repeatSequence => _get('repeat_sequence');
+  String get listenBtn => _get('listen_btn');
+  String get listening => _get('listening');
+  String get nextConfirm => _get('next_confirm');
+  String get finishTest => _get('finish_test');
+  String get correctFeedback => _get('correct_feedback');
+  String get wrongFeedback => _get('wrong_feedback');
+  String get heard => _get('heard');
+  String get zero => _get('zero');
+  String get one => _get('one');
+  String get two => _get('two');
+  String get three => _get('three');
+  String get four => _get('four');
+  String get five => _get('five');
+  String get six => _get('six');
+  String get seven => _get('seven');
+  String get eight => _get('eight');
+  String get nine => _get('nine');
+  String get testFinishedTitle => _get('test_finished_title');
+  String get testFinishedMsg => _get('test_finished_msg');
+  String get mainMenu => _get('main_menu');
+  String get doctorDashboard => _get('doctor_dashboard');
+  String get recentResults => _get('recent_results');
+  String get idPrefix => _get('id_prefix');
+  String get resultPrefix => _get('result_prefix');
+  String get timePrefix => _get('time_prefix');
+  String get datePrefix => _get('date_prefix');
+  String get playBtn => _get('play_btn');
+  String get validateBtn => _get('validate_btn');
+  String get nextBtn => _get('next_btn');
+  String get validateFirstMsg => _get('validate_first_msg');
+  String get tmtATitle => _get('tmt_a_title');
+  String get tmtBTitle => _get('tmt_b_title');
+  String get tmtCTitle => _get('tmt_c_title');
+  String get tmtCInstr => _get('tmt_c_instr');
+  String get empanTest => _get('empan_test');
+  String get chooseTest => _get('choose_test');
+  String get bravo => _get('bravo');
+  String get testSuccess => _get('test_success');
+  String get startNode => _get('start_node');
+  String get endNode => _get('end_node');
+  String get empanDirectIntro => _get('empan_direct_intro');
+  String get empanInverseIntro => _get('empan_inverse_intro');
+  String get tmtAInstr => _get('tmt_a_instr');
+  String get tmtBInstr => _get('tmt_b_instr');
+  String get exitWithoutSaving => _get('exitWithoutSaving');
+  String get exitConfirmBody => _get('exitConfirmBody');
+  String get clearAndRetry => _get('clearAndRetry');
+  String get doneListening => _get('done_listening');
+  String get patientNotFound => _get('patient_not_found');
+  String get loginFailed => _get('login_failed');
+  String get createDoctorAccount => _get('create_doctor_account');
+  String get firstName => _get('first_name');
+  String get lastName => _get('last_name');
+  String get email => _get('email');
+  String get password => _get('password');
+  String get requiredField => _get('required');
+  String get createAccount => _get('create_account');
+  String get accountCreated => _get('account_created');
+  String get imageNotFoundError => _get('image_not_found_error');
+  String get sttError => _get('stt_error');
+  String get writeAnswer => _get('write_answer');
+  String get empanInverseTest => _get('empan_inverse_test');
+  String get dsm48Title => _get('dsm48_title');
+  String get dsm48MenuEncodage => _get('dsm48_menu_encodage');
+  String get dsm48MenuSet1 => _get('dsm48_menu_set1');
+  String get dsm48MenuSet2 => _get('dsm48_menu_set2');
+  String get dsm48MenuSet3 => _get('dsm48_menu_set3');
+  String get dsm48EncodageInstr => _get('dsm48_encodage_instr');
+  String get dsm48FinishEncodage => _get('dsm48_finish_encodage');
+  String get dsm48ImageCounter => _get('dsm48_image_counter');
+  String get dsm48SetInstr => _get('dsm48_set_instr');
+  String get dsm48Score => _get('dsm48_score');
+  String get dsm48EncodageQuestion => _get('dsm48_encodage_question');
+  String get dsm48Listening => _get('dsm48_listening');
+  String get dsm48MicBtnTooltip => _get('dsm48_mic_btn_tooltip');
+  String get dsm48VoiceError => _get('dsm48_voice_error');
+  String get hadsTestTitle => _get('hads_test_title');
+  String get depression => _get('depression');
+  String get anxiety => _get('anxiety');
+  String get stateNormal => _get('state_normal');
+  String get stateModerate => _get('state_moderate');
+  String get stateMild => _get('state_mild');
+  String get stateSevere => _get('state_severe');
+  String get hadsIntroText => _get('hads_intro_text');
+  String get hadsInstruction => _get('hads_instruction');
+  String get onCommenceCue => _get('on_commence_cue');
+  String get attemptsLabel => _get('attempts_label');
+  String get maxAttemptsReached => _get('max_attempts_reached');
+  String get speakBtn => _get('speak_btn');
+  String get do30Title => _get('do30_title');
+  String get do30Instr => _get('do30_instr');
+  String get do30Correct => _get('do30_correct');
+  String get do30Wrong => _get('do30_wrong');
+  String get do30ImageCounter => _get('do30_image_counter');
+  String get manualInputHint => _get('manual_input_hint');
+  String get manualInputTitle => _get('manual_input_title');
+  String get manualInputInstr => _get('manual_input_instr');
+  String get cancel => _get('cancel');
 
-  // So I need to add it to BOTH.
-
-  // Chunk 3: Add getter.
-  // Line 148: String get nextBtn ...
-  // I need to add String get validateFirstMsg ...
-
-  // Let's do it in one go if possible, or multiple chunks.
-
-  String get patientSpace =>
-      _localizedValues[locale.languageCode]!['patient_space']!;
-  String get doctorSpace =>
-      _localizedValues[locale.languageCode]!['doctor_space']!;
-  String get patientIdLabel =>
-      _localizedValues[locale.languageCode]!['patient_id_label']!;
-  String get patientIdHint =>
-      _localizedValues[locale.languageCode]!['patient_id_hint']!;
-  String get doctorIdLabel =>
-      _localizedValues[locale.languageCode]!['doctor_id_label']!;
-  String get doctorPwdLabel =>
-      _localizedValues[locale.languageCode]!['doctor_pwd_label']!;
-  String get loginBtn => _localizedValues[locale.languageCode]!['login_btn']!;
-  String get loginAction =>
-      _localizedValues[locale.languageCode]!['login_action']!;
-  String get invalidLogin =>
-      _localizedValues[locale.languageCode]!['invalid_login']!;
-  String get welcome => _localizedValues[locale.languageCode]!['welcome']!;
-  String get startTest => _localizedValues[locale.languageCode]!['start_test']!;
-  String get testTitle => _localizedValues[locale.languageCode]!['test_title']!;
-  String get sequenceLabel =>
-      _localizedValues[locale.languageCode]!['sequence_label']!;
-  String get repeatSequence =>
-      _localizedValues[locale.languageCode]!['repeat_sequence']!;
-  String get listenBtn => _localizedValues[locale.languageCode]!['listen_btn']!;
-  String get listening => _localizedValues[locale.languageCode]!['listening']!;
-  String get nextConfirm =>
-      _localizedValues[locale.languageCode]!['next_confirm']!;
-  String get finishTest =>
-      _localizedValues[locale.languageCode]!['finish_test']!;
-  String get correctFeedback =>
-      _localizedValues[locale.languageCode]!['correct_feedback']!;
-  String get wrongFeedback =>
-      _localizedValues[locale.languageCode]!['wrong_feedback']!;
-  String get heard => _localizedValues[locale.languageCode]!['heard']!;
-  String get zero => _localizedValues[locale.languageCode]!['zero']!;
-  String get one => _localizedValues[locale.languageCode]!['one']!;
-  String get two => _localizedValues[locale.languageCode]!['two']!;
-  String get three => _localizedValues[locale.languageCode]!['three']!;
-  String get four => _localizedValues[locale.languageCode]!['four']!;
-  String get five => _localizedValues[locale.languageCode]!['five']!;
-  String get six => _localizedValues[locale.languageCode]!['six']!;
-  String get seven => _localizedValues[locale.languageCode]!['seven']!;
-  String get eight => _localizedValues[locale.languageCode]!['eight']!;
-  String get nine => _localizedValues[locale.languageCode]!['nine']!;
-  String get testFinishedTitle =>
-      _localizedValues[locale.languageCode]!['test_finished_title']!;
-  String get testFinishedMsg =>
-      _localizedValues[locale.languageCode]!['test_finished_msg']!;
-  String get mainMenu => _localizedValues[locale.languageCode]!['main_menu']!;
-  String get doctorDashboard =>
-      _localizedValues[locale.languageCode]!['doctor_dashboard']!;
-  String get recentResults =>
-      _localizedValues[locale.languageCode]!['recent_results']!;
-  String get idPrefix => _localizedValues[locale.languageCode]!['id_prefix']!;
-  String get resultPrefix =>
-      _localizedValues[locale.languageCode]!['result_prefix']!;
-  String get timePrefix =>
-      _localizedValues[locale.languageCode]!['time_prefix']!;
-  String get datePrefix =>
-      _localizedValues[locale.languageCode]!['date_prefix']!;
-  String get playBtn => _localizedValues[locale.languageCode]!['play_btn']!;
-  String get validateBtn =>
-      _localizedValues[locale.languageCode]!['validate_btn']!;
-  String get nextBtn => _localizedValues[locale.languageCode]!['next_btn']!;
-  String get validateFirstMsg =>
-      _localizedValues[locale.languageCode]!['validate_first_msg']!;
-  String get tmtATitle =>
-      _localizedValues[locale.languageCode]!['tmt_a_title']!;
-  String get tmtBTitle =>
-      _localizedValues[locale.languageCode]!['tmt_b_title']!;
-  String get tmtCTitle =>
-      _localizedValues[locale.languageCode]!['tmt_c_title']!;
-  String get tmtCInstr =>
-      _localizedValues[locale.languageCode]!['tmt_c_instr']!;
-  String get empanTest => _localizedValues[locale.languageCode]!['empan_test']!;
-  String get chooseTest =>
-      _localizedValues[locale.languageCode]!['choose_test']!;
-  String get bravo => _localizedValues[locale.languageCode]!['bravo']!;
-  String get testSuccess =>
-      _localizedValues[locale.languageCode]!['test_success']!;
-  String get startNode => _localizedValues[locale.languageCode]!['start_node']!;
-  String get endNode => _localizedValues[locale.languageCode]!['end_node']!;
-  String get empanDirectIntro =>
-      _localizedValues[locale.languageCode]!['empan_direct_intro']!;
-  String get empanInverseIntro =>
-      _localizedValues[locale.languageCode]!['empan_inverse_intro']!;
-  String get tmtAInstr =>
-      _localizedValues[locale.languageCode]!['tmt_a_instr']!;
-  String get tmtBInstr =>
-      _localizedValues[locale.languageCode]!['tmt_b_instr']!;
-  String get exitWithoutSaving =>
-      _localizedValues[locale.languageCode]!['exitWithoutSaving']!;
-  String get exitConfirmBody =>
-      _localizedValues[locale.languageCode]!['exitConfirmBody']!;
-  String get clearAndRetry =>
-      _localizedValues[locale.languageCode]!['clearAndRetry']!;
-  String get doneListening =>
-      _localizedValues[locale.languageCode]!['done_listening']!;
-  String get empanInverseTest =>
-      _localizedValues[locale.languageCode]!['empan_inverse_test']!;
-  String get dsm48Title =>
-      _localizedValues[locale.languageCode]!['dsm48_title']!;
-  String get dsm48MenuEncodage =>
-      _localizedValues[locale.languageCode]!['dsm48_menu_encodage']!;
-  String get dsm48MenuSet1 =>
-      _localizedValues[locale.languageCode]!['dsm48_menu_set1']!;
-  String get dsm48MenuSet2 =>
-      _localizedValues[locale.languageCode]!['dsm48_menu_set2']!;
-  String get dsm48MenuSet3 =>
-      _localizedValues[locale.languageCode]!['dsm48_menu_set3']!;
-  String get dsm48EncodageInstr =>
-      _localizedValues[locale.languageCode]!['dsm48_encodage_instr']!;
-  String get dsm48FinishEncodage =>
-      _localizedValues[locale.languageCode]!['dsm48_finish_encodage']!;
-  String get dsm48ImageCounter =>
-      _localizedValues[locale.languageCode]!['dsm48_image_counter']!;
-  String get dsm48SetInstr =>
-      _localizedValues[locale.languageCode]!['dsm48_set_instr']!;
-  String get dsm48Score =>
-      _localizedValues[locale.languageCode]!['dsm48_score']!;
-  String get dsm48EncodageQuestion =>
-      _localizedValues[locale.languageCode]!['dsm48_encodage_question']!;
-  String get dsm48Listening =>
-      _localizedValues[locale.languageCode]!['dsm48_listening']!;
-  String get dsm48MicBtnTooltip =>
-      _localizedValues[locale.languageCode]!['dsm48_mic_btn_tooltip']!;
-  String get dsm48VoiceError =>
-      _localizedValues[locale.languageCode]!['dsm48_voice_error']!;
-
-  // HADS Additions
-  String get hadsTestTitle =>
-      _localizedValues[locale.languageCode]!['hads_test_title']!;
-  String get depression =>
-      _localizedValues[locale.languageCode]!['depression']!;
-  String get anxiety => _localizedValues[locale.languageCode]!['anxiety']!;
-  String get stateNormal =>
-      _localizedValues[locale.languageCode]!['state_normal']!;
-  String get stateModerate =>
-      _localizedValues[locale.languageCode]!['state_moderate']!;
-  String get stateMild => _localizedValues[locale.languageCode]!['state_mild']!;
-  String get stateSevere =>
-      _localizedValues[locale.languageCode]!['state_severe']!;
-  String get hadsIntroText =>
-      _localizedValues[locale.languageCode]!['hads_intro_text']!;
-  String get hadsInstruction =>
-      _localizedValues[locale.languageCode]!['hads_instruction']!;
-  String get onCommenceCue =>
-      _localizedValues[locale.languageCode]!['on_commence_cue']!;
-  String get attemptsLabel =>
-      _localizedValues[locale.languageCode]!['attempts_label']!;
-  String get maxAttemptsReached =>
-      _localizedValues[locale.languageCode]!['max_attempts_reached']!;
-  String get speakBtn =>
-      _localizedValues[locale.languageCode]!['speak_btn']!;
-  String get do30Title =>
-      _localizedValues[locale.languageCode]!['do30_title']!;
-  String get do30Instr =>
-      _localizedValues[locale.languageCode]!['do30_instr']!;
-  String get do30Correct =>
-      _localizedValues[locale.languageCode]!['do30_correct']!;
-  String get do30Wrong =>
-      _localizedValues[locale.languageCode]!['do30_wrong']!;
-  String get do30ImageCounter =>
-      _localizedValues[locale.languageCode]!['do30_image_counter']!;
-  String get manualInputHint =>
-      _localizedValues[locale.languageCode]!['manual_input_hint']!;
-  String get manualInputTitle =>
-      _localizedValues[locale.languageCode]!['manual_input_title']!;
-  String get manualInputInstr =>
-      _localizedValues[locale.languageCode]!['manual_input_instr']!;
-  String get cancel => _localizedValues[locale.languageCode]!['cancel']!;
-
-  // Generic translate method for HADS dynamic questions
   String translate(String key) {
     return _localizedValues[locale.languageCode]![key] ?? key;
   }

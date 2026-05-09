@@ -6,10 +6,10 @@ import 'widgets/bi_dashboard/patient_analytics_dashboard.dart';
 import 'services/firestore_service.dart';
 import 'localization.dart';
 
-class PatientDetailsScreen extends StatelessWidget {
+class PatientDetailsScreen extends StatefulWidget {
   final String patientName;
-  final String patientId; // Display ID (e.g., 123)
-  final String docId; // Firestore Document ID
+  final String patientId;
+  final String docId;
 
   const PatientDetailsScreen({
     super.key,
@@ -19,16 +19,23 @@ class PatientDetailsScreen extends StatelessWidget {
   });
 
   @override
+  State<PatientDetailsScreen> createState() => _PatientDetailsScreenState();
+}
+
+class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
+  String? _selectedDateFilter;
+
+  @override
   Widget build(BuildContext context) {
     final FirestoreService firestoreService = FirestoreService();
-    debugPrint("DETAILS SCREEN: Fetching results for Patient Doc ID: $docId");
+    debugPrint("DETAILS SCREEN: Fetching results for Patient Doc ID: ${widget.docId}");
 
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            patientName,
+            widget.patientName,
             style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.teal,
@@ -45,7 +52,7 @@ class PatientDetailsScreen extends StatelessWidget {
           ),
         ),
         body: StreamBuilder<QuerySnapshot>(
-          stream: firestoreService.getPatientResults(docId),
+          stream: firestoreService.getPatientResults(widget.docId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -71,8 +78,8 @@ class PatientDetailsScreen extends StatelessWidget {
                             radius: 30,
                             backgroundColor: Colors.teal.shade100,
                             child: Text(
-                              patientName.isNotEmpty
-                                  ? patientName[0].toUpperCase()
+                              widget.patientName.isNotEmpty
+                                  ? widget.patientName[0].toUpperCase()
                                   : "?",
                               style: GoogleFonts.cairo(
                                 fontSize: 24,
@@ -85,14 +92,14 @@ class PatientDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                patientName,
+                                widget.patientName,
                                 style: GoogleFonts.cairo(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
-                                "ID: $patientId",
+                                "ID: ${widget.patientId}",
                                 style: GoogleFonts.cairo(
                                   fontSize: 16,
                                   color: Colors.grey[700],
@@ -110,36 +117,23 @@ class PatientDetailsScreen extends StatelessWidget {
                       children: [
                          // Tab 1: History
                          if (!hasData)
-                           Center(
-                             child: Column(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: [
-                                 Icon(
-                                   Icons.history_toggle_off,
-                                   size: 60,
-                                   color: Colors.grey[300],
-                                 ),
-                                 const SizedBox(height: 10),
-                                 Text(
-                                   "No tests found for this patient.",
-                                   style: GoogleFonts.cairo(color: Colors.grey),
-                                 ),
-                               ],
-                             ),
-                           )
+                           _buildEmptyState()
                          else
-                           _buildHistoryList(snapshot.data!.docs.toList()),
+                           Column(
+                             children: [
+                               _buildDateFilter(snapshot.data!.docs.toList()),
+                               const SizedBox(height: 12),
+                               Expanded(
+                                 child: _buildHistoryList(snapshot.data!.docs.toList()),
+                               ),
+                             ],
+                           ),
 
                          // Tab 2: Dashboard BI
                          if (!hasData)
-                           Center(
-                             child: Text(
-                               "Aucune donnée analytique disponible.",
-                               style: GoogleFonts.cairo(color: Colors.grey),
-                             ),
-                           )
+                           _buildEmptyState()
                          else
-                           PatientAnalyticsDashboard(patientId: patientId, docs: snapshot.data!.docs.toList()),
+                           PatientAnalyticsDashboard(patientId: widget.patientId, docs: snapshot.data!.docs.toList()),
                       ],
                     ),
                   ),
@@ -148,6 +142,58 @@ class PatientDetailsScreen extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.history_toggle_off, size: 60, color: Colors.grey[300]),
+          const SizedBox(height: 10),
+          Text("Aucune donnée disponible.", style: GoogleFonts.cairo(color: Colors.grey)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDateFilter(List<QueryDocumentSnapshot> docs) {
+    final Set<String> dates = docs.map((doc) {
+       final data = doc.data() as Map<String, dynamic>;
+       final ts = data['timestamp'] as Timestamp?;
+       return ts != null ? "${ts.toDate().day}/${ts.toDate().month}/${ts.toDate().year}" : "Inconnu";
+    }).toSet();
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.teal.shade50,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.teal.shade100),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.calendar_view_day, color: Colors.teal, size: 20),
+          const SizedBox(width: 12),
+          Text("Filtrer par session : ", style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 13)),
+          const SizedBox(width: 8),
+          Expanded(
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String?>(
+                value: _selectedDateFilter,
+                isExpanded: true,
+                hint: Text("Toutes les sessions", style: GoogleFonts.cairo(fontSize: 13)),
+                onChanged: (val) => setState(() => _selectedDateFilter = val),
+                items: [
+                  DropdownMenuItem(value: null, child: Text("Toutes les sessions", style: GoogleFonts.cairo(fontSize: 13))),
+                  ...dates.map((d) => DropdownMenuItem(value: d, child: Text(d, style: GoogleFonts.cairo(fontSize: 13)))),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -180,7 +226,15 @@ class PatientDetailsScreen extends StatelessWidget {
         groupedResults[date]!.add(doc);
      }
 
-     final sortedDates = groupedResults.keys.toList();
+      final sortedDates = groupedResults.keys.where((d) {
+        return _selectedDateFilter == null || d == _selectedDateFilter;
+      }).toList();
+
+      if (sortedDates.isEmpty) {
+        return Center(
+          child: Text("Aucun résultat pour cette date.", style: GoogleFonts.cairo(color: Colors.grey)),
+        );
+      }
 
      return ListView.builder(
         itemCount: sortedDates.length,

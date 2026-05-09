@@ -117,8 +117,9 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
                              error.errorMsg == "error_speech_timeout";
 
         if (mounted && !isSilenceError) {
+          final loc = AppLocalizations.of(context);
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erreur STT: ${error.errorMsg}')),
+            SnackBar(content: Text('${loc.sttError}${error.errorMsg}')),
           );
         }
       },
@@ -166,7 +167,7 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
           }
         });
       },
-      localeId: loc.locale.languageCode == 'ar' ? 'ar-SA' : null,
+      localeId: loc.locale.languageCode == 'ar' ? 'ar-TN' : null,
       onSoundLevelChange: (level) {
         setState(() => _soundLevel = level);
       },

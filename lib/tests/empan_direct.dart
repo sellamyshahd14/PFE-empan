@@ -157,8 +157,9 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
                              error.errorMsg == "error_speech_timeout";
 
         if (mounted && !isSilenceError) {
+          final loc = AppLocalizations.of(context);
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erreur STT: ${error.errorMsg}')),
+            SnackBar(content: Text('${loc.sttError}${error.errorMsg}')),
           );
         }
         
@@ -374,6 +375,12 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
       bool available = await _speech.initialize(
         onStatus: (status) => debugPrint("STT Status: $status"),
         onError: (error) {
+          if (mounted) {
+            final loc = AppLocalizations.of(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('${loc.sttError}${error.errorMsg}')),
+            );
+          }
           if (_isListening) {
             Future.delayed(const Duration(milliseconds: 500), () {
               if (_isListening) _startSttSession();

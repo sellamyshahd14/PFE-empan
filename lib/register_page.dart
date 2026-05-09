@@ -23,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final AuthService _authService = AuthService();
 
   Future<void> _register() async {
+    final loc = AppLocalizations.of(context);
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
       try {
@@ -36,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
         if (user != null && mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Account created successfully!")),
+            SnackBar(content: Text(loc.accountCreated)),
           );
           // Go to Dashboard
           Navigator.pushReplacement(
@@ -47,7 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Error: $e"), backgroundColor: Colors.red),
+            SnackBar(content: Text('${loc.sttError} $e'), backgroundColor: Colors.red),
           );
         }
       } finally {
@@ -66,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          "Create Doctor Account",
+          loc.createAccount,
           style: GoogleFonts.cairo(color: Colors.white),
         ),
         centerTitle: true,
@@ -88,7 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Register",
+                      loc.loginAction,
                       style: GoogleFonts.cairo(
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
@@ -101,13 +102,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextFormField(
                       controller: _firstNameController,
                       decoration: InputDecoration(
-                        labelText: "First Name",
+                        labelText: loc.firstName,
                         prefixIcon: const Icon(Icons.person),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      validator: (val) => val!.isEmpty ? "Required" : null,
+                      validator: (val) => val!.isEmpty ? loc.requiredField : null,
                     ),
                     const SizedBox(height: 15),
 
@@ -115,13 +116,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextFormField(
                       controller: _lastNameController,
                       decoration: InputDecoration(
-                        labelText: "Last Name",
+                        labelText: loc.lastName,
                         prefixIcon: const Icon(Icons.person_outline),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      validator: (val) => val!.isEmpty ? "Required" : null,
+                      validator: (val) => val!.isEmpty ? loc.requiredField : null,
                     ),
                     const SizedBox(height: 15),
 
@@ -129,13 +130,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextFormField(
                       controller: _doctorIdController,
                       decoration: InputDecoration(
-                        labelText: "Doctor ID (Unique)",
+                        labelText: loc.doctorIdLabel,
                         prefixIcon: const Icon(Icons.badge),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      validator: (val) => val!.isEmpty ? "Required" : null,
+                      validator: (val) => val!.isEmpty ? loc.requiredField : null,
                     ),
                     const SizedBox(height: 15),
 
@@ -143,14 +144,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
-                        labelText: "Email",
+                        labelText: loc.email,
                         prefixIcon: const Icon(Icons.email),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       validator: (val) =>
-                          !val!.contains('@') ? "Invalid Email" : null,
+                          !val!.contains('@') ? loc.invalidLogin : null,
                     ),
                     const SizedBox(height: 15),
 
@@ -159,14 +160,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
-                        labelText: "Password",
+                        labelText: loc.password,
                         prefixIcon: const Icon(Icons.lock),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       validator: (val) =>
-                          val!.length < 6 ? "Min 6 chars" : null,
+                          val!.length < 6 ? loc.requiredField : null,
                     ),
                     const SizedBox(height: 30),
 
@@ -188,7 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 color: Colors.white,
                               )
                             : Text(
-                                "Create Account",
+                                loc.createAccount,
                                 style: GoogleFonts.cairo(fontSize: 18),
                               ),
                       ),

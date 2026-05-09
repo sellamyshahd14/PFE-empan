@@ -66,42 +66,42 @@ class _Do30TestPageState extends State<Do30TestPage>
     Do30Item(
       "03 Ancre.jpg",
       ["ancre"],
-      ["مخطاف", "مقلاع", "علاق", "مختاف", "مختطف", "مختار", "خطاف", "خطّاف"],
+      ["مخطوف", "مخطف", "شنڨال", "شنقال", "مقلع", "مخطاف", "مقلاع", "علاق", "مختاف", "مختطف", "مختار", "خطاف", "خطّاف"],
     ),
-    Do30Item("04 Domino.jpg", ["domino"], ["ديمينو", "دمينو", "دومينو"]),
+    Do30Item("04 Domino.jpg", ["domino"], ["ديميلو", "نيمينو", "ديمينو", "دمينو", "دومينو"]),
     Do30Item(
       "05 Champignon.jpg",
       ["champignon", "fongus"],
-      ["فطر", "شامبينيون", "شومبينيو"],
+      ["مظلة", "باراسول", "براسول", "فطر", "شامبينيون", "شومبينيو"],
     ),
     Do30Item("06 Eléphant.jpg", ["elephant"], ["فيل"]),
     Do30Item("07 Ciseau.jpg", ["ciseau"], ["مقص"]),
-    Do30Item("08 Maison.jpg", ["maison"], ["دار", "منزل"]),
+    Do30Item("08 Maison.jpg", ["maison"], ["بنڨالو", "مزرعة", "دار", "منزل"]),
     Do30Item(
       "09 Escargot.jpg",
       ["escargot"],
-      ["حلزون", "قرز", "كرز", "ببوش", "ببوشة"],
+      ["حلزون", "قرز", "كرز", "ببوش", "ببوشة", "حلزونة"],
     ),
     Do30Item("10 Tortue.jpg", ["tortue"], ["سلحفاة", "فكرون"]),
     Do30Item(
       "11 Kangourou.jpg",
       ["kangourou"],
-      ["كنغر", "كنغرو", "كونغرو", "تنكر", "كنجر", "كونغو", "كونكرو"],
+      ["تنظر", "كنغر", "كنغرو", "كونغرو", "تنكر", "كنجر", "كونغو", "كونكرو"],
     ),
     Do30Item("12 Girafe.jpg", ["girafe"], ["زرافة"]),
     Do30Item("13 Chat.jpg", ["chat"], ["قط", "قطوس", "قطوس"]),
     Do30Item(
       "14 Rhinocéros.jpg",
       ["rhinoceros"],
-      ["وحيد القرن", "كركدم", "كركدن", "ذو القرن", "القرن", "ذو القرم"],
+      ["خنزير", "فرس النهر", "وحيد القرن", "كركدم", "كركدن", "ذو القرن", "القرن", "ذو القرم"],
     ),
     Do30Item("15 Papillon.jpg", ["papillon"], ["فراشة"]),
-    Do30Item("16 Ecureuil.jpg", ["ecureuil"], ["سنجاب", "فار"]),
+    Do30Item("16 Ecureuil.jpg", ["ecureuil"], ["قط وحشي", "قطوس", "قطوس وحشي", "سنجاب", "فار"]),
     Do30Item("17 Echelle.jpg", ["echelle"], ["سلوم", "سلم"]),
     Do30Item(
       "18 Cloche.jpg",
       ["cloche"],
-      ["ناقوز", "ناقوس", "نيكوز", "نيقوز", "جرس", "نقود", "نيقود", "نيقوس"],
+      ["ناقوز", "ناقوس", "نيكوز", "نيقوز", "جرس", "نقود", "نيقود", "نيقوس", "ناكوز"],
     ),
     Do30Item(
       "19 Hélicoptère.jpg",
@@ -112,9 +112,9 @@ class _Do30TestPageState extends State<Do30TestPage>
     Do30Item(
       "21 Penser.jpg",
       ["penser", "reflechir", "triste"],
-      ["يفكر", "حزين", "يخمم", "يخم"],
+      ["يفكر", "حزين", "يخمم", "يخم", "خمم"],
     ),
-    Do30Item("22 Tomber.jpg", ["tomber"], ["طايح", "يطيح", "طايه", "ولد", "راجل", "رجل", "واحد"]),
+    Do30Item("22 Tomber.jpg", ["tomber"], ["شاب يسقط", "سقط يسقط من الدرج", "هابط الدروج", "دروج", "تكربص", "طايح", "يطيح", "طايه", "ولد", "راجل", "رجل", "واحد"]),
     Do30Item("23 Pleurer.jpg", ["pleurer"], ["يبكي", "ولد", "راجل", "رجل"]),
     Do30Item(
       "24 Escalader.jpg",
@@ -137,14 +137,14 @@ class _Do30TestPageState extends State<Do30TestPage>
         "وليّد",
       ],
     ),
-    Do30Item("25 Dormir.jpg", ["dormir"], ["راقد", "رقد", "ريقد", "يرقد", "راجل", "وليّد", "رجل نائم"]),
+    Do30Item("25 Dormir.jpg", ["dormir"], ["رجل ينام", "نائم", "راقد", "رقد", "ريقد", "يرقد", "راجل", "وليّد", "رجل نائم"]),
     Do30Item("26 Nager.jpg", ["nager"], ["يعوم", "يسبح", "يصبح", "راجل", "وليّد", "يوم", "واحد يوم"]),
-    Do30Item("27 Courir.jpg", ["courir"], ["تجري", "طفله", "تفله", "امراه", "بنية", "تقفز", "تنقز", "نكز"]),
-    Do30Item("29 Ecrir.jpg", ["ecrire"], ["تكتب", "طفله", "تفله", "امراه", "بنية"]),
+    Do30Item("27 Courir.jpg", ["courir"], ["مرا تهرب", "مرا هاربة", "هاربة", "تجري", "طفله", "تفله", "امراه", "بنية", "تقفز", "تنقز", "نكز"]),
+    Do30Item("29 Ecrir.jpg", ["ecrire"], ["تقرا", "يقرا", "تكتب", "طفله", "تفله", "امراه", "بنية"]),
     Do30Item(
       "29 Manger.jpg",
       ["manger"],
-      ["تاكل", "تأكل", "طفله", "تفله", "امراه", "تيكل", "بنية"],
+      ["تتناول الفطور", "تاكل", "تأكل", "طفله", "تفله", "امراه", "تيكل", "بنية"],
     ),
     Do30Item("30 Boire.jpg", ["boire"], ["تشرب", "طفله", "تفله", "امراه", "بنية", "يشرب"]),
   ];
@@ -237,9 +237,10 @@ class _Do30TestPageState extends State<Do30TestPage>
                              error.errorMsg == "error_speech_timeout";
 
         if (mounted && !isSilenceError) {
+          final loc = AppLocalizations.of(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Erreur Microphone/STT: ${error.errorMsg}"),
+              content: Text("${loc.sttError}${error.errorMsg}"),
               backgroundColor: Colors.orange,
             ),
           );
@@ -270,7 +271,7 @@ class _Do30TestPageState extends State<Do30TestPage>
           });
         },
         localeId: AppLocalizations.of(context).locale.languageCode == 'ar'
-            ? 'ar-SA'
+            ? 'ar-TN'
             : null,
         onSoundLevelChange: (level) => setState(() => _soundLevel = level),
         pauseFor: const Duration(seconds: 30),
@@ -399,6 +400,7 @@ class _Do30TestPageState extends State<Do30TestPage>
   }
 
   void _nextPage() {
+    _nextPageTimer?.cancel();
     _pageController.nextPage(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
@@ -407,6 +409,7 @@ class _Do30TestPageState extends State<Do30TestPage>
 
   void _finishTest() async {
     if (_isFinished) return;
+    _nextPageTimer?.cancel();
     setState(() => _isFinished = true);
 
     _stopwatch.stop();
@@ -616,8 +619,7 @@ class _Do30TestPageState extends State<Do30TestPage>
                           controller: _textController,
                           style: GoogleFonts.cairo(fontSize: 14),
                           decoration: InputDecoration(
-                            hintText:
-                                "Écrire la réponse...", // MODIFIED: Text input fallback hint
+                            hintText: loc.writeAnswer, 
                             isDense: true,
                             hintStyle: GoogleFonts.cairo(
                               color: Colors.grey,
@@ -643,18 +645,13 @@ class _Do30TestPageState extends State<Do30TestPage>
                               _evaluateCurrentAnswer();
                               _hasHeardWord = true;
                             });
-                            // Auto-advance after 500ms for text input
-                            Future.delayed(
-                              const Duration(milliseconds: 500),
-                              () {
-                                if (!mounted) return;
-                                if (_currentIndex < _items.length - 1) {
-                                  _nextPage();
-                                } else {
-                                  _finishTest();
-                                }
-                              },
-                            );
+                            
+                            // Advance immediately for manual input button
+                            if (_currentIndex < _items.length - 1) {
+                              _nextPage();
+                            } else {
+                              _finishTest();
+                            }
                           }
                         },
                       ),

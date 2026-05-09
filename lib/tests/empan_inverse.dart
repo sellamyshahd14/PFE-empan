@@ -8,6 +8,7 @@ import '../localization.dart';
 import '../services/firestore_service.dart';
 
 import 'dart:async';
+import 'package:flutter/services.dart';
 
 class EmpanInverse extends StatefulWidget {
   final String patientDocId;
@@ -48,6 +49,9 @@ class _EmpanInverseState extends State<EmpanInverse>
   String? _lastIncorrectInput;
   bool _isFluentRunning = false;
   bool _isPaused = false;
+  bool _showManualInput = false;
+  final TextEditingController _manualController = TextEditingController();
+  String _accumulatedDigits = "";
 
   late AnimationController _micAnimController;
   late Animation<double> _micAnimation;
@@ -147,7 +151,15 @@ class _EmpanInverseState extends State<EmpanInverse>
     await Permission.microphone.request();
     bool available = await _speech.initialize(
       onStatus: (status) => debugPrint("STT Status: $status"),
-      onError: (error) => debugPrint("STT Error: $error"),
+      onError: (error) {
+        debugPrint("STT Error: $error");
+        if (mounted) {
+          final loc = AppLocalizations.of(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('${loc.sttError}$error')),
+          );
+        }
+      },
     );
     if (!available) {
       debugPrint("STT Not Available");
@@ -218,6 +230,8 @@ class _EmpanInverseState extends State<EmpanInverse>
     setState(() {
       _isFluentRunning = true;
       _attemptCount++;
+      _spokenText = "";
+      _accumulatedDigits = "";
     });
 
     // 1. Speak numbers
@@ -247,6 +261,7 @@ class _EmpanInverseState extends State<EmpanInverse>
     setState(() {
       _spokenText = "";
       _previousSpokenText = "";
+      _accumulatedDigits = "";
       _showFeedback = false;
       _lastIncorrectInput = null;
     });
@@ -296,35 +311,50 @@ class _EmpanInverseState extends State<EmpanInverse>
     }
   }
 
-  String _normalizeDigits(String input) {
-    const Map<String, String> wordToDigit = {
-      'واحد': '1', 'واحده': '1', 'احد': '1', 'un': '1', 'une': '1',
-      'اثنان': '2', 'اثنين': '2', 'إثنان': '2', 'إثنين': '2', 'deux': '2',
-      'ثلاثة': '3', 'ثلاثه': '3', 'trois': '3',
-      'أربعة': '4', 'أربعه': '4', 'اربعة': '4', 'اربعه': '4', 'quatre': '4',
-      'خمسة': '5', 'خمسه': '5', 'cinq': '5',
-      'ستة': '6', 'سته': '6', 'six': '6',
-      'سبعة': '7', 'سبعه': '7', 'sept': '7',
-      'ثمانية': '8', 'ثمانيه': '8', 'huit': '8',
-      'تسعة': '9', 'تسعه': '9', 'neuf': '9',
-      'صفر': '0', 'zéro': '0', 'zero': '0',
-    };
+  String _extractDigits(String input) {
+    if (input.isEmpty) return "";
+    String result = input.toLowerCase();
+
     const Map<String, String> arabicToLatin = {
       '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
       '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
     };
+    arabicToLatin.forEach((k, v) => result = result.replaceAll(k, v));
 
-    String result = input.toLowerCase();
-    wordToDigit.forEach((word, digit) {
-      result = result.replaceAll(word, digit);
-    });
-    arabicToLatin.forEach((arabic, latin) {
-      result = result.replaceAll(arabic, latin);
-    });
-    return result.replaceAll(RegExp(r'[^0-9]'), '');
+    final Map<String, String> wordToDigit = {
+      'واحد': '1', 'واحده': '1', 'احد': '1', 'وحد': '1',
+      'جوج': '2', 'زوز': '2', 'اثنين': '2', 'اثنان': '2', 'إثنين': '2', 'اتنين': '2',
+      'ثلاثة': '3', 'ثلاثه': '3', 'ثلاثا': '3', 'تلاتة': '3', 'تلاته': '3', 'تلاتا': '3',
+      'أربعة': '4', 'أربعه': '4', 'أربعا': '4', 'اربعة': '4', 'اربعه': '4', 'اربعا': '4', 'ربة': '4', 'ربعه': '4', 'ربعا': '4',
+      'خمسة': '5', 'خمسه': '5', 'خمسا': '5', 'حمسة': '5', 'حمسه': '5', 'حمسا': '5',
+      'ستة': '6', 'سته': '6', 'ستا': '6', 'ست': '6',
+      'سبعة': '7', 'سبعه': '7', 'سبعا': '7', 'سبع': '7',
+      'ثمانية': '8', 'ثمانيه': '8', 'ثمانيا': '8', 'ثمنية': '8', 'ثمنيه': '8', 'ثمنيا': '8', 'تمنية': '8', 'تمنيه': '8', 'تمنيا': '8',
+      'تسعة': '9', 'تسعه': '9', 'تسعا': '9', 'تسع': '9',
+      'عشرة': '10', 'عشره': '10', 'عشرا': '10', 'صفر': '0',
+      'un': '1', 'une': '1', 'deux': '2', 'trois': '3', 'quatre': '4', 'cinq': '5', 'six': '6', 'sept': '7', 'huit': '8', 'neuf': '9', 'zéro': '0', 'zero': '0',
+    };
+
+    final sortedKeys = wordToDigit.keys.toList()..sort((a, b) => b.length.compareTo(a.length));
+    for (var key in sortedKeys) {
+      result = result.replaceAll(key, ' ${wordToDigit[key]} ');
+    }
+
+    result = result.replaceAll(RegExp(r'[^0-9]'), '');
+
+    if (result.isEmpty) return "";
+    StringBuffer sb = StringBuffer();
+    sb.write(result[0]);
+    for (int i = 1; i < result.length; i++) {
+      if (result[i] != result[i - 1]) {
+        sb.write(result[i]);
+      }
+    }
+    return sb.toString();
   }
 
   void _listen({bool resume = false}) async {
+    if (_showManualInput) return;
     if (!_isListening) {
       bool available = await _speech.initialize(
         onStatus: (status) => debugPrint("STT Status: $status"),
@@ -334,8 +364,9 @@ class _EmpanInverseState extends State<EmpanInverse>
                                error.errorMsg == "error_speech_timeout";
                                
           if (mounted && !isSilenceError) {
+            final loc = AppLocalizations.of(context);
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Erreur STT: ${error.errorMsg}')),
+              SnackBar(content: Text('${loc.sttError}${error.errorMsg}')),
             );
           }
         },
@@ -346,6 +377,7 @@ class _EmpanInverseState extends State<EmpanInverse>
           if (!resume) {
             _spokenText = "";
             _previousSpokenText = "";
+            _accumulatedDigits = "";
           }
         });
         _startSttSession();
@@ -401,6 +433,7 @@ class _EmpanInverseState extends State<EmpanInverse>
             _spokenText = _previousSpokenText.isEmpty 
                 ? newWords 
                 : "$_previousSpokenText $newWords".trim();
+            _accumulatedDigits = _extractDigits(_spokenText);
           });
         }
       },
@@ -437,10 +470,10 @@ class _EmpanInverseState extends State<EmpanInverse>
     // Empan Inverse: the answer must be the REVERSE of the sequence
     String targetDigitsReversed =
         _sequences[_currentIndex].split(' ').reversed.join('');
-    String cleanSpoken = _normalizeDigits(_spokenText);
+    
+    bool isCorrect = (_accumulatedDigits == targetDigitsReversed);
 
-    bool isCorrect = false;
-    if (cleanSpoken.contains(targetDigitsReversed)) {
+    if (!isCorrect && _accumulatedDigits.contains(targetDigitsReversed) && _accumulatedDigits.length <= targetDigitsReversed.length + 1) {
       isCorrect = true;
     }
 
@@ -462,7 +495,7 @@ class _EmpanInverseState extends State<EmpanInverse>
     } else {
       setState(() {
         _showFeedback = true;
-        _lastIncorrectInput = _spokenText;
+        _lastIncorrectInput = _accumulatedDigits.isNotEmpty ? _accumulatedDigits : _spokenText;
         _isValidated = true;
       });
     }
@@ -484,6 +517,7 @@ class _EmpanInverseState extends State<EmpanInverse>
         _currentIndex++;
         _attemptCount = 0; // Reset for next sequence
         _spokenText = "";
+        _accumulatedDigits = "";
         _isListening = false;
         _showFeedback = false;
         _lastIncorrectInput = null;
@@ -605,8 +639,196 @@ class _EmpanInverseState extends State<EmpanInverse>
     );
   }
 
+  void _showManualInputDialog() {
+    if (_isListening) {
+      _stopGuardian();
+      _listenTimer?.cancel();
+      _speech.stop();
+      setState(() => _isListening = false);
+    }
+
+    setState(() {
+      _showManualInput = true;
+      _manualController.clear();
+    });
+
+    final locs = AppLocalizations.of(context);
+    final targetLength = _sequences[_currentIndex].replaceAll(' ', '').length;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(
+                locs.manualInputTitle,
+                style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(locs.manualInputInstr, style: GoogleFonts.cairo()),
+                    const SizedBox(height: 15),
+                    TextField(
+                      controller: _manualController,
+                      keyboardType: TextInputType.number,
+                      maxLength: targetLength,
+                      autofocus: true,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.outfit(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                      decoration: const InputDecoration(
+                        counterText: "",
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.teal, width: 2),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.teal, width: 2),
+                        ),
+                      ),
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      onChanged: (val) => setDialogState(() {}),
+                    ),
+                    const SizedBox(height: 20),
+                    // Digit Grid (Phone style 3x3 + Backspace centered)
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildDigitButton('1', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('2', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('3', setDialogState),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildDigitButton('4', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('5', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('6', setDialogState),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildDigitButton('7', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('8', setDialogState),
+                            const SizedBox(width: 12),
+                            _buildDigitButton('9', setDialogState),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        // Backspace row
+                        InkWell(
+                          onTap: () {
+                            if (_manualController.text.isNotEmpty) {
+                              setDialogState(() {
+                                _manualController.text = _manualController.text
+                                    .substring(0, _manualController.text.length - 1);
+                              });
+                            }
+                          },
+                          child: Container(
+                            width: 54,
+                            height: 54,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.red.shade300, width: 2),
+                            ),
+                            child: Icon(Icons.backspace_outlined, color: Colors.red.shade400, size: 24),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    setState(() => _showManualInput = false);
+                    Navigator.pop(context);
+                  },
+                  child: Text(locs.cancel, style: GoogleFonts.cairo(color: Colors.grey)),
+                ),
+                ElevatedButton(
+                  onPressed: _manualController.text.isEmpty
+                      ? null
+                      : () {
+                          setState(() {
+                            _accumulatedDigits = _manualController.text;
+                            _spokenText = "manual: ${_manualController.text}";
+                            _isValidated = false;
+                            _showManualInput = false;
+                          });
+                          Navigator.pop(context);
+                        },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  ),
+                  child: Text(locs.validateBtn, style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildDigitButton(String digit, StateSetter setDialogState) {
+    final targetLength = _sequences[_currentIndex].replaceAll(' ', '').length;
+    return InkWell(
+      onTap: _manualController.text.length >= targetLength
+          ? null
+          : () {
+              setDialogState(() {
+                _manualController.text += digit;
+              });
+            },
+      child: Container(
+        width: 54,
+        height: 54,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: _manualController.text.length >= targetLength ? Colors.grey.shade300 : Colors.teal,
+            width: 2,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            digit,
+            style: GoogleFonts.outfit(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: _manualController.text.length >= targetLength ? Colors.grey : Colors.teal,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   void dispose() {
+    _manualController.dispose();
     _audioRecorder.dispose();
     _flutterTts.stop();
     _timer?.cancel();
@@ -839,6 +1061,13 @@ class _EmpanInverseState extends State<EmpanInverse>
                       ),
                     ],
                   ),
+                  const SizedBox(height: 10),
+                  if (_isListening || (_spokenText.isEmpty && !_isPlaying && !_isFluentRunning))
+                    IconButton(
+                      onPressed: _isPaused ? null : _showManualInputDialog,
+                      icon: Icon(Icons.keyboard_alt_outlined, color: _isPaused ? Colors.grey : Colors.teal, size: 28),
+                      tooltip: AppLocalizations.of(context).manualInputHint,
+                    ),
                 ],
               ),
             ),
@@ -899,7 +1128,7 @@ class _EmpanInverseState extends State<EmpanInverse>
               ),
             ),
 
-            if (_spokenText.isNotEmpty)
+            if (_spokenText.isNotEmpty || _accumulatedDigits.isNotEmpty)
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                 padding: const EdgeInsets.all(10),
@@ -912,23 +1141,16 @@ class _EmpanInverseState extends State<EmpanInverse>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (_spokenText.startsWith("manual:"))
-                      Text(
-                        '⌨️ Tapped: ${_normalizeDigits(_spokenText)}', // MODIFIED: consistency with Direct
-                        style: GoogleFonts.cairo(fontSize: 12),
-                      )
+                      Text('⌨️ Tapped: $_accumulatedDigits', 
+                          style: GoogleFonts.cairo(fontSize: 12))
                     else
-                      Text(
-                        '🎤 STT: $_spokenText',
-                        style: GoogleFonts.cairo(fontSize: 12),
-                      ),
-                    Text(
-                      '🔢 Mapped: ${_normalizeDigits(_spokenText)}',
-                      style: GoogleFonts.cairo(
-                        fontSize: 12,
-                        color: Colors.blue[800],
-                      ),
-                    ),
-                    // MODIFIED: '✅ Expected' row NOT added to ensure patient privacy
+                      Text('🎤 STT: $_spokenText',
+                          style: GoogleFonts.cairo(fontSize: 12)),
+                    Text('🔢 Mapped: $_accumulatedDigits',
+                        style: GoogleFonts.cairo(
+                          fontSize: 12,
+                          color: Colors.blue[800],
+                        )),
                   ],
                 ),
               ),
