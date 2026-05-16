@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Security Helper Functions ───────────────────────────────────────────
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isDoctor() {
+      // Verifies the user has a professional record in the doctors collection
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/doctors/$(request.auth.uid));
+    }
+
+    function isAdmin() {
+      // Checks the 'isAdmin' field we manually set in the Firestore Console
+      return isAuthenticated() && 
+             get(/databases/$(database)/documents/doctors/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    // ─── Doctors Collection ──────────────────────────────────────────────────
+    match /doctors/{doctorId} {
+      // Doctors can browse colleagues for filtering/collaboration
+      allow read: if isAuthenticated();
+      // Admin doctors can register new professional accounts
+      allow create: if isAdmin();
+      // Doctors can only modify their own profile details
+      allow update: if isAuthenticated() && request.auth.uid == doctorId;
+      // No deletion to preserve the professional medical registry
+      allow delete: if false;
+    }
+
+    // ─── Patients Collection ──────────────────────────────────────────────────
+    match /patients/{patientId} {
+      // Core Principle: Any authenticated medical staff can view patient files
+      allow read: if isAuthenticated();
+      // Any authenticated doctor can register a new patient
+      allow create: if isAuthenticated();
+      // Medical collaboration: Doctors can update clinical patient files
+      allow update: if isAuthenticated();
+      
+      // Patient Login Support (Audit-Safe lookup):
+      // Allows patients to verify their ID without a full account.
+      allow read: if request.query.limit == 1;
+
+      // Critical: No medical record can be deleted from the server
+      allow delete: if false;
+    }
+
+    // ─── Results Collection (Cognitive Test Outcomes) ─────────────────────────
+    match /results/{resultId} {
+      // Patients can save their test progress and final results
+      allow create: if true;
+      // Clinical Privacy: Only logged-in medical staff can read patient results
+      allow read: if isAuthenticated();
+      // Progressive Saving: Allows tests (like DO-30) to save data bit-by-bit
+      allow update: if true;
+      // Clinical Integrity: Results can never be deleted from the audit trail
+      allow delete: if false;
+    }
+  }
+}

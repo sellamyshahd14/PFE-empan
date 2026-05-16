@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'localization.dart';
 import 'services/firestore_service.dart';
 import 'services/auth_service.dart';
+import 'services/security_service.dart';
 import 'login_page.dart';
 import 'patient_details_screen.dart';
 import 'patient_registration_screen.dart';
@@ -22,11 +27,20 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
 
   String _searchQuery = "";
   String? _selectedDoctorId; // null = "Tous", otherwise UID
+  bool _isAdmin = false;
 
   @override
   void initState() {
     super.initState();
     _selectedDoctorId = _authService.currentUser?.uid;
+    _checkAdminStatus();
+  }
+
+  Future<void> _checkAdminStatus() async {
+    final isAdmin = await _authService.isCurrentUserAdmin();
+    if (mounted) {
+      setState(() => _isAdmin = isAdmin);
+    }
   }
 
   void _logout() async {
@@ -40,10 +54,71 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
     }
   }
 
+  Future<void> _performBackup() async {
+    try {
+      // 1. Fetch data
+      final data = await _firestoreService.getAllDataForBackup();
+      final jsonString = jsonEncode(data);
+
+      if (kIsWeb) {
+        // For Web, we can't easily write to local disk without dart:html
+        // We will show the JSON in a dialog or suggest printing/copying for now
+        // if the user is truly in a browser.
+        _showBackupDataDialog(jsonString);
+        return;
+      }
+
+      // 2. Desktop logic (Windows/Mac/Linux)
+      // Use getApplicationDocumentsDirectory which is more reliable on Desktop
+      final directory = await getApplicationDocumentsDirectory();
+
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final file = File('${directory.path}/empan_backup_$timestamp.json');
+
+      // 3. Write file
+      await file.writeAsString(jsonString);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Sauvegarde réussie ! Fichier : empan_backup_$timestamp.json dans vos Documents.",
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Erreur : $e"), backgroundColor: Colors.red),
+        );
+      }
+    }
+  }
+
+  void _showBackupDataDialog(String json) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Données de Sauvegarde (Web)"),
+        content: SingleChildScrollView(child: SelectableText(json)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Fermer"),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _showAddPatientDialog() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const PatientRegistrationScreen()),
+      MaterialPageRoute(
+        builder: (context) => const PatientRegistrationScreen(),
+      ),
     );
   }
 
@@ -76,16 +151,30 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
           backgroundColor: Colors.teal,
           centerTitle: true,
           actions: [
-            // Admin only: Add new doctor feature with label
-            if (_authService.currentUser?.email == 'mariem-dammak@test.com')
+            // Admin only: Backup and Add doctor
+            if (_isAdmin) ...[
+              IconButton(
+                icon: const Icon(Icons.save_alt, color: Colors.white),
+                tooltip: "Sauvegarde de Sécurité",
+                onPressed: _performBackup,
+              ),
+              const SizedBox(width: 8),
               TextButton.icon(
                 onPressed: _showRegisterPage,
-                icon: const Icon(Icons.person_add_alt_1, color: Colors.white, size: 20),
+                icon: const Icon(
+                  Icons.person_add_alt_1,
+                  color: Colors.white,
+                  size: 20,
+                ),
                 label: Text(
                   loc.translate('add_doctor'),
-                  style: GoogleFonts.cairo(color: Colors.white, fontSize: 13),
+                  style: GoogleFonts.cairo(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
+            ],
             IconButton(
               onPressed: _logout,
               icon: const Icon(Icons.logout, color: Colors.white),
@@ -126,11 +215,15 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   Expanded(
                     flex: 2,
                     child: TextField(
-                      onChanged: (val) => setState(() => _searchQuery = val.toLowerCase()),
+                      onChanged: (val) =>
+                          setState(() => _searchQuery = val.toLowerCase()),
                       decoration: InputDecoration(
                         hintText: "Rechercher (Nom ou ID)...",
                         hintStyle: GoogleFonts.cairo(fontSize: 14),
-                        prefixIcon: const Icon(Icons.search, color: Colors.teal),
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.teal,
+                        ),
                         filled: true,
                         fillColor: Colors.white,
                         contentPadding: const EdgeInsets.symmetric(vertical: 0),
@@ -155,27 +248,35 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         List<DropdownMenuItem<String?>> items = [
                           DropdownMenuItem(
                             value: null,
-                            child: Text("Tous", style: GoogleFonts.cairo(fontSize: 13)),
+                            child: Text(
+                              "Tous",
+                              style: GoogleFonts.cairo(fontSize: 13),
+                            ),
                           ),
                         ];
 
                         if (snapshot.hasData) {
                           for (var doc in snapshot.data!.docs) {
                             final data = doc.data() as Map<String, dynamic>;
-                            final name = "Dr. ${data['firstName'] ?? ''} ${data['lastName'] ?? ''}";
+                            final name =
+                                "Dr. ${data['firstName'] ?? ''} ${data['lastName'] ?? ''}";
                             final uid = data['uid'];
-                            
-                            // Check if this is the current doctor to label it "Mes patients"
-                            final label = (uid == _authService.currentUser?.uid) ? "Mes patients" : name;
 
-                            items.add(DropdownMenuItem(
-                              value: uid,
-                              child: Text(
-                                label, 
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.cairo(fontSize: 13),
+                            // Check if this is the current doctor to label it "Mes patients"
+                            final label = (uid == _authService.currentUser?.uid)
+                                ? "Mes patients"
+                                : name;
+
+                            items.add(
+                              DropdownMenuItem(
+                                value: uid,
+                                child: Text(
+                                  label,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.cairo(fontSize: 13),
+                                ),
                               ),
-                            ));
+                            );
                           }
                         }
 
@@ -190,8 +291,13 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                             child: DropdownButton<String?>(
                               value: _selectedDoctorId,
                               isExpanded: true,
-                              icon: const Icon(Icons.filter_list, color: Colors.teal, size: 20),
-                              onChanged: (val) => setState(() => _selectedDoctorId = val),
+                              icon: const Icon(
+                                Icons.filter_list,
+                                color: Colors.teal,
+                                size: 20,
+                              ),
+                              onChanged: (val) =>
+                                  setState(() => _selectedDoctorId = val),
                               items: items,
                             ),
                           ),
@@ -226,26 +332,35 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         ),
                       );
                     }
-  
+
                     final allPatients = snapshot.data!.docs;
-                    
+
                     // Filter logic
                     final patients = allPatients.where((doc) {
                       final data = doc.data() as Map<String, dynamic>;
-                      
+
                       // 1. Doctor Filter
-                      if (_selectedDoctorId != null && data['createdByDoctorId'] != _selectedDoctorId) {
+                      if (_selectedDoctorId != null &&
+                          data['createdByDoctorId'] != _selectedDoctorId) {
                         return false;
                       }
 
                       // 2. Search Query
                       if (_searchQuery.isNotEmpty) {
-                        final firstName = (data['firstName'] ?? '').toString().toLowerCase();
-                        final lastName = (data['lastName'] ?? '').toString().toLowerCase();
-                        final pid = (data['patientIdentifier'] ?? '').toString().toLowerCase();
+                        final firstName = (data['firstName'] ?? '')
+                            .toString()
+                            .toLowerCase();
+                        final lastName = (data['lastName'] ?? '')
+                            .toString()
+                            .toLowerCase();
+                        final pidRaw = (data['patientDisplayId'] ?? data['patientIdentifier'] ?? '')
+                            .toString();
+                        final pid = SecurityService.decryptIdentifier(pidRaw)
+                            .toLowerCase();
                         final fullName = "$firstName $lastName";
-                        
-                        return fullName.contains(_searchQuery) || pid.contains(_searchQuery);
+
+                        return fullName.contains(_searchQuery) ||
+                            pid.contains(_searchQuery);
                       }
 
                       return true;
@@ -254,23 +369,26 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                     if (patients.isEmpty) {
                       return Center(
                         child: Text(
-                          _searchQuery.isEmpty ? "Aucun patient trouvé." : "Aucun résultat pour '$_searchQuery'",
+                          _searchQuery.isEmpty
+                              ? "Aucun patient trouvé."
+                              : "Aucun résultat pour '$_searchQuery'",
                           style: GoogleFonts.cairo(),
                         ),
                       );
                     }
-  
+
                     return ListView.builder(
                       itemCount: patients.length,
                       itemBuilder: (context, index) {
                         final patient =
                             patients[index].data() as Map<String, dynamic>;
-                        final pid = patient['patientIdentifier'] ?? 'No ID';
+                        final pidRaw = patient['patientDisplayId'] ?? patient['patientIdentifier'] ?? 'No ID';
+                        final pid = SecurityService.decryptIdentifier(pidRaw);
                         final firstName = patient['firstName'] ?? '';
                         final lastName = patient['lastName'] ?? '';
                         final name = "$firstName $lastName";
                         final docId = patients[index].id;
-  
+
                         return Card(
                           elevation: 3,
                           margin: const EdgeInsets.only(bottom: 12),

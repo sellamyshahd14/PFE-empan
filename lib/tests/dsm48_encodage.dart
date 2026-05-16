@@ -21,7 +21,8 @@ class Dsm48EncodagePage extends StatefulWidget {
   State<Dsm48EncodagePage> createState() => _Dsm48EncodagePageState();
 }
 
-class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTickerProviderStateMixin {
+class _Dsm48EncodagePageState extends State<Dsm48EncodagePage>
+    with SingleTickerProviderStateMixin {
   final FirestoreService _firestoreService = FirestoreService();
   final PageController _pageController = PageController();
   final Stopwatch _stopwatch = Stopwatch();
@@ -57,9 +58,10 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     )..repeat(reverse: true);
-    _micAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
-      CurvedAnimation(parent: _micController, curve: Curves.easeInOut),
-    );
+    _micAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.2,
+    ).animate(CurvedAnimation(parent: _micController, curve: Curves.easeInOut));
 
     // Initial sequence trigger
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -92,7 +94,7 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
 
   Future<void> _speakQuestionAndListen() async {
     if (_isSpeaking) return;
-    
+
     // Stop current mic if any
     if (_isListening) {
       _stopListening();
@@ -101,8 +103,10 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
 
     final loc = AppLocalizations.of(context);
     setState(() => _isSpeaking = true);
-    
-    await _flutterTts.setLanguage(loc.locale.languageCode == 'ar' ? 'ar' : 'fr-FR');
+
+    await _flutterTts.setLanguage(
+      loc.locale.languageCode == 'ar' ? 'ar' : 'fr-FR',
+    );
     await _flutterTts.speak(loc.dsm48EncodageQuestion);
   }
 
@@ -113,8 +117,9 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
       onStatus: (status) => debugPrint("STT Status: $status"),
       onError: (error) {
         debugPrint("STT Error: $error");
-        bool isSilenceError = error.errorMsg == "error_no_match" || 
-                             error.errorMsg == "error_speech_timeout";
+        bool isSilenceError =
+            error.errorMsg == "error_no_match" ||
+            error.errorMsg == "error_speech_timeout";
 
         if (mounted && !isSilenceError) {
           final loc = AppLocalizations.of(context);
@@ -206,12 +211,10 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
       await _firestoreService.saveTestResult(
         patientDocId: widget.patientDocId,
         patientIdentifier: widget.patientIdentifier,
-        score: null, 
+        score: null,
         totalDuration: durationStr,
         testType: 'DSM-48 Encodage',
-        metadata: {
-          'transcriptions': _transcriptions,
-        },
+        metadata: {'transcriptions': _transcriptions},
       );
     } catch (e) {
       debugPrint("Error saving result: $e");
@@ -313,13 +316,17 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
                           color: Colors.teal,
                         ),
                         // MODIFIED: In reverse mode, back arrow goes NEXT
-                        onPressed: _currentIndex < _totalImages - 1 ? _nextPage : null,
+                        onPressed: _currentIndex < _totalImages - 1
+                            ? _nextPage
+                            : null,
                       ),
                       Expanded(
                         child: PageView.builder(
                           controller: _pageController,
-                          reverse: true, // MODIFIED: RTL French clinical booklet convention
-                          physics: const BouncingScrollPhysics(), // MODIFIED: Always allow scrolling
+                          reverse:
+                              true, // MODIFIED: RTL French clinical booklet convention
+                          physics:
+                              const BouncingScrollPhysics(), // MODIFIED: Always allow scrolling
                           onPageChanged: (index) {
                             setState(() {
                               _currentIndex = index;
@@ -348,7 +355,8 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
                                     fit: BoxFit.contain,
                                     errorBuilder: (context, error, stackTrace) {
                                       return Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Icon(
                                             Icons.image_not_supported,
@@ -402,7 +410,11 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
                         color: Colors.teal.withOpacity(0.2),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.mic, color: Colors.teal, size: 36),
+                      child: const Icon(
+                        Icons.mic,
+                        color: Colors.teal,
+                        size: 36,
+                      ),
                     )
                   else
                     Container(
@@ -411,35 +423,43 @@ class _Dsm48EncodagePageState extends State<Dsm48EncodagePage> with SingleTicker
                         color: Colors.grey.withOpacity(0.1),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.mic_none, color: Colors.grey, size: 36),
+                      child: const Icon(
+                        Icons.mic_none,
+                        color: Colors.grey,
+                        size: 36,
+                      ),
                     ),
                   const SizedBox(height: 8),
                   if (_isListening)
                     Text(
                       loc.dsm48Listening,
                       style: GoogleFonts.cairo(
-                          color: Colors.teal,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14),
+                        color: Colors.teal,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   if (_spokenText.isNotEmpty)
                     Text(
                       '"$_spokenText"',
                       style: GoogleFonts.cairo(
-                          color: Colors.black87,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 14),
+                        color: Colors.black87,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 14,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                     )
-                  else if (!_isListening && _transcriptions[_currentIndex].isEmpty)
+                  else if (!_isListening &&
+                      _transcriptions[_currentIndex].isEmpty)
                     Text(
                       loc.dsm48VoiceError,
                       style: GoogleFonts.cairo(
-                          color: Colors.red.shade700,
-                          fontSize: 12),
+                        color: Colors.red.shade700,
+                        fontSize: 12,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                 ],

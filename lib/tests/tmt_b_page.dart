@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -227,8 +226,9 @@ class _TmtBPageState extends State<TmtBPage> {
 
     setState(() {
       _connectedItems.add(item);
-      _nextNumber = tappedIndex + 2; // The next expected will be tappedIndex + 1
-      _showError = false; 
+      _nextNumber =
+          tappedIndex + 2; // The next expected will be tappedIndex + 1
+      _showError = false;
     });
 
     // Completion check: Connected 25-Blue
@@ -281,7 +281,6 @@ class _TmtBPageState extends State<TmtBPage> {
     );
   }
 
-
   void _submitResult() async {
     final int elapsedMilliseconds = _stopwatch.elapsedMilliseconds;
     final int seconds = (elapsedMilliseconds / 1000).truncate();
@@ -292,20 +291,24 @@ class _TmtBPageState extends State<TmtBPage> {
     );
 
     try {
-        final int connectionsCount = _connectedItems.length > 0 ? _connectedItems.length - 1 : 0;
-        await _firestoreService.saveTestResult(
-          patientDocId: widget.patientDocId,
-          patientIdentifier: widget.patientIdentifier,
-          score: (connectionsCount - _errorCount).toDouble(),
-          totalDuration: durationStr,
-          errors: _errorCount,
-          testType: 'TMT-B',
-          metadata: {
-            'mistakes': _errorCount,
-            'path': _connectedItems.map((item) => "${item.number}-${item.isWhite ? 'W' : 'B'}").toList(),
-            'totalActions': _connectedItems.length,
-          },
-        );
+      final int connectionsCount = _connectedItems.length > 0
+          ? _connectedItems.length - 1
+          : 0;
+      await _firestoreService.saveTestResult(
+        patientDocId: widget.patientDocId,
+        patientIdentifier: widget.patientIdentifier,
+        score: (connectionsCount - _errorCount).toDouble(),
+        totalDuration: durationStr,
+        errors: _errorCount,
+        testType: 'TMT-B',
+        metadata: {
+          'mistakes': _errorCount,
+          'path': _connectedItems
+              .map((item) => "${item.number}-${item.isWhite ? 'W' : 'B'}")
+              .toList(),
+          'totalActions': _connectedItems.length,
+        },
+      );
     } catch (e) {
       debugPrint("Error saving result: $e");
     }
@@ -321,7 +324,10 @@ class _TmtBPageState extends State<TmtBPage> {
     final bool? shouldExit = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(loc.exitWithoutSaving, style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
+        title: Text(
+          loc.exitWithoutSaving,
+          style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+        ),
         content: Text(loc.exitConfirmBody, style: GoogleFonts.cairo()),
         actions: [
           TextButton(
@@ -330,7 +336,10 @@ class _TmtBPageState extends State<TmtBPage> {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(loc.exitWithoutSaving, style: GoogleFonts.cairo(color: Colors.red)),
+            child: Text(
+              loc.exitWithoutSaving,
+              style: GoogleFonts.cairo(color: Colors.red),
+            ),
           ),
         ],
       ),
@@ -388,130 +397,134 @@ class _TmtBPageState extends State<TmtBPage> {
           ],
         ),
         body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            if (_items.isEmpty) {
-              _generatePositions(constraints.biggest);
-            }
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              if (_items.isEmpty) {
+                _generatePositions(constraints.biggest);
+              }
 
-            return Stack(
-              children: [
-                // Lines Layer
-                CustomPaint(
-                  size: Size.infinite,
-                  painter: LinePainterB(
-                    connectedItems: _connectedItems,
-                    circleSize: _circleSize,
-                  ),
-                ),
-
-                // Circles Layer
-                ..._items.map((item) {
-                  Color bgColor;
-                  Color textColor;
-                  Color borderColor = Colors.teal;
-
-                  if (item.isWhite) {
-                    bgColor = Colors.white;
-                    textColor = Colors.teal;
-                  } else {
-                    bgColor = Colors.teal;
-                    textColor = Colors.white;
-                  }
-
-                  // Special Labels
-                  bool isStart = (item.number == 1 && item.isWhite);
-                  bool isEnd =
-                      (item.number == 25 &&
-                      !item.isWhite); // Finish is under 25 Blue
-
-                  return Positioned(
-                    left: item.position.dx,
-                    top: item.position.dy,
-                    child: GestureDetector(
-                      onTap: () => _handleCircleTap(item),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (isStart)
-                            Text(
-                              loc.startNode,
-                              style: GoogleFonts.cairo(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green,
-                              ),
-                            ),
-
-                          Container(
-                            width: _circleSize,
-                            height: _circleSize,
-                            decoration: BoxDecoration(
-                              color: bgColor,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: borderColor, width: 2),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "${item.number}",
-                              style: GoogleFonts.outfit(
-                                fontSize: 16, // Smaller font for smaller circle
-                                fontWeight: FontWeight.bold,
-                                color: textColor,
-                              ),
-                            ),
-                          ),
-
-                          if (isEnd)
-                            Text(
-                              loc.endNode,
-                              style: GoogleFonts.cairo(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                              ),
-                            ),
-                        ],
-                      ),
+              return Stack(
+                children: [
+                  // Lines Layer
+                  CustomPaint(
+                    size: Size.infinite,
+                    painter: LinePainterB(
+                      connectedItems: _connectedItems,
+                      circleSize: _circleSize,
                     ),
-                  );
-                }),
+                  ),
 
-                if (!_isTestRunning && !_isTestCompleted)
-                  Positioned(
-                    bottom: 50,
-                    left: 20,
-                    right: 20,
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                          ),
-                        ],
+                  // Circles Layer
+                  ..._items.map((item) {
+                    Color bgColor;
+                    Color textColor;
+                    Color borderColor = Colors.teal;
+
+                    if (item.isWhite) {
+                      bgColor = Colors.white;
+                      textColor = Colors.teal;
+                    } else {
+                      bgColor = Colors.teal;
+                      textColor = Colors.white;
+                    }
+
+                    // Special Labels
+                    bool isStart = (item.number == 1 && item.isWhite);
+                    bool isEnd =
+                        (item.number == 25 &&
+                        !item.isWhite); // Finish is under 25 Blue
+
+                    return Positioned(
+                      left: item.position.dx,
+                      top: item.position.dy,
+                      child: GestureDetector(
+                        onTap: () => _handleCircleTap(item),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (isStart)
+                              Text(
+                                loc.startNode,
+                                style: GoogleFonts.cairo(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                                ),
+                              ),
+
+                            Container(
+                              width: _circleSize,
+                              height: _circleSize,
+                              decoration: BoxDecoration(
+                                color: bgColor,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: borderColor,
+                                  width: 2,
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                "${item.number}",
+                                style: GoogleFonts.outfit(
+                                  fontSize:
+                                      16, // Smaller font for smaller circle
+                                  fontWeight: FontWeight.bold,
+                                  color: textColor,
+                                ),
+                              ),
+                            ),
+
+                            if (isEnd)
+                              Text(
+                                loc.endNode,
+                                style: GoogleFonts.cairo(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
-                      child: Text(
-                        loc.tmtBInstr,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.cairo(
-                          fontSize: 16,
-                          color: Colors.black87,
+                    );
+                  }),
+
+                  if (!_isTestRunning && !_isTestCompleted)
+                    Positioned(
+                      bottom: 50,
+                      left: 20,
+                      right: 20,
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 10,
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          loc.tmtBInstr,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.cairo(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
 
 class LinePainterB extends CustomPainter {

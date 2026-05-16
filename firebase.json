@@ -1,1 +1,26 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"pfe-empan-tunisie","appId":"1:565082023487:android:d06df83f2099f596563a8a","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"pfe-empan-tunisie","configurations":{"android":"1:565082023487:android:d06df83f2099f596563a8a","ios":"1:565082023487:ios:905f8e93b7e3a55f563a8a"}}}}}}
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "pfe-empan-tunisie",
+          "appId": "1:565082023487:android:d06df83f2099f596563a8a",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "pfe-empan-tunisie",
+          "configurations": {
+            "android": "1:565082023487:android:d06df83f2099f596563a8a",
+            "ios": "1:565082023487:ios:905f8e93b7e3a55f563a8a"
+          }
+        }
+      }
+    }
+  }
+}

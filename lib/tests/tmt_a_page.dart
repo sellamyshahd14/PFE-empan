@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -110,7 +109,8 @@ class _TmtAPageState extends State<TmtAPage> {
     }
 
     // Ignore if tapping the same circle that is already the end of the trail
-    if (_connectedNumbers.isNotEmpty && _connectedNumbers.last == number) return;
+    if (_connectedNumbers.isNotEmpty && _connectedNumbers.last == number)
+      return;
 
     // Track error if skipped or backtracked
     if (number != _nextExpectedNumber) {
@@ -174,7 +174,6 @@ class _TmtAPageState extends State<TmtAPage> {
     );
   }
 
-
   void _submitResult() async {
     final int elapsedMilliseconds = _stopwatch.elapsedMilliseconds;
     final int seconds = (elapsedMilliseconds / 1000).truncate();
@@ -185,7 +184,9 @@ class _TmtAPageState extends State<TmtAPage> {
     );
 
     try {
-      final int connectionsCount = _connectedNumbers.length > 0 ? _connectedNumbers.length - 1 : 0;
+      final int connectionsCount = _connectedNumbers.length > 0
+          ? _connectedNumbers.length - 1
+          : 0;
       await _firestoreService.saveTestResult(
         patientDocId: widget.patientDocId,
         patientIdentifier: widget.patientIdentifier,
@@ -214,7 +215,10 @@ class _TmtAPageState extends State<TmtAPage> {
     final bool? shouldExit = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(loc.exitWithoutSaving, style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
+        title: Text(
+          loc.exitWithoutSaving,
+          style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+        ),
         content: Text(loc.exitConfirmBody, style: GoogleFonts.cairo()),
         actions: [
           TextButton(
@@ -223,7 +227,10 @@ class _TmtAPageState extends State<TmtAPage> {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(loc.exitWithoutSaving, style: GoogleFonts.cairo(color: Colors.red)),
+            child: Text(
+              loc.exitWithoutSaving,
+              style: GoogleFonts.cairo(color: Colors.red),
+            ),
           ),
         ],
       ),
@@ -281,113 +288,118 @@ class _TmtAPageState extends State<TmtAPage> {
           ],
         ),
         body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            if (_circlePositions.isEmpty) {
-              _generatePositions(constraints.biggest);
-            }
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              if (_circlePositions.isEmpty) {
+                _generatePositions(constraints.biggest);
+              }
 
-            return Stack(
-              children: [
-                // Lines Layer
-                CustomPaint(
-                  size: Size.infinite,
-                  painter: LinePainter(
-                    positions: _circlePositions,
-                    connectedNumbers: _connectedNumbers,
-                  ),
-                ),
-
-                // Circles Layer
-                ...List.generate(_circlePositions.length, (index) {
-                  final int number = index + 1;
-                  final bool isConnected = number < _nextExpectedNumber;
-                  return Positioned(
-                    left: _circlePositions[index].dx,
-                    top: _circlePositions[index].dy,
-                    child: GestureDetector(
-                      onTap: () => _handleCircleTap(number),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (number == 1)
-                            Text(
-                              loc.startNode,
-                              style: GoogleFonts.cairo(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green,
-                              ),
-                            ),
-                          Container(
-                            width: _circleSize,
-                            height: _circleSize,
-                            decoration: BoxDecoration(
-                              color: isConnected ? Colors.teal : Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.teal, width: 2),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "$number",
-                              style: GoogleFonts.outfit(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: isConnected ? Colors.white : Colors.teal,
-                              ),
-                            ),
-                          ),
-                          if (number == _totalCircles)
-                            Text(
-                              loc.endNode,
-                              style: GoogleFonts.cairo(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                              ),
-                            ),
-                        ],
-                      ),
+              return Stack(
+                children: [
+                  // Lines Layer
+                  CustomPaint(
+                    size: Size.infinite,
+                    painter: LinePainter(
+                      positions: _circlePositions,
+                      connectedNumbers: _connectedNumbers,
                     ),
-                  );
-                }),
+                  ),
 
-                // Instructions Overlay (if not started)
-                if (!_isTestRunning && !_isTestCompleted)
-                  Positioned(
-                    bottom: 50,
-                    left: 20,
-                    right: 20,
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                          ),
-                        ],
+                  // Circles Layer
+                  ...List.generate(_circlePositions.length, (index) {
+                    final int number = index + 1;
+                    final bool isConnected = number < _nextExpectedNumber;
+                    return Positioned(
+                      left: _circlePositions[index].dx,
+                      top: _circlePositions[index].dy,
+                      child: GestureDetector(
+                        onTap: () => _handleCircleTap(number),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (number == 1)
+                              Text(
+                                loc.startNode,
+                                style: GoogleFonts.cairo(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            Container(
+                              width: _circleSize,
+                              height: _circleSize,
+                              decoration: BoxDecoration(
+                                color: isConnected ? Colors.teal : Colors.white,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.teal,
+                                  width: 2,
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                "$number",
+                                style: GoogleFonts.outfit(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: isConnected
+                                      ? Colors.white
+                                      : Colors.teal,
+                                ),
+                              ),
+                            ),
+                            if (number == _totalCircles)
+                              Text(
+                                loc.endNode,
+                                style: GoogleFonts.cairo(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
-                      child: Text(
-                        loc.tmtAInstr,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.cairo(
-                          fontSize: 16,
-                          color: Colors.black87,
+                    );
+                  }),
+
+                  // Instructions Overlay (if not started)
+                  if (!_isTestRunning && !_isTestCompleted)
+                    Positioned(
+                      bottom: 50,
+                      left: 20,
+                      right: 20,
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 10,
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          loc.tmtAInstr,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.cairo(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
 
 class LinePainter extends CustomPainter {

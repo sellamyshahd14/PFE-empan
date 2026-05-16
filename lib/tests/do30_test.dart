@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -38,97 +39,167 @@ class _Do30TestPageState extends State<Do30TestPage>
   late stt.SpeechToText _speech;
   late FlutterTts _flutterTts;
   bool _isListening = false;
-  bool _isFinished = false; // NEW: Flag to prevent multiple saves
+  bool _isFinished = false;
   bool _isSpeaking = false;
+  bool _isInitializing = false;
   String _spokenText = "";
-  double _soundLevel = 0.0;
-  bool _hasHeardWord = false;
+  String? _currentResultDocId;
   Timer? _guardianTimer;
   Timer? _nextPageTimer;
-  final TextEditingController _textController =
-      TextEditingController(); // MODIFIED: For text input answer
+  final TextEditingController _textController = TextEditingController();
 
   int _currentIndex = 0;
-  List<String> _transcriptions = List.filled(30, "");
-  List<bool> _results = List.filled(30, false);
+  bool _showNextButton = false;
+  final List<String> _transcriptions = List.filled(30, "");
+  final List<bool> _results = List.filled(30, false);
 
   final List<Do30Item> _items = [
     Do30Item(
       "01 Robinet.jpg",
       ["robinet"],
-      ["سبالة", "شيش ما", "حنفية", "صنبور", "شيشما", "شيشمة"],
+      ["سبالة", "سبيله", "سبله", "صبالة", "شيش ما", "حنفية", "صنبور", "شيشما", "شيشمة"],
     ),
     Do30Item(
       "02 Parachute.jpg",
       ["parachute"],
-      ["بارشيت", "باراشوت", "منطاد", "براشوت", "برشيد", "رشيد"],
+      ["بارشيت", "باراشوت", "مظلة", "منطاد", "براشوت", "برشيد", "رشيد"],
     ),
     Do30Item(
       "03 Ancre.jpg",
       ["ancre"],
-      ["مخطوف", "مخطف", "شنڨال", "شنقال", "مقلع", "مخطاف", "مقلاع", "علاق", "مختاف", "مختطف", "مختار", "خطاف", "خطّاف"],
+      [
+        "مخطاف",
+        "مخطوف",
+        "مخطف",
+        "شنڨال",
+        "شنقال",
+        "مقلع",
+        "مقلاع",
+        "علاق",
+        "مختاف",
+        "مختطف",
+        "مختار",
+        "خطاف",
+        "خطّاف",
+      ],
     ),
-    Do30Item("04 Domino.jpg", ["domino"], ["ديميلو", "نيمينو", "ديمينو", "دمينو", "دومينو"]),
+    Do30Item(
+      "04 Domino.jpg",
+      ["domino"],
+      ["دومينو", "نيمينو", "ديمينو", "دمينو", "ديميلو"],
+    ),
     Do30Item(
       "05 Champignon.jpg",
       ["champignon", "fongus"],
-      ["مظلة", "باراسول", "براسول", "فطر", "شامبينيون", "شومبينيو"],
+      ["شامبينيون", "شامبنيو", "خطر", "مظلة", "باراسول", "براسول", "باريسول", "فطر", "شومبينيو"],
     ),
     Do30Item("06 Eléphant.jpg", ["elephant"], ["فيل"]),
     Do30Item("07 Ciseau.jpg", ["ciseau"], ["مقص"]),
-    Do30Item("08 Maison.jpg", ["maison"], ["بنڨالو", "مزرعة", "دار", "منزل"]),
+    Do30Item("08 Maison.jpg", ["maison"], ["منزل", "دار", "الدار", "بنڨالو", "مزرعة"]),
     Do30Item(
       "09 Escargot.jpg",
       ["escargot"],
-      ["حلزون", "قرز", "كرز", "ببوش", "ببوشة", "حلزونة"],
+      ["حلزون", "قرز", "كرز", "ببوش", "لبوش", "ببوشة", "حلزونة"],
     ),
     Do30Item("10 Tortue.jpg", ["tortue"], ["سلحفاة", "فكرون"]),
     Do30Item(
       "11 Kangourou.jpg",
       ["kangourou"],
-      ["تنظر", "كنغر", "كنغرو", "كونغرو", "تنكر", "كنجر", "كونغو", "كونكرو"],
+      ["كنغر", "كنغرو", "كونغرو", "تنكر", "كنجر", "كونغو", "كونكرو", "تنظر"],
     ),
-    Do30Item("12 Girafe.jpg", ["girafe"], ["زرافة"]),
+    Do30Item("12 Girafe.jpg", ["girafe"], ["زرافة", "غزالة", "غزيله"]),
     Do30Item("13 Chat.jpg", ["chat"], ["قط", "قطوس", "قطوس"]),
     Do30Item(
       "14 Rhinocéros.jpg",
       ["rhinoceros"],
-      ["خنزير", "فرس النهر", "وحيد القرن", "كركدم", "كركدن", "ذو القرن", "القرن", "ذو القرم"],
+      [
+        "وحيد القرن",
+        "كركدم",
+        "كركدن",
+        "كركدا",
+        "بو قرن",
+        "القرن",
+        "ذو القرم",
+        "خنزير",
+        "فرس النهر",
+      ],
     ),
     Do30Item("15 Papillon.jpg", ["papillon"], ["فراشة"]),
-    Do30Item("16 Ecureuil.jpg", ["ecureuil"], ["قط وحشي", "قطوس", "قطوس وحشي", "سنجاب", "فار"]),
-    Do30Item("17 Echelle.jpg", ["echelle"], ["سلوم", "سلم"]),
+    Do30Item(
+      "16 Ecureuil.jpg",
+      ["ecureuil"],
+      ["سنجاب", "قط وحشي", "قطوس", "قطوس وحشي", "فار", "ارنب", "ارنوبة"],
+    ),
+    Do30Item("17 Echelle.jpg", ["echelle"], ["سلم", "سلوم"]),
     Do30Item(
       "18 Cloche.jpg",
       ["cloche"],
-      ["ناقوز", "ناقوس", "نيكوز", "نيقوز", "جرس", "نقود", "نيقود", "نيقوس", "ناكوز"],
+      [
+        "جرس",
+        "ناقوس",
+        "ناقوز",
+        "نيكوز",
+        "نيقوز",
+        "نقود",
+        "نيقود",
+        "نيقوس",
+        "ناكوز",
+      ],
     ),
     Do30Item(
       "19 Hélicoptère.jpg",
       ["helicoptere"],
-      ["طيارة", "طائرة", "هيليكوبتر", "هليكوبتر", "هليكوبتير", "مروحية", "مروحيه"],
+      [
+        "مروحية",
+        "هيليكوبتر",
+        "طيارة",
+        "طائرة",
+        "هليكوبتر",
+        "هليكوبتير",
+        "مروحيه",
+      ],
     ),
     Do30Item("20 Crocodile.jpg", ["crocodile"], ["تمساح"]),
     Do30Item(
       "21 Penser.jpg",
       ["penser", "reflechir", "triste"],
-      ["يفكر", "حزين", "يخمم", "يخم", "خمم"],
+      ["يفكر", "وليدي فكر", "حزين", "يخمم", "يخم", "خمم"],
     ),
-    Do30Item("22 Tomber.jpg", ["tomber"], ["شاب يسقط", "سقط يسقط من الدرج", "هابط الدروج", "دروج", "تكربص", "طايح", "يطيح", "طايه", "ولد", "راجل", "رجل", "واحد"]),
-    Do30Item("23 Pleurer.jpg", ["pleurer"], ["يبكي", "ولد", "راجل", "رجل"]),
+    Do30Item(
+      "22 Tomber.jpg",
+      ["tomber"],
+      [
+        "يسقط",
+        "سقط يسقط من الدرج",
+        "طايح",
+        "شاب يسقط",
+        "هابط الدروج",
+        "دروج",
+        "تكربص",
+        "يطيح",
+        "طايه",
+        "ولد",
+        "راجل",
+        "رجل",
+        "واحد",
+      ],
+    ),
+    Do30Item("23 Pleurer.jpg", ["pleurer"], ["يبكي", "حزين", "ولد", "راجل", "رجل"]),
     Do30Item(
       "24 Escalader.jpg",
       ["escalader", "grimper"],
       [
-        "يكعبش",
         "يتسلق",
+        "يكعبش",
+        "الكعبش",
+        "الكعبس",
         "جبل",
         "طالع",
         "بيكابش",
+        "ايكابش",
         "اكابش",
         "الكابش",
         "يطلع",
-        "يكعبش",
         "بكعبش",
         "في كعبش",
         "ولد",
@@ -137,16 +208,71 @@ class _Do30TestPageState extends State<Do30TestPage>
         "وليّد",
       ],
     ),
-    Do30Item("25 Dormir.jpg", ["dormir"], ["رجل ينام", "نائم", "راقد", "رقد", "ريقد", "يرقد", "راجل", "وليّد", "رجل نائم"]),
-    Do30Item("26 Nager.jpg", ["nager"], ["يعوم", "يسبح", "يصبح", "راجل", "وليّد", "يوم", "واحد يوم"]),
-    Do30Item("27 Courir.jpg", ["courir"], ["مرا تهرب", "مرا هاربة", "هاربة", "تجري", "طفله", "تفله", "امراه", "بنية", "تقفز", "تنقز", "نكز"]),
-    Do30Item("29 Ecrir.jpg", ["ecrire"], ["تقرا", "يقرا", "تكتب", "طفله", "تفله", "امراه", "بنية"]),
+    Do30Item(
+      "25 Dormir.jpg",
+      ["dormir"],
+      [
+        "ينام",
+        "رجل ينام",
+        "راقد",
+        "نائم",
+        "ولد نائم",
+        "رقد",
+        "ريقد",
+        "يرقد",
+        "راجل",
+        "وليّد",
+        "رجل nائم",
+      ],
+    ),
+    Do30Item(
+      "26 Nager.jpg",
+      ["nager"],
+      ["يسبح", "يعوم", "يصبح", "راجل", "وليّد", "يوم", "واحد يوم"],
+    ),
+    Do30Item(
+      "27 Courir.jpg",
+      ["courir"],
+      [
+        "تجري",
+        "يجري",
+        "تركض",
+        "مرا تهرب",
+        "مرا هاربة",
+        "هاربة",
+        "طفله",
+        "تفله",
+        "امراه",
+        "بنية",
+        "تقفز",
+        "تنقز",
+        "نكز",
+      ],
+    ),
+    Do30Item(
+      "29 Ecrir.jpg",
+      ["ecrire"],
+      ["تكتب", "تقرا", "يقرا", "طفله", "تفله", "امراه", "بنية"],
+    ),
     Do30Item(
       "29 Manger.jpg",
       ["manger"],
-      ["تتناول الفطور", "تاكل", "تأكل", "طفله", "تفله", "امراه", "تيكل", "بنية"],
+      [
+        "تأكل",
+        "تتناول الفطور",
+        "تاكل",
+        "طفله",
+        "تفله",
+        "امراه",
+        "تيكل",
+        "بنية",
+      ],
     ),
-    Do30Item("30 Boire.jpg", ["boire"], ["تشرب", "طفله", "تفله", "امراه", "بنية", "يشرب"]),
+    Do30Item(
+      "30 Boire.jpg",
+      ["boire"],
+      ["تشرب", "طفله", "تفله", "امراه", "بنية", "يشرب"],
+    ),
   ];
 
   late AnimationController _micController;
@@ -155,6 +281,8 @@ class _Do30TestPageState extends State<Do30TestPage>
   @override
   void initState() {
     super.initState();
+    // Enable immersive mode (hide navigation bar)
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _stopwatch.start();
     _speech = stt.SpeechToText();
     _flutterTts = FlutterTts();
@@ -177,14 +305,15 @@ class _Do30TestPageState extends State<Do30TestPage>
 
   @override
   void dispose() {
+    // Restore system UI
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     _pageController.dispose();
     _stopwatch.stop();
     _micController.dispose();
     _flutterTts.stop();
     _speech.stop();
-    _guardianTimer?.cancel();
     _nextPageTimer?.cancel();
-    _textController.dispose(); // MODIFIED: Clean up controller
+    _textController.dispose();
     super.dispose();
   }
 
@@ -194,8 +323,10 @@ class _Do30TestPageState extends State<Do30TestPage>
 
   void _initTts() async {
     _flutterTts.setCompletionHandler(() {
-      setState(() => _isSpeaking = false);
-      _startListening();
+      if (mounted) {
+        setState(() => _isSpeaking = false);
+        _startListening();
+      }
     });
   }
 
@@ -214,74 +345,93 @@ class _Do30TestPageState extends State<Do30TestPage>
     await _flutterTts.speak(loc.do30Instr);
   }
 
-  void _startListening() async {
-    _nextPageTimer
-        ?.cancel(); // Cancel any pending transition if user wants to re-record
+  void _stopListening() async {
     if (_isListening) {
       await _speech.stop();
-      setState(() => _isListening = false);
+      if (mounted) setState(() => _isListening = false);
     }
+  }
+
+  void _startListening() async {
+    if (_isInitializing) return;
+    _nextPageTimer?.cancel();
+    
+    _isInitializing = true;
+    
+    // Ensure we stop before starting
+    await _speech.stop();
+    if (mounted) setState(() => _isListening = false);
 
     bool available = await _speech.initialize(
       onStatus: (status) {
         debugPrint("STT Status: $status");
         if (status == 'done' || status == 'notListening') {
-          setState(() => _isListening = false);
+          if (mounted) {
+            setState(() {
+              _isListening = false;
+              _micController.stop();
+              _micController.value = 1.0; // Reset scale
+            });
+          }
+          // Restart after a small delay if test is not finished and not speaking instruction
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (mounted && !_isFinished && !_isSpeaking && !_isListening) {
+              _startListening();
+            }
+          });
         }
       },
       onError: (error) {
-        debugPrint("STT Error: $error");
+        debugPrint("STT Error: ${error.errorMsg}");
+        _isInitializing = false;
+        bool isSilenceError =
+            error.errorMsg == "error_no_match" ||
+            error.errorMsg == "error_speech_timeout";
         
-        // Skip visual error for silence or common timeouts to let guardian restart silently
-        bool isSilenceError = error.errorMsg == "error_no_match" || 
-                             error.errorMsg == "error_speech_timeout";
-
         if (mounted && !isSilenceError) {
-          final loc = AppLocalizations.of(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("${loc.sttError}${error.errorMsg}"),
-              backgroundColor: Colors.orange,
-            ),
-          );
-        }
-
-        if (!isSilenceError) {
-          setState(() => _isListening = false);
+          // For persistent errors, try a fresh restart after a delay
+          Future.delayed(const Duration(seconds: 1), () {
+            if (mounted && !_isFinished) _startListening();
+          });
         }
       },
     );
 
-    if (available) {
-      setState(() {
-        _isListening = true;
-      });
+    _isInitializing = false;
 
+    if (available) {
+      if (mounted) {
+        setState(() {
+          _isListening = true;
+          _micController.repeat(reverse: true);
+        });
+      }
       _speech.listen(
         onResult: (result) {
-          setState(() {
-            _spokenText = result.recognizedWords;
-            _textController.text = _spokenText; // Fix 7: STT result writes into field
-            if (_spokenText.isNotEmpty) {
-              _hasHeardWord = true;
-            }
-            if (result.finalResult && _spokenText.isNotEmpty) {
-              _evaluateCurrentAnswer();
-            }
-          });
+          if (mounted) {
+            setState(() {
+              _spokenText = result.recognizedWords;
+              _textController.text = _spokenText;
+              if (result.finalResult && _spokenText.isNotEmpty) {
+                _evaluateCurrentAnswer(isManual: false);
+              }
+            });
+          }
         },
         localeId: AppLocalizations.of(context).locale.languageCode == 'ar'
             ? 'ar-TN'
             : null,
-        onSoundLevelChange: (level) => setState(() => _soundLevel = level),
+        onSoundLevelChange: (level) {},
         pauseFor: const Duration(seconds: 30),
+        listenFor: const Duration(seconds: 60),
         cancelOnError: false,
+        partialResults: true,
+        listenMode: stt.ListenMode.dictation,
       );
 
       _guardianTimer?.cancel();
       _guardianTimer = Timer.periodic(const Duration(seconds: 2), (t) {
         if (_isListening && !_speech.isListening) {
-          debugPrint("Guardian: Restarting STT...");
           _startSttSession();
         }
       });
@@ -291,26 +441,28 @@ class _Do30TestPageState extends State<Do30TestPage>
   void _startSttSession() {
     _speech.listen(
       onResult: (result) {
-        setState(() {
-          _spokenText = result.recognizedWords;
-          _textController.text = _spokenText; // Fix 7: STT result writes into field
-          if (result.finalResult && _spokenText.isNotEmpty) {
-            _evaluateCurrentAnswer();
-          }
-        });
+        if (mounted) {
+          setState(() {
+            _spokenText = result.recognizedWords;
+            _textController.text = _spokenText;
+            if (result.finalResult && _spokenText.isNotEmpty) {
+              _evaluateCurrentAnswer(isManual: false);
+            }
+          });
+        }
       },
       localeId: AppLocalizations.of(context).locale.languageCode == 'ar'
           ? 'ar-SA'
           : null,
-      onSoundLevelChange: (level) => setState(() => _soundLevel = level),
+      onSoundLevelChange: (level) {
+        // Level change ignored
+      },
       pauseFor: const Duration(seconds: 30),
       cancelOnError: false,
     );
   }
 
-  void _evaluateCurrentAnswer() {
-    if (_transcriptions[_currentIndex].isNotEmpty)
-      return; // MODIFIED: Prevent double evaluation
+  void _evaluateCurrentAnswer({required bool isManual}) {
     if (_spokenText.isEmpty) return;
 
     final loc = AppLocalizations.of(context);
@@ -326,429 +478,454 @@ class _Do30TestPageState extends State<Do30TestPage>
       }
     }
 
-    setState(() {
-      _transcriptions[_currentIndex] = _spokenText;
-      _results[_currentIndex] = isCorrect;
-      _isListening = false;
-      _guardianTimer?.cancel();
-    });
-
-
-    _speech.stop();
-
-    // AUTO-MOVE: Automatically move to next image IF the answer is CORRECT
-    if (isCorrect) {
-      _nextPageTimer?.cancel();
-      _nextPageTimer = Timer(const Duration(milliseconds: 1500), () {
-        if (mounted) {
-          if (_currentIndex < _items.length - 1) {
-            _nextPage();
-          } else {
-            _finishTest();
-          }
+    if (mounted) {
+      setState(() {
+        _transcriptions[_currentIndex] = _spokenText;
+        _results[_currentIndex] = isCorrect;
+        _isListening = false;
+        _guardianTimer?.cancel();
+        
+        // Logic for auto-advance or next button
+        if (isCorrect || isManual) {
+          _showNextButton = false;
+          _nextPageTimer?.cancel();
+          _nextPageTimer = Timer(const Duration(milliseconds: 600), () {
+            if (mounted) {
+              if (_currentIndex < _items.length - 1) {
+                _nextPage();
+              } else {
+                _finishTest();
+              }
+            }
+          });
+        } else {
+          // Wrong vocal response -> Show the Next button manually
+          _showNextButton = true;
         }
       });
     }
+
+    _speech.stop();
+    _saveProgress();
   }
 
-  bool _checkMatching(String spoken, String correct) {
-    String s = _sanitize(spoken);
-    String c = _sanitize(correct);
+  bool _checkMatching(String input, String solution) {
+    String cleanInput = _sanitize(input);
+    String cleanSolution = _sanitize(solution);
 
-    if (s == c) return true;
-    if (s.contains(c)) return true;
+    if (cleanInput == cleanSolution) return true;
 
-    return false;
+    // Fuzzy matching using Levenshtein distance
+    int distance = _levenshtein(cleanInput, cleanSolution);
+    
+    // Tolerance: 1 char for short words (<= 5 chars), 2 chars for longer words
+    int tolerance = cleanSolution.length <= 5 ? 1 : 2;
+    
+    return distance <= tolerance;
+  }
+
+  int _levenshtein(String s1, String s2) {
+    if (s1 == s2) return 0;
+    if (s1.isEmpty) return s2.length;
+    if (s2.isEmpty) return s1.length;
+
+    List<int> v0 = List<int>.generate(s2.length + 1, (i) => i);
+    List<int> v1 = List<int>.filled(s2.length + 1, 0);
+
+    for (int i = 0; i < s1.length; i++) {
+      v1[0] = i + 1;
+      for (int j = 0; j < s2.length; j++) {
+        int cost = (s1[i] == s2[j]) ? 0 : 1;
+        v1[j + 1] = [v1[j] + 1, v0[j + 1] + 1, v0[j] + cost]
+            .reduce((a, b) => a < b ? a : b);
+      }
+      for (int j = 0; j < v0.length; j++) {
+        v0[j] = v1[j];
+      }
+    }
+    return v1[s2.length];
   }
 
   String _sanitize(String text) {
-    String s = text.toLowerCase();
-
-    // Arabic-specific sanitization: Normalize Alif, Ya, etc.
-    s = s.replaceAll(RegExp(r'[أإآ]'), 'ا');
-    s = s.replaceAll(RegExp(r'[ة]'), 'ه');
-    s = s.replaceAll(RegExp(r'[ى]'), 'ي');
-    s = s.replaceAll(
-      RegExp(r'[ڨق]'),
-      'ق',
-    ); // Treating 'G' and 'Q' as similar in Darija
-
-    // Remove Arabic diacritics (Harakat)
-    s = s.replaceAll(RegExp(r'[\u064B-\u0652]'), '');
-
-    final articles = [
-      'le ',
-      'la ',
-      'l\'',
-      'les ',
-      'un ',
-      'une ',
-      'des ',
-      'ce ',
-      'cette ',
-      'cest ',
-      'c\'est ',
-    ];
-    for (var a in articles) {
-      s = s.replaceAll(a, '');
-    }
-    s = s.replaceAll(
-      RegExp(r'[^\w\s\u0600-\u06FF]'),
-      '',
-    ); // Preserve Arabic chars
-    return s.trim();
+    if (text.trim().isEmpty) return "EMPTY_INPUT";
+    String s = text.toLowerCase().trim();
+    // Remove Arabic diacritics
+    s = s.replaceAll(RegExp(r'[\u064B-\u065F]'), '');
+    // Normalize Arabic
+    s = s.replaceAll(RegExp(r'[أإآا]'), 'ا');
+    s = s.replaceAll(RegExp(r'[ةه]'), 'ه');
+    s = s.replaceAll(RegExp(r'[ىي]'), 'ي');
+    s = s.replaceAll(RegExp(r'[ڨقك]'), 'ق'); 
+    // Remove non-word characters but keep spaces and Arabic blocks
+    s = s.replaceAll(RegExp(r'[^\w\s\u0621-\u064A\u0671-\u06D3]'), '');
+    String finalResult = s.trim();
+    return finalResult.isEmpty ? "EMPTY_INPUT" : finalResult;
   }
 
   void _nextPage() {
-    _nextPageTimer?.cancel();
+    if (mounted) {
+      setState(() {
+        _currentIndex++;
+        _spokenText = "";
+        _textController.clear();
+        _isListening = false;
+        _showNextButton = false;
+      });
+    }
     _pageController.nextPage(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
+    );
+    _startListening();
+  }
+
+  Future<void> _saveProgress() async {
+    final int totalItems = _items.length;
+    final int correctAnswers = _results.where((r) => r).length;
+
+    // Calculate duration in MM:SS
+    final duration = _stopwatch.elapsed;
+    final minutes = duration.inMinutes;
+    final seconds = duration.inSeconds % 60;
+    final durationStr = "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+
+    _currentResultDocId = await _firestoreService.saveTestResult(
+      docId: _currentResultDocId,
+      patientDocId: widget.patientDocId,
+      patientIdentifier: widget.patientIdentifier,
+      testType: "DO-30",
+      score: correctAnswers.toDouble(),
+      totalDuration: durationStr,
+      metadata: {
+        'currentIndex': _currentIndex,
+        'totalItems': totalItems,
+        'isPartial': true,
+        'tableFormat': _buildTableFormat(),
+      },
     );
   }
 
-  void _finishTest() async {
+  Future<void> _finishTest() async {
     if (_isFinished) return;
-    _nextPageTimer?.cancel();
-    setState(() => _isFinished = true);
-
-    _stopwatch.stop();
-    final String durationStr =
-        "${(_stopwatch.elapsedMilliseconds / 1000).truncate()} s";
-
-    final int finalScore = _results.where((r) => r == true).length;
-    final int finalErrors = 30 - finalScore;
-
-    try {
-      await _firestoreService.saveTestResult(
-        patientDocId: widget.patientDocId,
-        patientIdentifier: widget.patientIdentifier,
-        score: finalScore.toDouble(),
-        totalDuration: durationStr,
-        testType: 'DO-30',
-        metadata: {
-          'errors': finalErrors,
-          'transcriptions': _transcriptions,
-          'results': _results,
-          'tableFormat':
-              _buildTableFormat(), // MODIFIED: Standard scoring table format
-        },
-      );
-    } catch (e) {
-      debugPrint("Error saving result: $e");
+    if (mounted) {
+      setState(() {
+        _isFinished = true;
+        _isListening = false;
+      });
     }
+    _speech.stop();
+    _guardianTimer?.cancel();
 
-    if (!mounted) return;
-    _showSummary();
+    final int correctAnswers = _results.where((r) => r).length;
+
+    // Calculate final duration
+    final duration = _stopwatch.elapsed;
+    final minutes = duration.inMinutes;
+    final seconds = duration.inSeconds % 60;
+    final durationStr = "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+
+    await _firestoreService.saveTestResult(
+      docId: _currentResultDocId,
+      patientDocId: widget.patientDocId,
+      patientIdentifier: widget.patientIdentifier,
+      testType: "DO-30",
+      score: correctAnswers.toDouble(),
+      totalDuration: durationStr,
+      metadata: {
+        'totalItems': _items.length,
+        'tableFormat': _buildTableFormat(),
+        'isPartial': false,
+      },
+    );
+
+    if (mounted) {
+      setState(() {}); // Refresh for finish view
+    }
   }
 
-  void _showSummary() {
+  List<Map<String, dynamic>> _buildTableFormat() {
+    return List.generate(_items.length, (i) {
+      return {
+        'numero': i + 1,
+        'reponseAttendueFr': _items[i].solutionsFr.first,
+        'reponseAttendueAr': _items[i].solutionsAr.first,
+        'reponsePatientFr': _transcriptions[i],
+        'reponsePatientAr': _transcriptions[i],
+        'correct': _results[i],
+      };
+    });
+  }
+
+  void _handleManualSubmit(String val) {
+    if (mounted) {
+      setState(() {
+        _spokenText = val;
+        _textController.text = val;
+      });
+    }
+    _evaluateCurrentAnswer(isManual: true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isFinished) return _buildFinishView(context);
+
     final loc = AppLocalizations.of(context);
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text(
-          loc.bravo,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+    final bool isArabic = loc.locale.languageCode == 'ar';
+    
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () => Navigator.pop(context),
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              loc.testSuccess,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.cairo(),
-            ),
-            const SizedBox(height: 16),
-            // Fix 8a: Remove total score display
-            // Text(
-            //   "${loc.resultPrefix} ${30 - _errors} / 30",
-            //   style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
-            // ),
-            // Text(
-            //   "${loc.timePrefix} ${_stopwatch.elapsed.inSeconds} s",
-            //   style: GoogleFonts.cairo(),
-            // ),
-          ],
-        ),
+        title: Text(loc.do30Title, style: GoogleFonts.cairo()),
+        backgroundColor: Colors.teal,
         actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            },
-            child: Text(loc.mainMenu, style: GoogleFonts.cairo()),
+          if (_showNextButton)
+            TextButton.icon(
+              onPressed: _nextPage,
+              icon: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16),
+              label: Text(
+                isArabic ? "التالي" : "Suivant",
+                style: GoogleFonts.cairo(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+        ],
+      ),
+      body: Column(
+        children: [
+          LinearProgressIndicator(
+            value: (_currentIndex + 1) / _items.length,
+            backgroundColor: Colors.teal.shade50,
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.teal),
+          ),
+          Expanded(
+            child: PageView.builder(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _items.length,
+              itemBuilder: (context, index) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 400,
+                        height: 400,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 10,
+                            )
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.asset(
+                            "assets/images/do30/${_items[index].fileName}",
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, obj, stack) => const Icon(
+                              Icons.image_not_supported,
+                              size: 100,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                      // Fix for RTL display of X / Y counter
+                      Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Text(
+                          "${index + 1} / ${_items.length}",
+                          style: GoogleFonts.cairo(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.teal,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          SafeArea(
+            top: false,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                border: Border(top: BorderSide(color: Colors.grey.shade200)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _textController,
+                          onChanged: (v) => setState(() => _spokenText = v),
+                          decoration: InputDecoration(
+                            hintText: isArabic ? "اكتب إجابتك هنا" : loc.translate('type_response_hint'),
+                            hintStyle: GoogleFonts.cairo(color: Colors.grey),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          ),
+                          style: GoogleFonts.cairo(),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      ElevatedButton(
+                        onPressed: () => _evaluateCurrentAnswer(isManual: true),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: Text(
+                          isArabic ? "تأكيد" : loc.translate('validate'),
+                          style: GoogleFonts.cairo(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: () {
+                          if (mounted) {
+                            setState(() {
+                              _spokenText = "";
+                              _textController.clear();
+                            });
+                          }
+                          _stopListening();
+                          _startListening();
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.refresh, color: Colors.teal, size: 24),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: _isSpeaking ? null : _startListening,
+                        child: ScaleTransition(
+                          scale: _isListening ? _micAnimation : const AlwaysStoppedAnimation(1.0),
+                          child: CircleAvatar(
+                            radius: 28,
+                            backgroundColor:
+                                _isListening ? Colors.red.shade600 : Colors.teal.shade400,
+                            child: Icon(
+                               _isListening ? Icons.mic : Icons.mic_none,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: _actionButton(
+                          label: isArabic ? "لا أعرف" : loc.translate('do30_dont_know'),
+                          color: Colors.grey.shade600,
+                          onTap: () => _handleManualSubmit("[NE CONNAIT PAS]"),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _actionButton(
+                          label: isArabic ? "أعرفه و نسيت اسمه" : loc.translate('do30_forgot'),
+                          color: Colors.orange.shade800,
+                          onTap: () => _handleManualSubmit("[OUBLI DU NOM]"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
-  // MODIFIED: New helper for structured results
-  List<Map<String, dynamic>> _buildTableFormat() {
-    final loc = AppLocalizations.of(context);
-    return List.generate(_items.length, (i) {
-      return {
-        'numero': i + 1,
-        'reponseAttendueFr': _items[i].solutionsFr.first,
-        'reponseAttendueAr': _items[i].solutionsAr.first,
-        'reponsePatientFr': loc.locale.languageCode != 'ar'
-            ? _transcriptions[i]
-            : "",
-        'reponsePatientAr': loc.locale.languageCode == 'ar'
-            ? _transcriptions[i]
-            : "",
-        'correct': _results[i],
-      };
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildFinishView(BuildContext context) {
     final loc = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          loc.do30Title,
-          style: GoogleFonts.cairo(color: Colors.black, fontSize: 18),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
-      ),
-      body: SafeArea(
+      body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+            const Icon(Icons.check_circle, color: Colors.green, size: 100),
+            const SizedBox(height: 24),
+            Text(
+              loc.locale.languageCode == 'ar' ? "أحسنت ! لقد انتهى الاختبار" : "Bravo ! Test terminé",
+              style: GoogleFonts.cairo(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 48),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              ),
               child: Text(
-                loc.do30Instr,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.cairo(
-                  fontSize: 18,
-                  color: Colors.teal,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                physics:
-                    const BouncingScrollPhysics(), // MODIFIED: Free swipe navigation now allowed
-                onPageChanged: (index) {
-                  _nextPageTimer?.cancel();
-                  setState(() {
-                    _currentIndex = index;
-                    _spokenText = "";
-                    // If we already have a transcription for this page, show the Next button
-                    _hasHeardWord = _transcriptions[index].isNotEmpty;
-                  });
-                  _startListening();
-                },
-                itemCount: _items.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade50,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.teal.shade100,
-                          width: 2,
-                        ),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18),
-                        child: Image.asset(
-                          'assets/images/do30/${_items[index].fileName}',
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Container(
-              height: 120,
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (_isListening)
-                        ScaleTransition(
-                          scale: _micAnimation,
-                          child: Container(
-                            padding: EdgeInsets.all(
-                              12 + (_soundLevel > 0 ? _soundLevel : 0),
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.teal.withOpacity(0.2),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.mic,
-                              color: Colors.teal,
-                              size: 32,
-                            ),
-                          ),
-                        )
-                      else
-                        IconButton(
-                          icon: const Icon(
-                            Icons.mic_none,
-                            color: Colors.grey,
-                            size: 32,
-                          ),
-                          onPressed: _startListening,
-                        ),
-                      const SizedBox(
-                        width: 16,
-                      ), // MODIFIED: Space for text input
-                      Expanded(
-                        child: TextField(
-                          controller: _textController,
-                          style: GoogleFonts.cairo(fontSize: 14),
-                          decoration: InputDecoration(
-                            hintText: loc.writeAnswer, 
-                            isDense: true,
-                            hintStyle: GoogleFonts.cairo(
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(color: Colors.teal),
-                            ),
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.send, color: Colors.teal),
-                        onPressed: () {
-                          // MODIFIED: Text submission logic
-                          final typed = _textController.text.trim();
-                          if (typed.isNotEmpty &&
-                              _transcriptions[_currentIndex].isEmpty) {
-                            setState(() {
-                              _spokenText = typed;
-                              _textController.clear();
-                              _evaluateCurrentAnswer();
-                              _hasHeardWord = true;
-                            });
-                            
-                            // Advance immediately for manual input button
-                            if (_currentIndex < _items.length - 1) {
-                              _nextPage();
-                            } else {
-                              _finishTest();
-                            }
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                  // Fix 7: Text widget showing raw STT output below field is removed
-                  // Text(
-                  //   _spokenText.isEmpty
-                  //       ? (_isListening ? loc.listening : "")
-                  //       : "\"$_spokenText\"",
-                  //   style: GoogleFonts.cairo(
-                  //     fontStyle: FontStyle.italic,
-                  //     color: Colors.black87,
-                  //     fontSize: 12,
-                  //   ),
-                  //   textAlign: TextAlign.center,
-                  // ),
-                ],
-              ),
-            ),
-            // Fix 8b: Re-record/retry button
-            if (_currentIndex < _items.length)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    icon: const Icon(Icons.replay_circle_filled, color: Colors.teal, size: 44),
-                    tooltip: loc.clearAndRetry,
-                    onPressed: () {
-                      setState(() {
-                        _textController.clear();
-                        _spokenText = "";
-                        _hasHeardWord = false;
-                        _transcriptions[_currentIndex] = ""; // Allow retry if evaluated
-                      });
-                      _startListening();
-                    },
-                  ),
-                ),
-              ),
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    loc.do30ImageCounter.replaceAll(
-                      '{}',
-                      '${_currentIndex + 1}',
-                    ),
-                    style: GoogleFonts.cairo(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  if (_hasHeardWord || _transcriptions[_currentIndex].isNotEmpty)
-                    TweenAnimationBuilder<double>(
-                      tween: Tween(begin: 0.0, end: 1.0),
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.elasticOut,
-                      builder: (context, value, child) {
-                        return Transform.scale(
-                          scale: value,
-                          child: ElevatedButton.icon(
-                            onPressed: _isFinished ? null : () {
-                              _guardianTimer?.cancel();
-                              _speech.stop();
-                              if (_currentIndex < _items.length - 1) {
-                                _nextPage();
-                              } else {
-                                _finishTest();
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.teal,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 12,
-                              ),
-                            ),
-                            icon: const Icon(Icons.check_circle_outline),
-                            label: Text(
-                              loc.nextBtn,
-                              style: GoogleFonts.cairo(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                ],
+                loc.locale.languageCode == 'ar' ? "إنهاء" : "Terminer",
+                style: GoogleFonts.cairo(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _actionButton({
+    required String label,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return ElevatedButton(
+      onPressed: onTap,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        elevation: 2,
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.cairo(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
         ),
       ),
     );

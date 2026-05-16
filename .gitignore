@@ -43,3 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Sensitive Config (Audit Requirement)
+lib/firebase_options.dart
+.env
+*.p12
+*.jks

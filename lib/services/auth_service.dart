@@ -16,7 +16,25 @@ class AuthService {
         email: email,
         password: password,
       );
-      return result.user;
+
+      User? user = result.user;
+      if (user != null) {
+        // Liste d'exception pour les médecins déjà actifs
+        List<String> legacyDoctors = [
+          'mariem-dammak@test.com',
+          'nouha.farhat15@gmail.com'
+        ];
+
+        if (!user.emailVerified && !legacyDoctors.contains(user.email)) {
+          await _auth.signOut();
+          throw FirebaseAuthException(
+            code: 'email-not-verified',
+            message:
+                'Veuillez vérifier votre boîte mail avant de vous connecter.',
+          );
+        }
+      }
+      return user;
     } on FirebaseAuthException catch (e) {
       debugPrint("Auth Error: ${e.message}");
       rethrow;
@@ -46,15 +64,37 @@ class AuthService {
           'lastName': lastName,
           'doctorId': doctorId,
           'email': email,
+          'isAdmin': false, // Default role for safety
           'createdAt': FieldValue.serverTimestamp(),
           'uid': user.uid,
         });
+
+        // 3. Send Email Verification
+        await user.sendEmailVerification();
       }
       return user;
     } on FirebaseAuthException catch (e) {
       debugPrint("Registration Error: ${e.message}");
       rethrow;
     }
+  }
+
+  // Check if current user is Admin (Cached check or quick fetch)
+  Future<bool> isCurrentUserAdmin() async {
+    User? user = _auth.currentUser;
+    if (user == null) return false;
+
+    try {
+      DocumentSnapshot doc =
+          await _firestore.collection('doctors').doc(user.uid).get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        return data['isAdmin'] == true;
+      }
+    } catch (e) {
+      debugPrint("Error checking admin status: $e");
+    }
+    return false;
   }
 
   // Sign Out

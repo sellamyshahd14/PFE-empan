@@ -61,10 +61,12 @@ class _Dsm48SetPageState extends State<Dsm48SetPage> {
 
   void _precachePair(int index) {
     if (index >= _totalImages) return;
-    
-    final String pathA = 'assets/images/dsm48/set${widget.setIndex}/set${widget.setIndex}_pair${index + 1}_A.png';
-    final String pathB = 'assets/images/dsm48/set${widget.setIndex}/set${widget.setIndex}_pair${index + 1}_B.png';
-    
+
+    final String pathA =
+        'assets/images/dsm48/set${widget.setIndex}/set${widget.setIndex}_pair${index + 1}_A.png';
+    final String pathB =
+        'assets/images/dsm48/set${widget.setIndex}/set${widget.setIndex}_pair${index + 1}_B.png';
+
     precacheImage(AssetImage(pathA), context);
     precacheImage(AssetImage(pathB), context);
   }
@@ -98,7 +100,9 @@ class _Dsm48SetPageState extends State<Dsm48SetPage> {
     final String durationStr = "$seconds s";
 
     // Build detailed results for the dashboard
-    final List<Map<String, dynamic>> tableFormat = List.generate(_totalImages, (index) {
+    final List<Map<String, dynamic>> tableFormat = List.generate(_totalImages, (
+      index,
+    ) {
       return {
         'numero': index + 1,
         'categorie': widget.itemTypes[index],
@@ -115,9 +119,7 @@ class _Dsm48SetPageState extends State<Dsm48SetPage> {
         score: _score.toDouble(),
         totalDuration: durationStr,
         testType: 'DSM-48 ${widget.setLabel}',
-        metadata: {
-          'tableFormat': tableFormat,
-        },
+        metadata: {'tableFormat': tableFormat},
       );
     } catch (e) {
       debugPrint("Error saving result: $e");

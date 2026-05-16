@@ -36,9 +36,9 @@ class _RegisterPageState extends State<RegisterPage> {
         );
 
         if (user != null && mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(loc.accountCreated)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(loc.accountCreated)));
           // Go to Dashboard
           Navigator.pushReplacement(
             context,
@@ -48,7 +48,10 @@ class _RegisterPageState extends State<RegisterPage> {
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('${loc.sttError} $e'), backgroundColor: Colors.red),
+            SnackBar(
+              content: Text('${loc.sttError} $e'),
+              backgroundColor: Colors.red,
+            ),
           );
         }
       } finally {
@@ -108,7 +111,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      validator: (val) => val!.isEmpty ? loc.requiredField : null,
+                      validator: (val) =>
+                          val!.isEmpty ? loc.requiredField : null,
                     ),
                     const SizedBox(height: 15),
 
@@ -122,7 +126,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      validator: (val) => val!.isEmpty ? loc.requiredField : null,
+                      validator: (val) =>
+                          val!.isEmpty ? loc.requiredField : null,
                     ),
                     const SizedBox(height: 15),
 
@@ -136,7 +141,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      validator: (val) => val!.isEmpty ? loc.requiredField : null,
+                      validator: (val) =>
+                          val!.isEmpty ? loc.requiredField : null,
                     ),
                     const SizedBox(height: 15),
 

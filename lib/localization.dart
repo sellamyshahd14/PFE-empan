@@ -67,8 +67,10 @@ class AppLocalizations {
       'test_success': 'لقد أتممت الاختبار بنجاح.',
       'start_node': 'بداية',
       'end_node': 'نهاية',
-      'empan_direct_intro': 'سوف تسمع سلسلة من الأرقام. استمع جيداً وكررها بنفس الترتيب. يرجى التحدث فقط عندما يصبح لون الأيقونة برتقالياً وتسمع "فلنبدأ".',
-      'empan_inverse_intro': 'سوف تسمع سلسلة من الأرقام. استمع جيداً وكررها بالترتيب العكسي. يرجى التحدث فقط عندما يصبح لون الأيقونة برتقالياً وتسمع "فلنبدأ".',
+      'empan_direct_intro':
+          'سوف تسمع سلسلة من الأرقام. استمع جيداً وكررها بنفس الترتيب. يرجى التحدث فقط عندما يصبح لون الأيقونة برتقالياً وتسمع "فلنبدأ".',
+      'empan_inverse_intro':
+          'سوف تسمع سلسلة من الأرقام. استمع جيداً وكررها بالترتيب العكسي. يرجى التحدث فقط عندما يصبح لون الأيقونة برتقالياً وتسمع "فلنبدأ".',
       'tmt_a_instr':
           'اضغط على الأرقام بالترتيب من 1 إلى 25.\nاضغط على 1 للبدء.',
       'tmt_b_instr':
@@ -194,7 +196,8 @@ class AppLocalizations {
       'write_answer': 'اكتب الإجابة هنا...',
       'image_not_found_error': 'الصورة {} غير موجودة',
       'patient_not_found': 'معرف المريض غير موجود. اسأل طبيبك.',
-      'login_failed': 'فشل تسجيل الدخول. تحقق من البريد الإلكتروني/كلمة المرور.',
+      'login_failed':
+          'فشل تسجيل الدخول. تحقق من البريد الإلكتروني/كلمة المرور.',
       'create_doctor_account': 'إنشاء حساب طبيب جديد',
       'first_name': 'الاسم الأول',
       'last_name': 'اللقب',
@@ -204,6 +207,9 @@ class AppLocalizations {
       'create_account': 'إنشاء حساب',
       'account_created': 'تم إنشاء الحساب بنجاح!',
       'add_doctor': 'إضافة طبيب',
+      'do30_dont_know': 'لا أعرف',
+      'do30_forgot': 'أعرفه و طار عليّ اسمه',
+      'validate': 'تأكيد',
     },
     'fr': {
       'login_title': 'Test de Performance Cognitive',
@@ -404,6 +410,9 @@ class AppLocalizations {
       'create_account': 'Créer un compte',
       'account_created': 'Compte créé avec succès !',
       'add_doctor': 'Ajout Médecin',
+      'do30_dont_know': 'Je ne connais pas',
+      'do30_forgot': 'Je connais mais j\'ai oublié',
+      'validate': 'Valider',
     },
   };
 
@@ -464,6 +473,10 @@ class AppLocalizations {
   String get testSuccess => _get('test_success');
   String get startNode => _get('start_node');
   String get endNode => _get('end_node');
+  String get addDoctor => _get('add_doctor');
+  String get do30DontKnow => _get('do30_dont_know');
+  String get do30Forgot => _get('do30_forgot');
+  String get validate => _get('validate');
   String get empanDirectIntro => _get('empan_direct_intro');
   String get empanInverseIntro => _get('empan_inverse_intro');
   String get tmtAInstr => _get('tmt_a_instr');

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'patient_home_page.dart';
 import 'doctor_dashboard.dart';
@@ -28,6 +29,10 @@ class _LoginPageState extends State<LoginPage> {
   final FirestoreService _firestoreService = FirestoreService();
   bool _isLoading = false;
 
+  // Rate limiting variables
+  int _failedAttempts = 0;
+  DateTime? _lockoutEndTime;
+
   void _login() async {
     final loc = AppLocalizations.of(context);
     setState(() => _isLoading = true);
@@ -37,21 +42,59 @@ class _LoginPageState extends State<LoginPage> {
       final pid = _patientIdController.text.trim();
       if (pid.isNotEmpty) {
         try {
+          // Check for lockout
+          if (_lockoutEndTime != null &&
+              DateTime.now().isBefore(_lockoutEndTime!)) {
+            final minutesLeft =
+                _lockoutEndTime!.difference(DateTime.now()).inMinutes + 1;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content:
+                    Text("Trop de tentatives. Réessayez dans $minutesLeft min."),
+              ),
+            );
+            setState(() => _isLoading = false);
+            return;
+          }
+
           final patientData = await _firestoreService.getPatientById(pid);
           if (patientData != null && mounted) {
+            // Success: Reset attempts
+            _failedAttempts = 0;
+            _lockoutEndTime = null;
+
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => PatientHomePage(
                   patientDocId: patientData['docId'],
-                  patientIdentifier: patientData['patientIdentifier'] ?? "Unknown",
+                  patientIdentifier:
+                      patientData['resolvedDisplayId'] ?? "Unknown",
                 ),
               ),
             );
           } else if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(loc.patientNotFound)),
-            );
+            // Failure: Increment attempts
+            _failedAttempts++;
+            if (_failedAttempts >= 5) {
+              _lockoutEndTime = DateTime.now().add(const Duration(minutes: 5));
+              _failedAttempts = 0; // Reset for next cycle
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    "Sécurité : Trop de tentatives. Bouton bloqué pour 5 min.",
+                  ),
+                ),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "${loc.patientNotFound} (${5 - _failedAttempts} tentatives restantes)",
+                  ),
+                ),
+              );
+            }
           }
         } catch (e) {
           debugPrint("Login Error: $e");
@@ -81,8 +124,12 @@ class _LoginPageState extends State<LoginPage> {
         }
       } catch (e) {
         if (mounted) {
+          String message = loc.loginFailed;
+          if (e is FirebaseAuthException && e.code == 'email-not-verified') {
+            message = "Veuillez vérifier votre email avant de vous connecter.";
+          }
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(loc.loginFailed)),
+            SnackBar(content: Text(message)),
           );
         }
       }
@@ -109,9 +156,9 @@ class _LoginPageState extends State<LoginPage> {
               underline: Container(),
               onChanged: (String? newValue) {
                 if (newValue != null) {
-                  Locale next = newValue == 'ar' 
-                    ? const Locale('ar', 'TN') 
-                    : const Locale('fr', 'FR');
+                  Locale next = newValue == 'ar'
+                      ? const Locale('ar', 'TN')
+                      : const Locale('fr', 'FR');
                   MainApp.setLocale(context, next);
                 }
               },
@@ -275,7 +322,6 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                 ),
-
               ],
             ),
           ),

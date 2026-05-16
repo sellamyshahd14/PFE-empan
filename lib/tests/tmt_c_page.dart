@@ -65,8 +65,22 @@ class _TmtCPageState extends State<TmtCPage> {
   ];
 
   final List<String> _labels = [
-    "1", "A", "2", "B", "3", "C", "4", "D",
-    "5", "E", "6", "F", "7", "G", "8", "H"
+    "1",
+    "A",
+    "2",
+    "B",
+    "3",
+    "C",
+    "4",
+    "D",
+    "5",
+    "E",
+    "6",
+    "F",
+    "7",
+    "G",
+    "8",
+    "H",
   ];
 
   @override
@@ -82,14 +96,16 @@ class _TmtCPageState extends State<TmtCPage> {
     final double usableHeight = size.height - 2 * margin - _circleSize;
 
     for (int i = 0; i < _totalItems; i++) {
-        _items.add(TmtCItem(
-            label: _labels[i],
-            sequenceOrder: i,
-            position: Offset(
-                margin + _normalizedSettings[i][0] * usableWidth,
-                margin + _normalizedSettings[i][1] * usableHeight,
-            ),
-        ));
+      _items.add(
+        TmtCItem(
+          label: _labels[i],
+          sequenceOrder: i,
+          position: Offset(
+            margin + _normalizedSettings[i][0] * usableWidth,
+            margin + _normalizedSettings[i][1] * usableHeight,
+          ),
+        ),
+      );
     }
   }
 
@@ -161,7 +177,9 @@ class _TmtCPageState extends State<TmtCPage> {
     final int seconds = (_stopwatch.elapsedMilliseconds / 1000).truncate();
     final String durationStr = "$seconds s";
 
-    final int connectionsCount = _connectedItems.length > 0 ? _connectedItems.length - 1 : 0;
+    final int connectionsCount = _connectedItems.length > 0
+        ? _connectedItems.length - 1
+        : 0;
     try {
       await _firestoreService.saveTestResult(
         patientDocId: widget.patientDocId,
@@ -191,7 +209,10 @@ class _TmtCPageState extends State<TmtCPage> {
     final bool? shouldExit = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(loc.exitWithoutSaving, style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
+        title: Text(
+          loc.exitWithoutSaving,
+          style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+        ),
         content: Text(loc.exitConfirmBody, style: GoogleFonts.cairo()),
         actions: [
           TextButton(
@@ -200,7 +221,10 @@ class _TmtCPageState extends State<TmtCPage> {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(loc.exitWithoutSaving, style: GoogleFonts.cairo(color: Colors.red)),
+            child: Text(
+              loc.exitWithoutSaving,
+              style: GoogleFonts.cairo(color: Colors.red),
+            ),
           ),
         ],
       ),
@@ -238,8 +262,10 @@ class _TmtCPageState extends State<TmtCPage> {
               ),
             ),
           ),
-          title:
-              Text(loc.tmtCTitle, style: GoogleFonts.cairo(color: Colors.black)),
+          title: Text(
+            loc.tmtCTitle,
+            style: GoogleFonts.cairo(color: Colors.black),
+          ),
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -256,91 +282,108 @@ class _TmtCPageState extends State<TmtCPage> {
           ],
         ),
         body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            _generateItems(constraints.biggest);
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              _generateItems(constraints.biggest);
 
-            return Stack(
-              children: [
-                // Lines Layer
-                CustomPaint(
-                  size: Size.infinite,
-                  painter: LinePainterC(connectedItems: _connectedItems, circleSize: _circleSize),
-                ),
-
-                // Circles Layer
-                ..._items.map((item) {
-                  bool isStart = item.sequenceOrder == 0;
-                  bool isEnd = item.sequenceOrder == 15;
-
-                  return Positioned(
-                    left: item.position.dx,
-                    top: item.position.dy,
-                    child: GestureDetector(
-                      onTap: () => _onCircleTap(item),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: _circleSize,
-                            height: _circleSize,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.teal, width: 2),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              item.label,
-                              style: GoogleFonts.outfit(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.teal,
-                              ),
-                            ),
-                          ),
-                          if (isStart)
-                            Text(
-                              loc.startNode,
-                              style: GoogleFonts.cairo(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.red),
-                            ),
-                          if (isEnd)
-                            Text(
-                              loc.endNode,
-                              style: GoogleFonts.cairo(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.red),
-                            ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-
-                if (!_isTestRunning && !_isTestCompleted)
-                  Positioned(
-                    bottom: 30,
-                    left: 20,
-                    right: 20,
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.teal.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Text(
-                        loc.tmtCInstr,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.cairo(fontSize: 16, color: Colors.teal[900]),
-                      ),
+              return Stack(
+                children: [
+                  // Lines Layer
+                  CustomPaint(
+                    size: Size.infinite,
+                    painter: LinePainterC(
+                      connectedItems: _connectedItems,
+                      circleSize: _circleSize,
                     ),
                   ),
-              ],
-            );
-          },
+
+                  // Circles Layer
+                  ..._items.map((item) {
+                    bool isStart = item.sequenceOrder == 0;
+                    bool isEnd = item.sequenceOrder == 15;
+
+                    return Positioned(
+                      left: item.position.dx,
+                      top: item.position.dy,
+                      child: GestureDetector(
+                        onTap: () => _onCircleTap(item),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: _circleSize,
+                              height: _circleSize,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.teal,
+                                  width: 2,
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                item.label,
+                                style: GoogleFonts.outfit(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.teal,
+                                ),
+                              ),
+                            ),
+                            if (isStart)
+                              Text(
+                                loc.startNode,
+                                style: GoogleFonts.cairo(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            if (isEnd)
+                              Text(
+                                loc.endNode,
+                                style: GoogleFonts.cairo(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+
+                  if (!_isTestRunning && !_isTestCompleted)
+                    Positioned(
+                      bottom: 30,
+                      left: 20,
+                      right: 20,
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.teal.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Text(
+                          loc.tmtCInstr,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.cairo(
+                            fontSize: 16,
+                            color: Colors.teal[900],
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
 
 class LinePainterC extends CustomPainter {
@@ -359,8 +402,11 @@ class LinePainterC extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     for (int i = 0; i < connectedItems.length - 1; i++) {
-      final startPos = connectedItems[i].position + Offset(circleSize / 2, circleSize / 2);
-      final endPos = connectedItems[i + 1].position + Offset(circleSize / 2, circleSize / 2);
+      final startPos =
+          connectedItems[i].position + Offset(circleSize / 2, circleSize / 2);
+      final endPos =
+          connectedItems[i + 1].position +
+          Offset(circleSize / 2, circleSize / 2);
       canvas.drawLine(startPos, endPos, paint);
     }
   }

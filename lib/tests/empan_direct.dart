@@ -24,11 +24,12 @@ class EmpanDirect extends StatefulWidget {
   State<EmpanDirect> createState() => _EmpanDirectState();
 }
 
-class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin {
+class _EmpanDirectState extends State<EmpanDirect>
+    with TickerProviderStateMixin {
   late stt.SpeechToText _speech;
   late FlutterTts _flutterTts;
   late final AudioRecorder _audioRecorder;
-  
+
   bool _isListening = false;
   bool _isFinished = false;
   bool _isPlaying = false;
@@ -153,8 +154,9 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
       onStatus: (status) => debugPrint("STT Status: $status"),
       onError: (error) {
         debugPrint("STT Error: $error");
-        bool isSilenceError = error.errorMsg == "error_no_match" || 
-                             error.errorMsg == "error_speech_timeout";
+        bool isSilenceError =
+            error.errorMsg == "error_no_match" ||
+            error.errorMsg == "error_speech_timeout";
 
         if (mounted && !isSilenceError) {
           final loc = AppLocalizations.of(context);
@@ -162,7 +164,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
             SnackBar(content: Text('${loc.sttError}${error.errorMsg}')),
           );
         }
-        
+
         if (!isSilenceError && _isListening) {
           Future.delayed(const Duration(milliseconds: 500), () {
             if (_isListening) _startSttSession();
@@ -296,31 +298,53 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
     String lang = locs.locale.languageCode;
     if (lang == 'fr') {
       switch (digit) {
-        case '0': return 'zéro';
-        case '1': return 'un';
-        case '2': return 'deux';
-        case '3': return 'trois';
-        case '4': return 'quatre';
-        case '5': return 'cinq';
-        case '6': return 'six';
-        case '7': return 'sept';
-        case '8': return 'huit';
-        case '9': return 'neuf';
-        default: return digit;
+        case '0':
+          return 'zéro';
+        case '1':
+          return 'un';
+        case '2':
+          return 'deux';
+        case '3':
+          return 'trois';
+        case '4':
+          return 'quatre';
+        case '5':
+          return 'cinq';
+        case '6':
+          return 'six';
+        case '7':
+          return 'sept';
+        case '8':
+          return 'huit';
+        case '9':
+          return 'neuf';
+        default:
+          return digit;
       }
     } else {
       switch (digit) {
-        case '0': return locs.zero;
-        case '1': return locs.one;
-        case '2': return locs.two;
-        case '3': return locs.three;
-        case '4': return locs.four;
-        case '5': return locs.five;
-        case '6': return locs.six;
-        case '7': return locs.seven;
-        case '8': return locs.eight;
-        case '9': return locs.nine;
-        default: return digit;
+        case '0':
+          return locs.zero;
+        case '1':
+          return locs.one;
+        case '2':
+          return locs.two;
+        case '3':
+          return locs.three;
+        case '4':
+          return locs.four;
+        case '5':
+          return locs.five;
+        case '6':
+          return locs.six;
+        case '7':
+          return locs.seven;
+        case '8':
+          return locs.eight;
+        case '9':
+          return locs.nine;
+        default:
+          return digit;
       }
     }
   }
@@ -330,26 +354,92 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
     String result = input.toLowerCase();
 
     const Map<String, String> arabicToLatin = {
-      '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
-      '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
+      '٠': '0',
+      '١': '1',
+      '٢': '2',
+      '٣': '3',
+      '٤': '4',
+      '٥': '5',
+      '٦': '6',
+      '٧': '7',
+      '٨': '8',
+      '٩': '9',
     };
     arabicToLatin.forEach((k, v) => result = result.replaceAll(k, v));
 
     final Map<String, String> wordToDigit = {
-      'واحد': '1', 'واحده': '1', 'احد': '1', 'وحد': '1',
-      'جوج': '2', 'زوز': '2', 'اثنين': '2', 'اثنان': '2', 'إثنين': '2', 'اتنين': '2',
-      'ثلاثة': '3', 'ثلاثه': '3', 'ثلاثا': '3', 'تلاتة': '3', 'تلاته': '3', 'تلاتا': '3',
-      'أربعة': '4', 'أربعه': '4', 'أربعا': '4', 'اربعة': '4', 'اربعه': '4', 'اربعا': '4', 'ربة': '4', 'ربعه': '4', 'ربعا': '4',
-      'خمسة': '5', 'خمسه': '5', 'خمسا': '5', 'حمسة': '5', 'حمسه': '5', 'حمسا': '5',
-      'ستة': '6', 'سته': '6', 'ستا': '6', 'ست': '6',
-      'سبعة': '7', 'سبعه': '7', 'سبعا': '7', 'سبع': '7',
-      'ثمانية': '8', 'ثمانيه': '8', 'ثمانيا': '8', 'ثمنية': '8', 'ثمنيه': '8', 'ثمنيا': '8', 'تمنية': '8', 'تمنيه': '8', 'تمنيا': '8',
-      'تسعة': '9', 'تسعه': '9', 'تسعا': '9', 'تسع': '9',
-      'عشرة': '10', 'عشره': '10', 'عشرا': '10', 'صفر': '0',
-      'un': '1', 'une': '1', 'deux': '2', 'trois': '3', 'quatre': '4', 'cinq': '5', 'six': '6', 'sept': '7', 'huit': '8', 'neuf': '9', 'zéro': '0', 'zero': '0',
+      'واحد': '1',
+      'واحده': '1',
+      'احد': '1',
+      'وحد': '1',
+      'جوج': '2',
+      'زوز': '2',
+      'اثنين': '2',
+      'اثنان': '2',
+      'إثنين': '2',
+      'اتنين': '2',
+      'ثلاثة': '3',
+      'ثلاثه': '3',
+      'ثلاثا': '3',
+      'تلاتة': '3',
+      'تلاته': '3',
+      'تلاتا': '3',
+      'أربعة': '4',
+      'أربعه': '4',
+      'أربعا': '4',
+      'اربعة': '4',
+      'اربعه': '4',
+      'اربعا': '4',
+      'ربة': '4',
+      'ربعه': '4',
+      'ربعا': '4',
+      'خمسة': '5',
+      'خمسه': '5',
+      'خمسا': '5',
+      'حمسة': '5',
+      'حمسه': '5',
+      'حمسا': '5',
+      'ستة': '6',
+      'سته': '6',
+      'ستا': '6',
+      'ست': '6',
+      'سبعة': '7',
+      'سبعه': '7',
+      'سبعا': '7',
+      'سبع': '7',
+      'ثمانية': '8',
+      'ثمانيه': '8',
+      'ثمانيا': '8',
+      'ثمنية': '8',
+      'ثمنيه': '8',
+      'ثمنيا': '8',
+      'تمنية': '8',
+      'تمنيه': '8',
+      'تمنيا': '8',
+      'تسعة': '9',
+      'تسعه': '9',
+      'تسعا': '9',
+      'تسع': '9',
+      'عشرة': '10',
+      'عشره': '10',
+      'عشرا': '10',
+      'صفر': '0',
+      'un': '1',
+      'une': '1',
+      'deux': '2',
+      'trois': '3',
+      'quatre': '4',
+      'cinq': '5',
+      'six': '6',
+      'sept': '7',
+      'huit': '8',
+      'neuf': '9',
+      'zéro': '0',
+      'zero': '0',
     };
 
-    final sortedKeys = wordToDigit.keys.toList()..sort((a, b) => b.length.compareTo(a.length));
+    final sortedKeys = wordToDigit.keys.toList()
+      ..sort((a, b) => b.length.compareTo(a.length));
     for (var key in sortedKeys) {
       result = result.replaceAll(key, ' ${wordToDigit[key]} ');
     }
@@ -430,10 +520,10 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
   void _startSttSession() {
     if (!mounted) return;
     String lang = AppLocalizations.of(context).locale.languageCode;
-    
+
     // Commit the current spoken text before starting a new session
     _previousSpokenText = _spokenText;
-    
+
     _speech.listen(
       localeId: lang == 'ar' ? 'ar-TN' : null,
       partialResults: true,
@@ -449,8 +539,8 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
         if (!mounted) return;
         setState(() {
           String newWords = val.recognizedWords;
-          _spokenText = _previousSpokenText.isEmpty 
-              ? newWords 
+          _spokenText = _previousSpokenText.isEmpty
+              ? newWords
               : "$_previousSpokenText $newWords".trim();
           _accumulatedDigits = _extractDigits(_spokenText);
         });
@@ -478,7 +568,9 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
     String targetDigits = _sequences[_currentIndex].replaceAll(' ', '');
     bool isCorrect = (_accumulatedDigits == targetDigits);
 
-    if (!isCorrect && _accumulatedDigits.contains(targetDigits) && _accumulatedDigits.length <= targetDigits.length + 1) {
+    if (!isCorrect &&
+        _accumulatedDigits.contains(targetDigits) &&
+        _accumulatedDigits.length <= targetDigits.length + 1) {
       isCorrect = true;
     }
 
@@ -500,7 +592,9 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
     } else {
       setState(() {
         _showFeedback = true;
-        _lastIncorrectInput = _accumulatedDigits.isNotEmpty ? _accumulatedDigits : _spokenText;
+        _lastIncorrectInput = _accumulatedDigits.isNotEmpty
+            ? _accumulatedDigits
+            : _spokenText;
         _isValidated = true;
       });
     }
@@ -628,10 +722,7 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
           loc.exitWithoutSaving,
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
         ),
-        content: Text(
-          loc.exitConfirmBody,
-          style: GoogleFonts.cairo(),
-        ),
+        content: Text(loc.exitConfirmBody, style: GoogleFonts.cairo()),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -751,7 +842,10 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
                             if (_manualController.text.isNotEmpty) {
                               setDialogState(() {
                                 _manualController.text = _manualController.text
-                                    .substring(0, _manualController.text.length - 1);
+                                    .substring(
+                                      0,
+                                      _manualController.text.length - 1,
+                                    );
                               });
                             }
                           },
@@ -760,9 +854,16 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
                             height: 54,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.red.shade300, width: 2),
+                              border: Border.all(
+                                color: Colors.red.shade300,
+                                width: 2,
+                              ),
                             ),
-                            child: Icon(Icons.backspace_outlined, color: Colors.red.shade400, size: 24),
+                            child: Icon(
+                              Icons.backspace_outlined,
+                              color: Colors.red.shade400,
+                              size: 24,
+                            ),
                           ),
                         ),
                       ],
@@ -776,7 +877,10 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
                     setState(() => _showManualInput = false);
                     Navigator.pop(context);
                   },
-                  child: Text(locs.cancel, style: GoogleFonts.cairo(color: Colors.grey)),
+                  child: Text(
+                    locs.cancel,
+                    style: GoogleFonts.cairo(color: Colors.grey),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: _manualController.text.isEmpty
@@ -793,9 +897,15 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
                   ),
-                  child: Text(locs.validateBtn, style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
+                  child: Text(
+                    locs.validateBtn,
+                    style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             );
@@ -821,7 +931,9 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
-            color: _manualController.text.length >= targetLength ? Colors.grey.shade300 : Colors.teal,
+            color: _manualController.text.length >= targetLength
+                ? Colors.grey.shade300
+                : Colors.teal,
             width: 2,
           ),
         ),
@@ -831,7 +943,9 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
             style: GoogleFonts.outfit(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: _manualController.text.length >= targetLength ? Colors.grey : Colors.teal,
+              color: _manualController.text.length >= targetLength
+                  ? Colors.grey
+                  : Colors.teal,
             ),
           ),
         ),
@@ -860,434 +974,486 @@ class _EmpanDirectState extends State<EmpanDirect> with TickerProviderStateMixin
         _showExitConfirmationDialog();
       },
       child: Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
-      appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context).testTitle,
-          style: GoogleFonts.cairo(color: Colors.black),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: TextButton.icon(
-              onPressed: _isFinished ? null : _showFinalScore,
-              icon: const Icon(Icons.stop_circle_outlined, color: Colors.red),
-              label: Text(
-                AppLocalizations.of(context).finishTest,
-                style: GoogleFonts.cairo(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+        backgroundColor: const Color(0xFFF5F5F5),
+        appBar: AppBar(
+          title: Text(
+            AppLocalizations.of(context).testTitle,
+            style: GoogleFonts.cairo(color: Colors.black),
           ),
-        ],
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${AppLocalizations.of(context).sequenceLabel} ${_currentIndex + 1}/${_sequences.length}",
-                    style: GoogleFonts.cairo(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                    ),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: TextButton.icon(
+                onPressed: _isFinished ? null : _showFinalScore,
+                icon: const Icon(Icons.stop_circle_outlined, color: Colors.red),
+                label: Text(
+                  AppLocalizations.of(context).finishTest,
+                  style: GoogleFonts.cairo(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 8),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: LinearProgressIndicator(
-                      value: (_currentIndex + 1) / _sequences.length,
-                      minHeight: 10,
-                      backgroundColor: Colors.grey[300],
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        Colors.teal,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const Spacer(),
-
-            Center(
-              child: Column(
-                children: [
-                  GestureDetector(
-                    onTap: (_attemptCount >= 2 || _scoredIndices.contains(_currentIndex) || _isFluentRunning || _isPlaying || _isListening || _isPaused)
-                        ? null
-                        : _runFluentSequence,
-                    child: SizedBox(
-                      width: 180,
-                      height: 180,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          if (_isPlaying || _isListening || _isFluentRunning)
-                            AnimatedBuilder(
-                              animation: _micAnimation,
-                              builder: (context, child) {
-                                double scale = 1.0 + (_soundLevel.clamp(0, 10) / 15);
-                                return Transform.scale(
-                                  scale: scale,
-                                  child: Container(
-                                    width: 120,
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: (_isPlaying || _isFluentRunning)
-                                          ? const Color(0x33009688)
-                                          : const Color(0x33FF9800),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          Container(
-                            width: 120,
-                            height: 120,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: (_attemptCount >= 2 ||
-                                      _scoredIndices.contains(_currentIndex) || _isPaused)
-                                  ? Colors.grey
-                                  : (_isListening
-                                      ? Colors.orange
-                                      : Colors.teal),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: (_attemptCount >= 2 ||
-                                          _scoredIndices.contains(_currentIndex) || _isPaused)
-                                      ? const Color(0x669E9E9E)
-                                      : (_isListening
-                                          ? const Color(0x66FF9800)
-                                          : const Color(0x66009688)),
-                                  blurRadius: 20,
-                                  spreadRadius: 5,
-                                ),
-                              ],
-                            ),
-                            child: Icon(
-                              _isListening ? Icons.mic : Icons.volume_up,
-                              color: Colors.white,
-                              size: 50,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  Text(
-                    AppLocalizations.of(context)
-                        .attemptsLabel
-                        .replaceFirst('{}', '$_attemptCount')
-                        .replaceFirst('/3', '/2'),
-                    style: GoogleFonts.cairo(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: _attemptCount >= 2 ? Colors.red : Colors.grey[700],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          IconButton(
-                            onPressed: (_scoredIndices.contains(_currentIndex) ||
-                                    _isFluentRunning ||
-                                    _isPlaying ||
-                                    _isPaused)
-                                ? null
-                                : _listenOnly,
-                            icon: Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.teal, width: 2),
-                              ),
-                              child: const Icon(Icons.replay,
-                                  color: Colors.teal, size: 30),
-                            ),
-                            tooltip: "Erase and restart recording",
-                          ),
-                          Text(
-                            AppLocalizations.of(context).repeatSequence,
-                            style: GoogleFonts.cairo(
-                              fontSize: 12,
-                              color: Colors.teal,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 30),
-                      Column(
-                        children: [
-                          IconButton(
-                            onPressed: _togglePause,
-                            icon: Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                    color: _isPaused ? Colors.red : Colors.orange,
-                                    width: 2),
-                              ),
-                              child: Icon(
-                                _isPaused
-                                    ? Icons.play_circle_outline
-                                    : Icons.pause_circle_outline,
-                                color: _isPaused ? Colors.red : Colors.orange,
-                                size: 30,
-                              ),
-                            ),
-                            tooltip: _isPaused ? "Play" : "Pause",
-                          ),
-                          Text(
-                            _isPaused ? "Play" : "Pause",
-                            style: GoogleFonts.cairo(
-                              fontSize: 12,
-                              color: _isPaused ? Colors.red : Colors.orange,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  if (_isListening || (_spokenText.isEmpty && !_isPlaying && !_isFluentRunning))
-                    IconButton(
-                      onPressed: _isPaused ? null : _showManualInputDialog,
-                      icon: Icon(Icons.keyboard_alt_outlined, color: _isPaused ? Colors.grey : Colors.teal, size: 28),
-                      tooltip: AppLocalizations.of(context).manualInputHint,
-                    ),
-                ],
-              ),
-            ),
-            if (_isListening)
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      AppLocalizations.of(context).listening,
-                      style: GoogleFonts.cairo(
-                        color: Colors.orange,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton.icon(
-                    onPressed: _isPaused ? null : () {
-                      _stopGuardian();
-                      _listenTimer?.cancel();
-                      _speech.stop();
-                      setState(() => _isListening = false);
-                    },
-                    icon: const Icon(Icons.check_circle_outline),
-                    label: Text(
-                      AppLocalizations.of(context).doneListening,
-                      style: GoogleFonts.cairo(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Text(
-                _spokenText,
-                style: GoogleFonts.cairo(
-                  fontSize: 18,
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w500,
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
-
-            if (_spokenText.isNotEmpty || _accumulatedDigits.isNotEmpty)
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.grey[400]!),
+          ],
+        ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (_spokenText.startsWith("manual:"))
-                      Text('⌨️ Tapped: $_accumulatedDigits', // MODIFIED: relabel for manual mode
-                          style: GoogleFonts.cairo(fontSize: 12))
-                    else
-                      Text('🎤 STT: $_spokenText',
-                          style: GoogleFonts.cairo(fontSize: 12)),
-                    Text('🔢 Mapped: $_accumulatedDigits',
-                        style: GoogleFonts.cairo(
-                          fontSize: 12,
-                          color: Colors.blue[800],
-                        )),
-                    // MODIFIED: deleted '✅ Expected' row to prevent patient from seeing answers
+                    Text(
+                      "${AppLocalizations.of(context).sequenceLabel} ${_currentIndex + 1}/${_sequences.length}",
+                      style: GoogleFonts.cairo(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: LinearProgressIndicator(
+                        value: (_currentIndex + 1) / _sequences.length,
+                        minHeight: 10,
+                        backgroundColor: Colors.grey[300],
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          Colors.teal,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
 
-            const Spacer(),
+              const Spacer(),
 
-            if (_showFeedback && _lastIncorrectInput != null)
+              Center(
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap:
+                          (_attemptCount >= 2 ||
+                              _scoredIndices.contains(_currentIndex) ||
+                              _isFluentRunning ||
+                              _isPlaying ||
+                              _isListening ||
+                              _isPaused)
+                          ? null
+                          : _runFluentSequence,
+                      child: SizedBox(
+                        width: 180,
+                        height: 180,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            if (_isPlaying || _isListening || _isFluentRunning)
+                              AnimatedBuilder(
+                                animation: _micAnimation,
+                                builder: (context, child) {
+                                  double scale =
+                                      1.0 + (_soundLevel.clamp(0, 10) / 15);
+                                  return Transform.scale(
+                                    scale: scale,
+                                    child: Container(
+                                      width: 120,
+                                      height: 120,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: (_isPlaying || _isFluentRunning)
+                                            ? const Color(0x33009688)
+                                            : const Color(0x33FF9800),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            Container(
+                              width: 120,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color:
+                                    (_attemptCount >= 2 ||
+                                        _scoredIndices.contains(
+                                          _currentIndex,
+                                        ) ||
+                                        _isPaused)
+                                    ? Colors.grey
+                                    : (_isListening
+                                          ? Colors.orange
+                                          : Colors.teal),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                        (_attemptCount >= 2 ||
+                                            _scoredIndices.contains(
+                                              _currentIndex,
+                                            ) ||
+                                            _isPaused)
+                                        ? const Color(0x669E9E9E)
+                                        : (_isListening
+                                              ? const Color(0x66FF9800)
+                                              : const Color(0x66009688)),
+                                    blurRadius: 20,
+                                    spreadRadius: 5,
+                                  ),
+                                ],
+                              ),
+                              child: Icon(
+                                _isListening ? Icons.mic : Icons.volume_up,
+                                color: Colors.white,
+                                size: 50,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      AppLocalizations.of(context).attemptsLabel
+                          .replaceFirst('{}', '$_attemptCount')
+                          .replaceFirst('/3', '/2'),
+                      style: GoogleFonts.cairo(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: _attemptCount >= 2
+                            ? Colors.red
+                            : Colors.grey[700],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            IconButton(
+                              onPressed:
+                                  (_scoredIndices.contains(_currentIndex) ||
+                                      _isFluentRunning ||
+                                      _isPlaying ||
+                                      _isPaused)
+                                  ? null
+                                  : _listenOnly,
+                              icon: Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.teal,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: const Icon(
+                                  Icons.replay,
+                                  color: Colors.teal,
+                                  size: 30,
+                                ),
+                              ),
+                              tooltip: "Erase and restart recording",
+                            ),
+                            Text(
+                              AppLocalizations.of(context).repeatSequence,
+                              style: GoogleFonts.cairo(
+                                fontSize: 12,
+                                color: Colors.teal,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(width: 30),
+                        Column(
+                          children: [
+                            IconButton(
+                              onPressed: _togglePause,
+                              icon: Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: _isPaused
+                                        ? Colors.red
+                                        : Colors.orange,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Icon(
+                                  _isPaused
+                                      ? Icons.play_circle_outline
+                                      : Icons.pause_circle_outline,
+                                  color: _isPaused ? Colors.red : Colors.orange,
+                                  size: 30,
+                                ),
+                              ),
+                              tooltip: _isPaused ? "Play" : "Pause",
+                            ),
+                            Text(
+                              _isPaused ? "Play" : "Pause",
+                              style: GoogleFonts.cairo(
+                                fontSize: 12,
+                                color: _isPaused ? Colors.red : Colors.orange,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    if (_isListening ||
+                        (_spokenText.isEmpty &&
+                            !_isPlaying &&
+                            !_isFluentRunning))
+                      IconButton(
+                        onPressed: _isPaused ? null : _showManualInputDialog,
+                        icon: Icon(
+                          Icons.keyboard_alt_outlined,
+                          color: _isPaused ? Colors.grey : Colors.teal,
+                          size: 28,
+                        ),
+                        tooltip: AppLocalizations.of(context).manualInputHint,
+                      ),
+                  ],
+                ),
+              ),
+              if (_isListening)
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        AppLocalizations.of(context).listening,
+                        style: GoogleFonts.cairo(
+                          color: Colors.orange,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton.icon(
+                      onPressed: _isPaused
+                          ? null
+                          : () {
+                              _stopGuardian();
+                              _listenTimer?.cancel();
+                              _speech.stop();
+                              setState(() => _isListening = false);
+                            },
+                      icon: const Icon(Icons.check_circle_outline),
+                      label: Text(
+                        AppLocalizations.of(context).doneListening,
+                        style: GoogleFonts.cairo(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 10,
                 ),
-                child: Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                child: Text(
+                  _spokenText,
+                  style: GoogleFonts.cairo(
+                    fontSize: 18,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w500,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.error_outline, color: Colors.orange),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              style: GoogleFonts.cairo(color: Colors.black87),
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "${AppLocalizations.of(context).wrongFeedback} ",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: AppLocalizations.of(context).heard,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Text(
-                          _lastIncorrectInput!,
-                          style: GoogleFonts.cairo(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.blueGrey,
-                          ),
-                          textDirection: TextDirection.rtl,
-                        ),
-                      ],
-                    ),
-                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
 
-            Padding(
-              padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              if (_spokenText.isNotEmpty || _accumulatedDigits.isNotEmpty)
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 6,
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.grey[400]!),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: _isPaused ? null : _validate,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          child: Text(
-                            AppLocalizations.of(context).validateBtn,
-                            style: GoogleFonts.cairo(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      if (_spokenText.startsWith("manual:"))
+                        Text(
+                          '⌨️ Tapped: $_accumulatedDigits', // MODIFIED: relabel for manual mode
+                          style: GoogleFonts.cairo(fontSize: 12),
+                        )
+                      else
+                        Text(
+                          '🎤 STT: $_spokenText',
+                          style: GoogleFonts.cairo(fontSize: 12),
+                        ),
+                      Text(
+                        '🔢 Mapped: $_accumulatedDigits',
+                        style: GoogleFonts.cairo(
+                          fontSize: 12,
+                          color: Colors.blue[800],
                         ),
                       ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: _isPaused ? null : _next,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          child: Text(
-                            AppLocalizations.of(context).nextBtn,
-                            style: GoogleFonts.cairo(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // MODIFIED: deleted '✅ Expected' row to prevent patient from seeing answers
                     ],
                   ),
-                  const SizedBox(height: 15),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: (_isFinished || _isPaused) ? null : _showFinalScore,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.redAccent,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      child: Text(
-                        AppLocalizations.of(context).finishTest,
-                        style: GoogleFonts.cairo(),
+                ),
+
+              const Spacer(),
+
+              if (_showFeedback && _lastIncorrectInput != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.error_outline, color: Colors.orange),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                style: GoogleFonts.cairo(color: Colors.black87),
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        "${AppLocalizations.of(context).wrongFeedback} ",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: AppLocalizations.of(context).heard,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Text(
+                            _lastIncorrectInput!,
+                            style: GoogleFonts.cairo(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blueGrey,
+                            ),
+                            textDirection: TextDirection.rtl,
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
+                ),
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: _isPaused ? null : _validate,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            child: Text(
+                              AppLocalizations.of(context).validateBtn,
+                              style: GoogleFonts.cairo(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: _isPaused ? null : _next,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            child: Text(
+                              AppLocalizations.of(context).nextBtn,
+                              style: GoogleFonts.cairo(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: (_isFinished || _isPaused)
+                            ? null
+                            : _showFinalScore,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        child: Text(
+                          AppLocalizations.of(context).finishTest,
+                          style: GoogleFonts.cairo(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

@@ -7,7 +7,8 @@ class PatientRegistrationScreen extends StatefulWidget {
   const PatientRegistrationScreen({super.key});
 
   @override
-  State<PatientRegistrationScreen> createState() => _PatientRegistrationScreenState();
+  State<PatientRegistrationScreen> createState() =>
+      _PatientRegistrationScreenState();
 }
 
 class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
@@ -58,7 +59,8 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
               onPrimary: Colors.white,
               onSurface: Colors.black, // Darker text for better visibility
             ),
-            textTheme: GoogleFonts.cairoTextTheme(), // Ensure Cairo is used in picker
+            textTheme:
+                GoogleFonts.cairoTextTheme(), // Ensure Cairo is used in picker
           ),
           child: child!,
         );
@@ -75,7 +77,9 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedBirthDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Veuillez sélectionner une date de naissance")),
+        const SnackBar(
+          content: Text("Veuillez sélectionner une date de naissance"),
+        ),
       );
       return;
     }
@@ -108,7 +112,7 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
             'dyslipemie': _dyslipemie,
             'somatique': _otherSomatic,
             'psychiatrique': _psychiatric,
-          }
+          },
         },
       );
 
@@ -161,7 +165,10 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Fiche Patient", style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
+        title: Text(
+          "Fiche Patient",
+          style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
       ),
@@ -178,7 +185,10 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
                   children: [
                     Text(
                       "Hôpital Universitaire Habib Bourguiba de Sfax",
-                      style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: GoogleFonts.cairo(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     Text(
@@ -242,7 +252,10 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
               // Section 2: Socio-demographique
               _buildSectionHeader("Section 2 : Profil Socio-démographique"),
               _buildCard([
-                Text("Sexe", style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
+                Text(
+                  "Sexe",
+                  style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -282,7 +295,9 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
                 ),
                 const SizedBox(height: 20),
                 DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(labelText: "Prise en charge"),
+                  decoration: const InputDecoration(
+                    labelText: "Prise en charge",
+                  ),
                   items: ["CNAM", "type I", "type II", "carte d'handicap"]
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
@@ -290,7 +305,9 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
                 ),
                 const SizedBox(height: 15),
                 DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(labelText: "Niveau scolaire"),
+                  decoration: const InputDecoration(
+                    labelText: "Niveau scolaire",
+                  ),
                   items: ["illettré", "primaire", "secondaire", "supérieur"]
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
@@ -298,7 +315,9 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
                 ),
                 const SizedBox(height: 15),
                 DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(labelText: "Statut matrimonial"),
+                  decoration: const InputDecoration(
+                    labelText: "Statut matrimonial",
+                  ),
                   items: ["célibataire", "mariée", "divorcé"]
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
@@ -306,10 +325,23 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
                 ),
                 const SizedBox(height: 15),
                 DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(labelText: "Aidant principal"),
-                  items: ["époux(e)", "fils", "fille", "mère", "père", "auxiliaire", "autre"]
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
+                  decoration: const InputDecoration(
+                    labelText: "Aidant principal",
+                  ),
+                  items:
+                      [
+                            "époux(e)",
+                            "fils",
+                            "fille",
+                            "mère",
+                            "père",
+                            "auxiliaire",
+                            "autre",
+                          ]
+                          .map(
+                            (e) => DropdownMenuItem(value: e, child: Text(e)),
+                          )
+                          .toList(),
                   onChanged: (v) => setState(() => _mainCaregiver = v),
                 ),
               ]),
@@ -317,7 +349,13 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
               // Section 3: Antecedents
               _buildSectionHeader("Section 3 : Historique & Antécédents"),
               _buildCard([
-                Text("Antécédents Familiaux", style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.teal)),
+                Text(
+                  "Antécédents Familiaux",
+                  style: GoogleFonts.cairo(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal,
+                  ),
+                ),
                 SwitchListTile(
                   title: const Text("Démence"),
                   value: _hasDementiaHistory,
@@ -326,7 +364,9 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
                 if (_hasDementiaHistory)
                   TextFormField(
                     controller: _relationshipController,
-                    decoration: const InputDecoration(labelText: "Lien de parenté"),
+                    decoration: const InputDecoration(
+                      labelText: "Lien de parenté",
+                    ),
                   ),
                 SwitchListTile(
                   title: const Text("Transmission dominante"),
@@ -339,7 +379,13 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
                   onChanged: (v) => setState(() => _geneticTesting = v),
                 ),
                 const Divider(),
-                Text("Antécédents Personnels", style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.teal)),
+                Text(
+                  "Antécédents Personnels",
+                  style: GoogleFonts.cairo(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal,
+                  ),
+                ),
                 const SizedBox(height: 10),
                 const Text("Facteurs de risque vasculaires :"),
                 CheckboxListTile(
@@ -378,11 +424,16 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
                     backgroundColor: Colors.teal,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   child: _isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : Text("Enregistrer le Patient", style: GoogleFonts.cairo(fontSize: 18)),
+                      : Text(
+                          "Enregistrer le Patient",
+                          style: GoogleFonts.cairo(fontSize: 18),
+                        ),
                 ),
               ),
               const SizedBox(height: 20),
